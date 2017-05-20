@@ -40,8 +40,6 @@ made subject to such option by the copyright holder.
 Contributor(s):
 -->
 <hibernate-reverse-engineering>
-  <schema-selection match-schema="TRIP"/>
-  <table-filter match-name="TRIPS"/>
-  <table-filter match-name="USERS"/>
-  <table-filter match-name="NOTES"/>
+  <schema-selection match-catalog="newmanagment" match-schema="dbo"/>
+  <table-filter match-name="Answer"/>
 </hibernate-reverse-engineering>

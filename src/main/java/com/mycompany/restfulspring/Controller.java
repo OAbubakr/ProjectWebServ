@@ -5,8 +5,7 @@
  */
 package com.mycompany.restfulspring;
 
-import bean.Student;
-import beans.Users;
+import beans.Answer;
 import java.util.ArrayList;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,25 +22,20 @@ import second.DaoInstance;
  */
 @RestController
 public class Controller {
-    
-    @RequestMapping(value = "/students", method = RequestMethod.GET, headers = "Accept=application/json")
-    public ArrayList<Student> getCountries() {
-        ArrayList<Student> students = new ArrayList<>();
-        Student s = new Student();
-        Student s1 = new Student();
-        s.setId(1);
-        s1.setId(2);
-        s.setName("wafaa");
-        s1.setName("qwee");
-        students.add(s);
-        students.add(s1);
-        return students;
+//    
+    @RequestMapping(value = "/getAnswer", method = RequestMethod.GET, headers = "Accept=application/json")
+    public ArrayList<Answer> getCountries() {
+        ArrayList<Answer> answers = new ArrayList<>();
+         DAO dao = DaoInstance.getInstance().getDAO();
+        answers.add(dao.getCustomerBuyId(1));
+       
+        return answers;
     }
-    
+//    
     @RequestMapping(value = "/setStudent", method = RequestMethod.POST)
-    public ResponseEntity<Users> setStudent(@RequestBody Users stu) {
+    public ResponseEntity<Answer> setStudent(@RequestBody Answer stu) {
         DAO dao = DaoInstance.getInstance().getDAO();
-        dao.insertCustomer(stu);
+        dao.insertAnswer(stu);
         
         return new ResponseEntity<>(stu, HttpStatus.OK);
     }

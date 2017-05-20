@@ -5,7 +5,8 @@
  */
 package second;
 
-import beans.Users;
+
+import beans.Answer;
 import java.math.BigDecimal;
 
 import org.springframework.orm.hibernate3.HibernateTemplate;
@@ -32,16 +33,16 @@ public class DAO {
 
  
 
-    public void insertCustomer(Users cus) {
+    public void insertAnswer(Answer cus) {
 
      template.save(cus);
  
 
     }
 
-    public Users getCustomerBuyId(int id) {
+    public Answer getCustomerBuyId(int id) {
 
-       Users cus = (Users) template.get(Users.class, new BigDecimal(id));
+       Answer cus = (Answer) template.get(Answer.class, id);
        return cus;
     }
 

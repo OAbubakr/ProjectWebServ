@@ -5,8 +5,8 @@
  */
 package second;
 
-import beans.Users;
-import java.math.BigDecimal;
+//import beans.Users;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
@@ -22,7 +22,7 @@ public class DaoInstance {
     private DaoInstance() {
         // TODO code application logic here
 
-        ApplicationContext factory = new FileSystemXmlApplicationContext("C:\\Users\\omari\\Desktop\\project\\restfulSpring\\src\\main\\java\\second\\bean.xml");
+        ApplicationContext factory = new FileSystemXmlApplicationContext("C:\\Users\\omari\\Desktop\\project\\ProjectWerServ\\src\\main\\java\\second\\bean.xml");
 
         dao = factory.getBean("DAO", DAO.class);
 

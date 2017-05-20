@@ -41,13 +41,11 @@ Contributor(s):
 -->
 <hibernate-configuration>
   <session-factory>
-    <property name="hibernate.dialect">org.hibernate.dialect.OracleDialect</property>
-    <property name="hibernate.connection.driver_class">oracle.jdbc.OracleDriver</property>
-    <property name="hibernate.connection.url">jdbc:oracle:thin:@localhost:1521:XE</property>
-    <property name="hibernate.connection.username">trip</property>
-    <property name="hibernate.connection.password">trip</property>
-    <mapping resource="beans/Notes.hbm.xml"/>
-    <mapping resource="beans/Trips.hbm.xml"/>
-    <mapping resource="beans/Users.hbm.xml"/>
+    <property name="hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
+    <property name="hibernate.connection.url">jdbc:sqlserver://localhost;databaseName=newmanagment</property>
+    <property name="hibernate.connection.username">sa</property>
+    <property name="hibernate.connection.password">6102010</property>
+    <mapping resource="beans/Answer.hbm.xml"/>
+    <mapping resource="bean/Answer.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>
