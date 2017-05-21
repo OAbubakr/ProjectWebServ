@@ -16,7 +16,7 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
  */
 public class DaoInstance {
 
-    private DAO dao;
+    private StudentDAO studentDao;
     private static DaoInstance singleInstance;
 
     private DaoInstance() {
@@ -24,7 +24,7 @@ public class DaoInstance {
 
         ApplicationContext factory = new FileSystemXmlApplicationContext("C:\\Users\\omari\\Desktop\\project\\ProjectWerServ\\src\\main\\java\\second\\bean.xml");
 
-        dao = factory.getBean("DAO", DAO.class);
+        studentDao = factory.getBean("StudentDAO", StudentDAO.class);
 
     }
 
@@ -43,8 +43,8 @@ public class DaoInstance {
         return singleInstance;
     }
 
-    public DAO getDAO() {
-        return dao;
+    public StudentDAO getStudentDAO() {
+        return studentDao;
     }
 
 }

@@ -21,10 +21,10 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
  *
  * @author omari
  */
-public class DAO {
+public class StudentDAO {
    private HibernateTemplate template;
 
-    public DAO() {
+    public StudentDAO() {
     }
 
     public HibernateTemplate getTemplate() {
@@ -48,7 +48,6 @@ public class DAO {
 
     public StudentBasicData getStudentById(int id) {
 
-//       StudentBasicData cus = (StudentBasicData) template.get(StudentBasicData.class, id);
      List<Object[]> d =   template.findByCriteria(DetachedCriteria.forClass(StudentBasicData.class,"stu").createAlias("platfromIntake", "pfi").createAlias("pfi.subTrack", "subt")
                .setProjection(Projections.projectionList().add(Projections.property("stu.studentId")).add(Projections.property("stu.englishname")).add(Projections.property("subt.subtrackId"))));
       

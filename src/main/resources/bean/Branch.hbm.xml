@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 20, 2017 7:06:37 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="bean.Branch" table="Branch" schema="dbo" catalog="NewData" optimistic-lock="version">
+        <id name="branchId" type="int">
+            <column name="BranchID" />
+            <generator class="assigned" />
+        </id>
+        <property name="branchName" type="string">
+            <column name="BranchName" />
+        </property>
+        <property name="arabicname" type="string">
+            <column name="arabicname" />
+        </property>
+        <property name="msreplTranVersion" type="string">
+            <column name="msrepl_tran_version" length="36" not-null="true" />
+        </property>
+        <property name="trainbranchid" type="java.lang.Integer">
+            <column name="trainbranchid" />
+        </property>
+      
+        <set name="platfromIntakes" table="PlatfromIntake" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="BranchID" />
+            </key>
+            <one-to-many class="bean.PlatfromIntake" />
+        </set>
+    </class>
+</hibernate-mapping>

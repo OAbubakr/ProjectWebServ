@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 20, 2017 7:06:37 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="bean.SubTrack" table="subTrack" schema="dbo" catalog="NewData" optimistic-lock="version">
+        <id name="subtrackId" type="int">
+            <column name="subtrackID" />
+            <generator class="assigned" />
+        </id>
+        <property name="subtrackName" type="string">
+            <column name="subtrackName" />
+        </property>
+        <property name="code" type="string">
+            <column name="code" />
+        </property>
+        <set name="platfromIntakes" table="PlatfromIntake" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="SubTrackID" />
+            </key>
+            <one-to-many class="bean.PlatfromIntake" />
+        </set>
+    </class>
+</hibernate-mapping>

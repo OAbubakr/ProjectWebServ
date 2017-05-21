@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 20, 2017 7:06:37 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="bean.PlatfromIntake" table="PlatfromIntake" schema="dbo" catalog="NewData" optimistic-lock="version">
+        <id name="platformIntakeId" type="int">
+            <column name="PlatformIntakeID" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="branch" class="bean.Branch" fetch="select" lazy="false" >
+            <column name="BranchID" />
+        </many-to-one>
+        <many-to-one name="platform" class="bean.Platform" fetch="select">
+            <column name="OwnedBy" />
+        </many-to-one>
+        <many-to-one name="programIntake" class="bean.ProgramIntake" fetch="select">
+            <column name="ProgramIntakeID" />
+        </many-to-one>
+        <many-to-one name="subTrack" class="bean.SubTrack" fetch="select">
+            <column name="SubTrackID" />
+        </many-to-one>
+        <property name="graduateProfile" type="string">
+            <column name="GraduateProfile" />
+        </property>
+        <set name="studentBasicDatas" table="StudentBasicData" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="SubTrackID" not-null="true" />
+            </key>
+            <one-to-many class="bean.StudentBasicData" />
+        </set>
+        <set name="trackManuals" table="TrackManual" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="PlatformIntakeID" />
+            </key>
+            <one-to-many class="bean.TrackManual" />
+        </set>
+    </class>
+</hibernate-mapping>

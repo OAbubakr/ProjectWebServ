@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 20, 2017 7:06:37 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="bean.TrackManual" table="TrackManual" schema="dbo" catalog="NewData" optimistic-lock="version">
+        <id name="trackManualId" type="int">
+            <column name="TrackManualID" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="courseManual" class="bean.CourseManual" fetch="select">
+            <column name="CourseManualID" />
+        </many-to-one>
+        <many-to-one name="platfromIntake" class="bean.PlatfromIntake" fetch="select">
+            <column name="PlatformIntakeID" />
+        </many-to-one>
+        <property name="isElective" type="java.lang.Boolean">
+            <column name="IsElective" />
+        </property>
+        <property name="elecetiveGroupId" type="java.lang.Integer">
+            <column name="ElecetiveGroupID" />
+        </property>
+    </class>
+</hibernate-mapping>

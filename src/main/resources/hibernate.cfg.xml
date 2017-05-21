@@ -42,10 +42,22 @@ Contributor(s):
 <hibernate-configuration>
   <session-factory>
     <property name="hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
-    <property name="hibernate.connection.url">jdbc:sqlserver://localhost;databaseName=newmanagment</property>
+    <property name="hibernate.connection.url">jdbc:sqlserver://localhost;databaseName=NewData</property>
     <property name="hibernate.connection.username">sa</property>
     <property name="hibernate.connection.password">6102010</property>
-    <mapping resource="beans/Answer.hbm.xml"/>
-    <mapping resource="bean/Answer.hbm.xml"/>
+    <property name="show_sql">true</property>
+    <mapping resource="bean/CourseCategory.hbm.xml"/>
+    <mapping resource="bean/Course.hbm.xml"/>
+    <mapping resource="bean/Platform.hbm.xml"/>
+    <mapping resource="bean/PlatfromIntake.hbm.xml"/>
+    <mapping resource="bean/StudentBasicData.hbm.xml"/>
+    <mapping resource="bean/SubTrack.hbm.xml"/>
+    <mapping resource="bean/CourseManual.hbm.xml"/>
+    <mapping resource="bean/Intake.hbm.xml"/>
+    <mapping resource="bean/TrackManual.hbm.xml"/>
+    <mapping resource="bean/Branch.hbm.xml"/>
+    <mapping resource="bean/Programs.hbm.xml"/>
+
+    <mapping resource="bean/ProgramIntake.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

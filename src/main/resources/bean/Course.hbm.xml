@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 20, 2017 7:06:37 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="bean.Course" table="Course" schema="dbo" catalog="NewData" optimistic-lock="version">
+        <id name="courseId" type="int">
+            <column name="CourseID" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="courseCategory" class="bean.CourseCategory" fetch="select">
+            <column name="CategoryID" />
+        </many-to-one>
+        <property name="courseName" type="string">
+            <column name="CourseName" />
+        </property>
+        <set name="courseManuals" table="CourseManual" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="CourseID" />
+            </key>
+            <one-to-many class="bean.CourseManual" />
+        </set>
+    </class>
+</hibernate-mapping>
