@@ -7,7 +7,7 @@ http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
 ">
     
     
-    <bean id ="DAO" class="second.DAO">
+    <bean id ="StudentDAO" class="second.StudentDAO">
         <property name="template" ref="template"/>
     </bean>
     <bean id ="template" class="org.springframework.orm.hibernate3.HibernateTemplate">
@@ -29,6 +29,7 @@ http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
         <property name="url" value="jdbc:sqlserver://localhost;databaseName=newmanagment;" />
         <property name="username" value="sa" />
         <property name="password" value="6102010" />
+        <!--<property name="show_sql" value="true"/>-->
     </bean>
     
     <bean id="sessionFactory"
@@ -36,12 +37,28 @@ http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
         <property name="dataSource" ref="dataSource"/>
         <property name="mappingResources">
             <list>
-                <value> beans/Answer.hbm.xml</value>
+                <value>bean/CourseCategory.hbm.xml</value>
+                <value>bean/Course.hbm.xml</value>
+                <value>bean/Platform.hbm.xml</value>
+                <value>bean/PlatfromIntake.hbm.xml</value>
+                <value>bean/StudentBasicData.hbm.xml</value>
+                <value>bean/SubTrack.hbm.xml</value>
+                <value>bean/CourseManual.hbm.xml</value>
+                <value>bean/Intake.hbm.xml</value>
+                <value>bean/TrackManual.hbm.xml</value>
+                <value>bean/Branch.hbm.xml</value>
+                <value>bean/Programs.hbm.xml</value>
+               
+                <value>bean/ProgramIntake.hbm.xml</value>
+
+
+
             </list>
         </property>
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</prop>
+                <prop key="hibernate.show_sql">true</prop>
 
             </props>
         </property>
