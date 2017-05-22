@@ -5,8 +5,6 @@
  */
 package second;
 
-
-
 import bean.Branch;
 import bean.PlatfromIntake;
 import bean.StudentBasicData;
@@ -22,7 +20,8 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
  * @author omari
  */
 public class StudentDAO {
-   private HibernateTemplate template;
+
+    private HibernateTemplate template;
 
     public StudentDAO() {
     }
@@ -35,33 +34,28 @@ public class StudentDAO {
         this.template = template;
     }
 
- 
-
- 
-
 //    public void insertAnswer(Answer cus) {
 //
 //     template.save(cus);
 // 
 //
 //    }
-
     public StudentBasicData getStudentById(int id) {
 
-     List<Object[]> d =   template.findByCriteria(DetachedCriteria.forClass(StudentBasicData.class,"stu").createAlias("platfromIntake", "pfi").createAlias("pfi.subTrack", "subt")
-               .setProjection(Projections.projectionList().add(Projections.property("stu.studentId")).add(Projections.property("stu.englishname")).add(Projections.property("subt.subtrackId"))));
-      
-     StudentBasicData cus = new StudentBasicData();
-     cus.setEnglishname((String)d.get(0)[1]);
-     cus.setIdno((int)d.get(0)[0]);
-     Branch b = new Branch();b.setBranchId((int)d.get(0)[0]);
-     
-     PlatfromIntake p = new PlatfromIntake();
-     p.setBranch(b);
-     cus.setPlatfromIntake(p);
-     
-     return cus;
+        List<Object[]> d = template.findByCriteria(DetachedCriteria.forClass(StudentBasicData.class, "stu").createAlias("platfromIntake", "pfi").createAlias("pfi.subTrack", "subt")
+                .setProjection(Projections.projectionList().add(Projections.property("stu.studentId")).add(Projections.property("stu.englishname")).add(Projections.property("subt.subtrackId"))));
+
+        StudentBasicData cus = new StudentBasicData();
+        cus.setEnglishname((String) d.get(0)[1]);
+        cus.setIdno((int) d.get(0)[0]);
+        Branch b = new Branch();
+        b.setBranchId((int) d.get(0)[0]);
+
+        PlatfromIntake p = new PlatfromIntake();
+        p.setBranch(b);
+        cus.setPlatfromIntake(p);
+
+        return cus;
     }
 
-    
 }
