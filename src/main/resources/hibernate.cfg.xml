@@ -57,7 +57,6 @@ Contributor(s):
     <mapping resource="bean/TrackManual.hbm.xml"/>
     <mapping resource="bean/Branch.hbm.xml"/>
     <mapping resource="bean/Programs.hbm.xml"/>
-
     <mapping resource="bean/ProgramIntake.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

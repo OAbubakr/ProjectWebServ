@@ -19,6 +19,7 @@ public class DaoInstance {
     private StudentDAO studentDao;
     private ProgramDAO programDAO;
     private static DaoInstance singleInstance;
+    private StudentScheduleDao studentScheduleDao;
 
     private DaoInstance() {
         // TODO code application logic here
@@ -27,6 +28,7 @@ public class DaoInstance {
 
         studentDao = factory.getBean("StudentDAO", StudentDAO.class);
         programDAO  = factory.getBean("ProgramDAO", ProgramDAO.class);
+        studentScheduleDao = factory.getBean("StudentScheduleDao", StudentScheduleDao.class);
 
     }
 
@@ -47,6 +49,10 @@ public class DaoInstance {
 
     public StudentDAO getStudentDAO() {
         return studentDao;
+    }
+    
+    public StudentScheduleDao getStudentScheduleDao(){
+        return studentScheduleDao;
     }
 
     public ProgramDAO getProgramDAO() {
