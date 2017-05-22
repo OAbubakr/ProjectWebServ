@@ -14,6 +14,11 @@ http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
     
+    <bean id ="StudentScheduleDao" class="second.StudentScheduleDao">
+        <property name="template" ref="template"/>
+    </bean>
+    
+    
     <!--    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name = "hibernate.dialect" value="org.hibernate.dialect.SQLServerDialect"/>
         <property name = "hibernate.connection.driver_class" value = "com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
@@ -57,7 +62,8 @@ http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
         </property>
         <property name="hibernateProperties">
             <props>
-                <prop key="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</prop>
+                <!--<prop key="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</prop>-->
+                <prop key="hibernate.dialect">SQLDialectOverrider.DialectOverrider</prop>
                 <prop key="hibernate.show_sql">true</prop>
 
             </props>
