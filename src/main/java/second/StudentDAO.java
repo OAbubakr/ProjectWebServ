@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
@@ -49,17 +50,18 @@ public class StudentDAO {
     public StudentBasicData getStudentById(int id) {
 
      List<Object[]> d =   template.findByCriteria(DetachedCriteria.forClass(StudentBasicData.class,"stu").createAlias("platfromIntake", "pfi").createAlias("pfi.subTrack", "subt")
-               .setProjection(Projections.projectionList().add(Projections.property("stu.studentId")).add(Projections.property("stu.englishname")).add(Projections.property("subt.subtrackId"))));
+               .setProjection(Projections.projectionList().add(Projections.property("stu.studentId")).add(Projections.property("stu.englishname")).add(Projections.property("subt.subtrackId")))
+     .add(Restrictions.eq("stu.studentId", id)));
       
      StudentBasicData cus = new StudentBasicData();
-     cus.setEnglishname((String)d.get(0)[1]);
-     cus.setIdno((int)d.get(0)[0]);
-     Branch b = new Branch();b.setBranchId((int)d.get(0)[0]);
+  if(d.size()>0){   cus.setEnglishname((String)d.get(0)[1]);
+     cus.setStudentId((int)d.get(0)[0]);
+     Branch b = new Branch();b.setBranchId((int)d.get(0)[2]);
      
      PlatfromIntake p = new PlatfromIntake();
      p.setBranch(b);
      cus.setPlatfromIntake(p);
-     
+  }
      return cus;
     }
 
