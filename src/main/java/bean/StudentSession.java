@@ -5,18 +5,31 @@
  */
 package bean;
 
+
 /**
  *
  * @author Sandra
  */
 public class StudentSession {
     String sessionTime;
+    int sessionId;
     String courseName;
-//    Timestamp sessionDate;
+    long sessionDate;
     int weekNumber;
     String roomName;
     String instructorName;
     String sessionPercentage;
+    int typeId;
+
+    public int getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(int typeId) {
+        this.typeId = typeId;
+    }
+    
+    
 
     public String getSessionTime() {
         return sessionTime;
@@ -65,6 +78,24 @@ public class StudentSession {
     public void setSessionPercentage(String sessionPercentage) {
         this.sessionPercentage = sessionPercentage;
     }
+
+    public long getSessionDate() {
+        return sessionDate;
+    }
+
+    public void setSessionDate(long sessionDate) {
+        this.sessionDate = sessionDate;
+    }
+
+    public int getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(int sessionId) {
+        this.sessionId = sessionId;
+    }
+
+
     
     
     

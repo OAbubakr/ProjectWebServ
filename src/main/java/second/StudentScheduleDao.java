@@ -7,6 +7,7 @@ package second;
 
 import bean.StudentSession;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -52,9 +53,15 @@ public class StudentScheduleDao {
 
                 for (Object[] row : list) {
                     StudentSession studentSession = new StudentSession();
-                    studentSession.setSessionTime((String) row[1]);
+//                    studentSession.setSessionTime((String) row[1]);
                     studentSession.setCourseName((String) row[3]);
+                    
+                    Timestamp ts = (Timestamp) row[4];
+                    studentSession.setSessionDate(ts.getTime());
+                    studentSession.setSessionTime((String) row[1]);
+                    studentSession.setTypeId((int) row[2]);
                     studentSession.setWeekNumber((int) row[6]);
+                    studentSession.setSessionId((int) row[9]);
                     studentSession.setRoomName((String) row[11]);
                     studentSession.setInstructorName((String) row[12]);
                     studentSession.setSessionPercentage((String) row[14]);
