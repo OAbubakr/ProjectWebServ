@@ -8,17 +8,17 @@
             <column name="CourseID" />
             <generator class="assigned" />
         </id>
-        <many-to-one name="courseCategory" class="bean.CourseCategory" fetch="select">
+<!--        <many-to-one name="courseCategory" class="bean.CourseCategory" fetch="select">
             <column name="CategoryID" />
-        </many-to-one>
+        </many-to-one>-->
         <property name="courseName" type="string">
             <column name="CourseName" />
         </property>
-        <set name="courseManuals" table="CourseManual" inverse="true" lazy="true" fetch="select">
+<!--        <set name="courseManuals" table="CourseManual" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="CourseID" />
             </key>
             <one-to-many class="bean.CourseManual" />
-        </set>
+        </set>-->
     </class>
 </hibernate-mapping>
