@@ -90,22 +90,22 @@ public class ProgramDAO {
                              int platformIntake = (int) item[4];
                              track.setPlatformIntakeId((int) item[4]);
                              
-                             Query thirdQuery = sn.createSQLQuery(
-                                " { CALL GetCourseByTrackId(:PlatformIntakeID) }")
-                                .setParameter("PlatformIntakeID", platformIntake);
-
-                            List<Object[]> courseList = thirdQuery.list();
-                            ArrayList<Course> courses = new ArrayList<>();
-                            
-                            for(Object[] roww:courseList){
-                                Course course = new Course();
-                                course.setCourseName((String) roww[0]);
-                                course.setCourseId((int) roww[1]);
-
-                                courses.add(course);
-                            }
-                            
-                            track.setCourses(courses);
+//                             Query thirdQuery = sn.createSQLQuery(
+//                                " { CALL GetCourseByTrackId(:PlatformIntakeID) }")
+//                                .setParameter("PlatformIntakeID", platformIntake);
+//
+//                            List<Object[]> courseList = thirdQuery.list();
+//                            ArrayList<Course> courses = new ArrayList<>();
+//                            
+//                            for(Object[] roww:courseList){
+//                                Course course = new Course();
+//                                course.setCourseName((String) roww[0]);
+//                                course.setCourseId((int) roww[1]);
+//
+//                                courses.add(course);
+//                            }
+//                            
+//                            track.setCourses(courses);
                              
                              
                              tracks.add(track);
@@ -125,6 +125,50 @@ public class ProgramDAO {
         });
     }  
     
+    public ArrayList<Course> getCourseByTrackId(final int id) {
+        return template.execute(new HibernateCallback<ArrayList>() {
+            @Override
+            public ArrayList doInHibernate(Session sn) throws HibernateException, SQLException {
+                Query query = sn.createSQLQuery(
+                        " { CALL GetCourseByTrackId(:PlatformIntakeID) }")
+                        .setParameter("PlatformIntakeID", id);
+
+                List<Object[]> courseList = query.list();
+                ArrayList<Course> courses = new ArrayList<>();
+                for(Object[] row:courseList){
+                    Course course = new Course();
+                    course.setCourseName((String) row[0]);
+                    course.setCourseId((int) row[1]);
+                    
+                    courses.add(course);
+                }
+                return courses;
+            }
+        });
+    }
     
     
+    
+    
+    public ArrayList<Course> GetAllInstructorsCourseByEmpId(final int id) {
+        return template.execute(new HibernateCallback<ArrayList>() {
+            @Override
+            public ArrayList doInHibernate(Session sn) throws HibernateException, SQLException {
+                Query query = sn.createSQLQuery(
+                        " { CALL GetAllInstructorsCourseByEmpId(:EmployeeID) }")
+                        .setParameter("EmployeeID", id);
+
+                List<Object[]> courseList = query.list();
+                ArrayList<Course> courses = new ArrayList<>();
+                for(Object[] row:courseList){
+                    Course course = new Course();
+                    course.setCourseName((String) row[0]);
+                    course.setCourseId((int) row[3]);
+                    
+                    courses.add(course);
+                }
+                return courses;
+            }
+        });
+    }
 }
