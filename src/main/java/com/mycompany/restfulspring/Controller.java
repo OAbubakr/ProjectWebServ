@@ -5,7 +5,7 @@
  */
 package com.mycompany.restfulspring;
 
-import bean.StudentBasicData;
+
 import bean.StudentSession;
 import java.util.ArrayList;
 import org.springframework.http.HttpStatus;
@@ -27,17 +27,17 @@ import second.StudentScheduleDao;
 @RestController
 public class Controller {
 
-    @RequestMapping(value = "/getStudents", method = RequestMethod.GET, headers = "Accept=application/json")
-    public ArrayList<StudentBasicData> getAnswers() {
-        ArrayList<StudentBasicData> answers = new ArrayList<>();
-         StudentDAO dao = DaoInstance.getInstance().getStudentDAO();
-         StudentBasicData s = dao.getStudentById(5699);
-        answers.add(s);
-       
-        
-
-        return answers;
-    }
+//    @RequestMapping(value = "/getStudents", method = RequestMethod.GET, headers = "Accept=application/json")
+//    public ArrayList<StudentBasicData> getAnswers() {
+//        ArrayList<StudentBasicData> answers = new ArrayList<>();
+//         StudentDAO dao = DaoInstance.getInstance().getStudentDAO();
+//         StudentBasicData s = dao.getStudentById(5699);
+//        answers.add(s);
+//       
+//        
+//
+//        return answers;
+//    }
     
     @RequestMapping(value= "/getStudentSchedule", method = RequestMethod.GET, headers = "Accept=application/json")
     public ArrayList<StudentSession> getStudentSchedule(){

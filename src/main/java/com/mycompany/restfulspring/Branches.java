@@ -5,11 +5,10 @@
  */
 package com.mycompany.restfulspring;
 
-
+import bean.Branch;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,15 +21,15 @@ import second.ProgramDAO;
  */
 
 @RestController
-public class ProgramTracks {
+public class Branches {
     
-//    @RequestMapping(value = "/getTracks", method = RequestMethod.GET, headers = "Accept=application/json")
-//    public HashMap<String,ArrayList<String>> getAnswers() {
-//
-//        HashMap<String,ArrayList<String>> trackCourses = new HashMap<>();
-//        ProgramDAO d = DaoInstance.getInstance().getProgramDAO();
-//        List<Object[]> lists =d.getTracks();
-//        
+    @RequestMapping(value = "/getBranches", method = RequestMethod.GET, headers = "Accept=application/json")
+    public ArrayList<Branch> getAnswers() {
+
+        
+        ProgramDAO d = DaoInstance.getInstance().getProgramDAO();
+        ArrayList<Branch> branchs =d.getBranches();
+        
 //        for (Object[] list : lists) {
 //            String trackName = (String)list[0];
 //            String courseName = (String)list[1];
@@ -45,9 +44,9 @@ public class ProgramTracks {
 //                trackCourses.put(trackName, courseList);
 //            }
 //        }
-//
-//        
-//
-//        return trackCourses;
-//    }
+
+        
+
+        return branchs;
+    }
 }
