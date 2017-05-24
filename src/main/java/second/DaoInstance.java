@@ -6,7 +6,6 @@
 package second;
 
 //import beans.Users;
-
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
@@ -20,6 +19,7 @@ public class DaoInstance {
     private ProgramDAO programDAO;
     private static DaoInstance singleInstance;
     private StudentScheduleDao studentScheduleDao;
+    private LoginDAO loginDao;
 
     private DaoInstance() {
         // TODO code application logic here
@@ -27,8 +27,9 @@ public class DaoInstance {
         ApplicationContext factory = new FileSystemXmlApplicationContext("D:\\ITI\\Projects\\Graduation Project\\ProjectWerServ\\src\\main\\java\\second\\bean.xml");
 
         studentDao = factory.getBean("StudentDAO", StudentDAO.class);
-        programDAO  = factory.getBean("ProgramDAO", ProgramDAO.class);
+        programDAO = factory.getBean("ProgramDAO", ProgramDAO.class);
         studentScheduleDao = factory.getBean("StudentScheduleDao", StudentScheduleDao.class);
+        loginDao = factory.getBean("LoginDAO", LoginDAO.class);
 
     }
 
@@ -50,8 +51,8 @@ public class DaoInstance {
     public StudentDAO getStudentDAO() {
         return studentDao;
     }
-    
-    public StudentScheduleDao getStudentScheduleDao(){
+
+    public StudentScheduleDao getStudentScheduleDao() {
         return studentScheduleDao;
     }
 
@@ -59,4 +60,8 @@ public class DaoInstance {
         return programDAO;
     }
 
+    public LoginDAO getLoginDao() {
+        return loginDao;
+    }
 }
+
