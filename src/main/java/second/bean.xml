@@ -10,6 +10,12 @@ http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
     <bean id ="StudentDAO" class="second.StudentDAO">
         <property name="template" ref="template"/>
     </bean>
+    <bean id ="CourseDAO" class="second.CourseDAO">
+        <property name="template" ref="template"/>
+    </bean>
+    <bean id ="StudentGradeDAO" class="second.StudentGradeDAO">
+        <property name="template" ref="template"/>
+    </bean>
     <bean id ="template" class="org.springframework.orm.hibernate3.HibernateTemplate">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
@@ -35,9 +41,9 @@ http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
-        <property name="url" value="jdbc:sqlserver://localhost:49252;databaseName=NewData;" />
+        <property name="url" value="jdbc:sqlserver://localhost:49252;databaseName=NewData" />
         <property name="username" value="sa" />
-        <property name="password" value="sandra" />
+        <property name="password" value="123" />
         <!--<property name="show_sql" value="true"/>-->
     </bean>
     
@@ -74,5 +80,11 @@ http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
         </property>
     </bean>
     
+<!--mahmoud-->
+<bean id ="LoginDAO" class="second.LoginDAO">
+        <property name="template" ref="template"/>
+    </bean>
+   
 
+<!--//-->
 </beans>
