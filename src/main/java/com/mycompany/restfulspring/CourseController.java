@@ -6,7 +6,7 @@
 package com.mycompany.restfulspring;
 
 import bean.Course;
-import bean.StudentBasicData;
+//import bean.StudentBasicData;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.http.MediaType;

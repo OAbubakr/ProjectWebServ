@@ -19,6 +19,7 @@ public class DaoInstance {
     private StudentDAO studentDao;
     private static DaoInstance singleInstance;
     private StudentScheduleDao studentScheduleDao;
+    private ProgramDAO programDAO;
     private StudentImgDao studentImgDao;
        private LoginDAO loginDao;
 
@@ -30,8 +31,8 @@ public class DaoInstance {
         studentDao = factory.getBean("StudentDAO", StudentDAO.class);
         studentScheduleDao = factory.getBean("StudentScheduleDao", StudentScheduleDao.class);
         studentImgDao = factory.getBean("StudentImgDao", StudentImgDao.class);
-                loginDao = factory.getBean("LoginDAO", LoginDAO.class);
-
+        loginDao = factory.getBean("LoginDAO", LoginDAO.class);
+programDAO = factory.getBean("ProgramDAO", ProgramDAO.class);
 
     }
 
@@ -64,5 +65,7 @@ public class DaoInstance {
       public LoginDAO getLoginDao(){
         return loginDao;
     }
-
+public ProgramDAO getProgramDAO() {
+        return programDAO;
+    }
 }

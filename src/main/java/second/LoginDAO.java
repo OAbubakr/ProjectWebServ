@@ -5,7 +5,6 @@
  */
 package second;
 
-import bean.StudentBasicData;
 import dto.LoginResponse;
 import java.util.List;
 import org.hibernate.Query;
@@ -51,25 +50,25 @@ public class LoginDAO {
          */
         switch (userType) {
             case 1:
-                criteriaClass = StudentBasicData.class;
+//                criteriaClass = StudentBasicData.class;
                 break;
         }
-        if (criteriaClass != null) {
-            System.out.println(userType + " before database");
-            List checkUserName = template.findByCriteria(DetachedCriteria.forClass(criteriaClass)
-                    .add(Restrictions.eq("username", userName))
-                    .setProjection(Projections.id()));
-            if (checkUserName.size() > 0) {
-                isCorrectUserName = true;
-                List idValue = template.findByCriteria(DetachedCriteria.forClass(StudentBasicData.class)
-                        .add(Restrictions.and(Restrictions.eq("username", userName), Restrictions.eq("userpwd", password)))
-                        .setProjection(Projections.id()));
-                if(idValue.size()>0){
-                    isCorrectPassword = true;
-                    userId = (int) idValue.get(0);
-                }
-            }
-        }
+//        if (criteriaClass != null) {
+//            System.out.println(userType + " before database");
+//            List checkUserName = template.findByCriteria(DetachedCriteria.forClass(criteriaClass)
+//                    .add(Restrictions.eq("username", userName))
+//                    .setProjection(Projections.id()));
+//            if (checkUserName.size() > 0) {
+//                isCorrectUserName = true;
+//                List idValue = template.findByCriteria(DetachedCriteria.forClass(StudentBasicData.class)
+//                        .add(Restrictions.and(Restrictions.eq("username", userName), Restrictions.eq("userpwd", password)))
+//                        .setProjection(Projections.id()));
+//                if(idValue.size()>0){
+//                    isCorrectPassword = true;
+//                    userId = (int) idValue.get(0);
+//                }
+//            }
+//        }
         ///////////////
         if (isCorrectPassword && isCorrectUserName) {
             response.setData(userId);
