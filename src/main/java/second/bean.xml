@@ -18,6 +18,9 @@ http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
     <bean id ="CourseDAO" class="second.CourseDAO">
         <property name="template" ref="template"/>
     </bean>
+    <bean id ="EmpHours" class="second.EmpHoursDAO">
+        <property name="template" ref="template"/>
+    </bean>
     <bean id ="StudentGradeDAO" class="second.StudentGradeDAO">
         <property name="template" ref="template"/>
     </bean>
