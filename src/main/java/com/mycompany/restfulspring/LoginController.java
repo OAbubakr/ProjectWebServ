@@ -26,7 +26,7 @@ import second.LoginDAO;
 public class LoginController {
     
 //    @RequestMapping(value = "/onLoginAuth", method = RequestMethod.GET, headers = "Accept=application/json")
-//    public LoginResponse onLoginAuth(@RequestParam("userType") int userType,@RequestParam("userName") String userName,
+//    public Response onLoginAuth(@RequestParam("userType") int userType,@RequestParam("userName") String userName,
 //            @RequestParam("password") String password){
 //        System.out.println(userType+"   "+userName+"    "+password);
 //        LoginDAO loginDao = DaoInstance.getInstance().getLoginDao();

@@ -67,13 +67,14 @@ public class LoginDAO {
              */
             @Override
             public Response doInHibernate(Session sn) throws HibernateException, SQLException {
-                Query query = sn.createSQLQuery("{CALL " + userTypeProcedure + "(:userName,password)}")
+                Query query = sn.createSQLQuery("{CALL " + userTypeProcedure + "(:userName,:password)}")
                         .setParameter("userName", userNameValue)
                         .setParameter("password", passwordValue);
-                List idValue = query.list();
+                List<Object[]> idValue = query.list();
                 if(idValue.size()>0){
                     isCorrect = true;
-                    userId = (int) idValue.get(0);
+                   
+                    userId = (int) idValue.get(0)[0];
                 }
                 
                 if (isCorrect) {
@@ -90,23 +91,7 @@ public class LoginDAO {
             }
 
         });
-//        if (criteriaClass != null) {
-//            System.out.println(userType + " before database");
-//            List checkUserName = template.findByCriteria(DetachedCriteria.forClass(criteriaClass)
-//                    .add(Restrictions.eq("username", userName))
-//                    .setProjection(Projections.id()));
-//            if (checkUserName.size() > 0) {
-//                isCorrectUserName = true;
-//                List idValue = template.findByCriteria(DetachedCriteria.forClass(StudentBasicData.class)
-//                        .add(Restrictions.and(Restrictions.eq("username", userName), Restrictions.eq("userpwd", password)))
-//                        .setProjection(Projections.id()));
-//                if(idValue.size()>0){
-//                    isCorrectPassword = true;
-//                    userId = (int) idValue.get(0);
-//                }
-//            }
-//        }
-        ///////////////
+
 
     }
 }
