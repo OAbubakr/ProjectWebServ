@@ -41,17 +41,5 @@ Contributor(s):
 -->
 <hibernate-reverse-engineering>
   <schema-selection match-catalog="NewData" match-schema="dbo"/>
-  <table-filter match-name="CourseCategory"/>
-  <table-filter match-name="StudentBasicData"/>
-  <table-filter match-name="Branch"/>
-  <table-filter match-name="Intake"/>
-  <table-filter match-name="ProgramIntake"/>
-  <table-filter match-name="CourseManual"/>
-  <table-filter match-name="Platform"/>
-  <table-filter match-name="PlatfromIntake"/>
-
-  <table-filter match-name="Course"/>
-  <table-filter match-name="subTrack"/>
-  <table-filter match-name="TrackManual"/>
-  <table-filter match-name="programs"/>
+  
 </hibernate-reverse-engineering>

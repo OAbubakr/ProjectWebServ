@@ -5,7 +5,7 @@
  */
 package com.mycompany.restfulspring;
 
-import bean.StudentBasicData;
+
 import bean.StudentSession;
 import java.util.ArrayList;
 import javax.ws.rs.QueryParam;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import second.DaoInstance;
+import second.ProgramDAO;
 import second.StudentDAO;
 import second.StudentScheduleDao;
 
@@ -26,16 +27,18 @@ import second.StudentScheduleDao;
  */
 @RestController
 public class Controller {
- 
-    @RequestMapping(value = "/getStudents", method = RequestMethod.GET)
-    public ArrayList<StudentBasicData> getAnswers( @QueryParam("id") int id) {
-        ArrayList<StudentBasicData> answers = new ArrayList<>();
-         StudentDAO dao = DaoInstance.getInstance().getStudentDAO();
-         StudentBasicData s = dao.getStudentById(id);
-        answers.add(s);
-       
-        return answers;
-    }
+
+//    @RequestMapping(value = "/getStudents", method = RequestMethod.GET, headers = "Accept=application/json")
+//    public ArrayList<StudentBasicData> getAnswers() {
+//        ArrayList<StudentBasicData> answers = new ArrayList<>();
+//         StudentDAO dao = DaoInstance.getInstance().getStudentDAO();
+//         StudentBasicData s = dao.getStudentById(5699);
+//        answers.add(s);
+//       
+//        
+//
+//        return answers;
+//    }
     
     @RequestMapping(value= "/getStudentSchedule", method = RequestMethod.GET, headers = "Accept=application/json")
     public ArrayList<StudentSession> getStudentSchedule(){
@@ -51,5 +54,4 @@ public class Controller {
 //        
 //        return new ResponseEntity<>(ans, HttpStatus.OK);
 //    }
-    
 }
