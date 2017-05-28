@@ -8,8 +8,12 @@ package second;
 import bean.StudentSession;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.persistence.Convert;
 import javax.persistence.TemporalType;
@@ -39,23 +43,41 @@ public class StudentScheduleDao {
     public StudentScheduleDao() {
     }
 
-    public ArrayList<StudentSession> getStudentSchedule() {
+    public ArrayList<StudentSession> getStudentSchedule(final int studentId) {
         return template.execute(new HibernateCallback<ArrayList>() {
             @Override
             public ArrayList doInHibernate(Session sn) throws HibernateException, SQLException {
+                Calendar calendar = GregorianCalendar.getInstance();
+                //setting the first day of the week to be saturday
+                calendar.setFirstDayOfWeek(Calendar.SATURDAY);
+
+                //setting the calendar to the first saturday of this week
+                calendar.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+                String fromDate = dateFormat.format(calendar.getTime());
+                calendar.add(Calendar.DAY_OF_WEEK, 13);
+                String toDate = dateFormat.format(calendar.getTime());
+                
+                System.out.println(fromDate);
+                System.out.println(toDate);
+                
+                //to put the parameters of the fromDate and toDate
+
                 Query query = sn.createSQLQuery(
                         " { CALL GetScheduleByStudentID(:studentId, :fromDate, :toDate) }")
-                        .setParameter("studentId", "5699")
+//                        .setParameter("studentId", "5699")
+                        .setParameter("studentId", String.valueOf(studentId))
                         .setParameter("fromDate", "2014-10-20")
-                        .setParameter("toDate", "2014-10-30");
+                        .setParameter("toDate", "2014-10-26");
                 List<Object[]> list = query.list();
                 ArrayList<StudentSession> sessions = new ArrayList<>();
 
                 for (Object[] row : list) {
                     StudentSession studentSession = new StudentSession();
-//                    studentSession.setSessionTime((String) row[1]);
                     studentSession.setCourseName((String) row[3]);
-                    
+
                     Timestamp ts = (Timestamp) row[4];
                     studentSession.setSessionDate(ts.getTime());
                     studentSession.setSessionTime((String) row[1]);
