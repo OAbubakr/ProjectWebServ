@@ -12,29 +12,28 @@
 // *
 // * @author engra
 // */
-//public class CourseDaoInstance {
-//    
-//    private static CourseDaoInstance courseDaoInstance;
-//    private CourseDAO courseDAO;
-//    
-//    private CourseDaoInstance(){
+//public class EmpHours_DAOInstance {
+//
+//    private static EmpHours_DAOInstance empHours_DAOInstance;
+//    private EmpHoursDAO empHoursDAO;
+//
+//    private EmpHours_DAOInstance() {
 //        ApplicationContext factory = new FileSystemXmlApplicationContext("C:\\Users\\engra\\OneDrive\\Documents\\NetBeansProjects\\ProjectWerServ\\src\\main\\java\\second\\bean.xml");
-//        courseDAO = factory.getBean("CourseDAO", CourseDAO.class);
+//        empHoursDAO = factory.getBean("EmpHours", EmpHoursDAO.class);
 //    }
-//    public static CourseDaoInstance getInstance() {
-//        CourseDaoInstance singleInstance = CourseDaoInstance.courseDaoInstance;
+//    
+//    public static EmpHours_DAOInstance getInstance() {
+//        EmpHours_DAOInstance singleInstance = EmpHours_DAOInstance.empHours_DAOInstance;
 //        if (singleInstance == null) {
 //            synchronized (DaoInstance.class) {
 //                if (singleInstance == null) {
-//                    singleInstance = new CourseDaoInstance();
+//                    singleInstance = new EmpHours_DAOInstance();
 //                }
 //            }
 //        }
 //        return singleInstance;
 //    }
-//    public CourseDAO getCourseDao() {
-//        return courseDAO;
+//    public EmpHoursDAO getEmpHours() {
+//        return empHoursDAO;
 //    }
-//    
-//    
 //}

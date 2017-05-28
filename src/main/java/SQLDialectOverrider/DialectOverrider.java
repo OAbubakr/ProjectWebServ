@@ -20,6 +20,7 @@ public class DialectOverrider extends SQLServerDialect{
     public DialectOverrider() {
         super();
         registerHibernateType(Types.NVARCHAR, Hibernate.STRING.getName());
+        registerHibernateType(Types.NCHAR, Hibernate.STRING.getName());
     }
     
     

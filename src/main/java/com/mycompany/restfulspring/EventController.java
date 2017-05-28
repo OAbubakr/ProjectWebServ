@@ -5,30 +5,28 @@
  */
 package com.mycompany.restfulspring;
 
-
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Response;
+import bean.EventId;
+import java.util.ArrayList;
+import javax.ws.rs.QueryParam;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import second.DaoInstance;
-import second.StudentImgDao;
+import second.EventDAO;
 
 /**
  *
- * @author Sandra
+ * @author Rana Gamal
  */
 
 @RestController
-public class StudentImgController {
+public class EventController {
     
-    @RequestMapping(value = "/getStudentImg", method = RequestMethod.GET, headers = "Accept=application/json")
-    @Produces("image/jpg")
-    public Response getStudentImg(){
-        StudentImgDao studentImgDao = DaoInstance.getInstance().getStudentImgDao();
-        return studentImgDao.getStudentImg();
-       
-        
+  
+    
+    @RequestMapping(value= "/getEvents", method = RequestMethod.GET, headers = "Accept=application/json")
+    public ArrayList<EventId> getEvents(){
+        EventDAO dao = DaoInstance.getInstance().getEventDAO();
+        return dao.getEvents();
     }
-    
 }
