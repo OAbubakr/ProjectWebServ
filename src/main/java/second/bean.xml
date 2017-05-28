@@ -32,7 +32,7 @@ http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
         <property name="template" ref="template"/>
     </bean>
     
-    <bean id ="PostJopDAO" class="second.PostJobDAO">
+    <bean id ="PostJobDAO" class="second.PostJobDAO">
         <property name="template" ref="template"/>
     </bean>
     
@@ -53,7 +53,7 @@ http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
-        <property name="url" value="jdbc:sqlserver://localhost;databaseName=NewData;" />
+        <property name="url" value="jdbc:sqlserver://localhost:49293;databaseName=NewData;" />
         <property name="username" value="sa" />
         <property name="password" value="123" />
         <!--<property name="show_sql" value="true"/>-->

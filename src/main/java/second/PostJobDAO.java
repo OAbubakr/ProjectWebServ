@@ -6,9 +6,6 @@
 package second;
 
 import java.sql.SQLException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -35,30 +32,30 @@ public class PostJobDAO {
    
     }
     
-    public int InsertNewJop( final int companyId, final String jopCode, final String jopTitle,
-            final String jopDesc, final String experience, final String closingDate,
-            final String sendTo, final int jopNoNeed, final int subTrackId, final String jopDate ){
+    public String postJob( final int companyId, final String jobCode, final String jobTitle,
+            final String jobDesc, final String experience, final String closingDate,
+            final String sendTo, final int jobNoNeed, final int subTrackId, final String jobDate ){
         
-        final String sql = "{ CALL PostJop(:companyId, :jopCode, :jopTitle, :jopDesc, :experience,"
-                + ":closingDate, :sendTo, :jopNoNeed, :subTrackId, :jopDate) }";
+        final String sql = "{ CALL PostJop(:companyId, :jobCode, :jobTitle, :jobDesc, :experience,"
+                + ":closingDate, :sendTo, :jobNoNeed, :subTrackId, :jobDate) }";
         
-        return (int) template.execute(new HibernateCallback<Object>(){
+        return (String) template.execute(new HibernateCallback<Object>(){
             @Override
             public Object doInHibernate(Session sn) throws HibernateException, SQLException {
                 Query query = sn.createSQLQuery(sql)
                         .setParameter("companyId", String.valueOf(companyId))
-                        .setParameter("jopCode",jopCode)
-                        .setParameter("jopTitle", jopTitle)
-                        .setParameter("jopDesc", jopDesc)
+                        .setParameter("jobCode",jobCode)
+                        .setParameter("jobTitle", jobTitle)
+                        .setParameter("jobDesc", jobDesc)
                         .setParameter("experience", experience)
                         .setParameter("closingDate", closingDate)
                         .setParameter("sendTo", sendTo)
-                        .setParameter("jopNoNeed", String.valueOf(jopNoNeed))
+                        .setParameter("jobNoNeed", String.valueOf(jobNoNeed))
                         .setParameter("subTrackId", String.valueOf(subTrackId))
-                        .setParameter("jopDate", jopDate);
+                        .setParameter("jobDate", jobDate);
                 
-                int check = query.executeUpdate();
-                return check;
+                query.executeUpdate();
+                return "Insertion Done";
             }  
         });
         
