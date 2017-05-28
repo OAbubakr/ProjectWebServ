@@ -20,19 +20,23 @@ public class DaoInstance {
     private static DaoInstance singleInstance;
     private StudentScheduleDao studentScheduleDao;
     private LoginDAO loginDao;
-
+    private AllStudentByTrackDao allStudentByTrackDao;
+    private EventDAO eventDAO;
+    
     private DaoInstance() {
         // TODO code application logic here
 
-        ApplicationContext factory = new FileSystemXmlApplicationContext("D:\\ITI\\Projects\\Graduation Project\\ProjectWerServ\\src\\main\\java\\second\\bean.xml");
+        ApplicationContext factory = new FileSystemXmlApplicationContext("E:\\GraduationProject\\ProjectWerServ\\src\\main\\java\\second\\bean.xml");
 
         studentDao = factory.getBean("StudentDAO", StudentDAO.class);
         programDAO = factory.getBean("ProgramDAO", ProgramDAO.class);
         studentScheduleDao = factory.getBean("StudentScheduleDao", StudentScheduleDao.class);
         loginDao = factory.getBean("LoginDAO", LoginDAO.class);
-
+        allStudentByTrackDao = factory.getBean("allStudentByTrackDao",AllStudentByTrackDao.class);
+        eventDAO = factory.getBean("eventDAO",EventDAO.class);
     }
 
+    
     public static DaoInstance getInstance() {
         DaoInstance singleInstance = DaoInstance.singleInstance;
 
@@ -63,5 +67,17 @@ public class DaoInstance {
     public LoginDAO getLoginDao() {
         return loginDao;
     }
+
+    public AllStudentByTrackDao getAllStudentByTrackDao() {
+        return allStudentByTrackDao;
+    }
+
+    public EventDAO getEventDAO() {
+        return eventDAO;
+    }
+
+
+    
 }
+
 
