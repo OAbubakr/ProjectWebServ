@@ -5,7 +5,6 @@
  */
 package com.mycompany.restfulspring;
 
-import java.util.Date;
 import javax.ws.rs.QueryParam;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,13 +22,14 @@ import second.PostJobDAO;
 public class PostJobController {
     
     @RequestMapping(value= "/postJob", method = RequestMethod.GET, headers = "Accept=application/json")
-    public int InsertNewJop(
-            @RequestParam int companyId, @RequestParam String jopCode, 
-            @RequestParam String jopTitle, @RequestParam String jopDesc, @RequestParam String experience,
-            @RequestParam String closingDate, @RequestParam String sendTo, @RequestParam int jopNoNeed,
-            @RequestParam int subTrackId , @RequestParam String jopDate ){
+    public String postJob(
+            @QueryParam("companyId") int companyId, @QueryParam("jobCode") String jobCode, 
+            @QueryParam("jobTitle") String jobTitle, @QueryParam("jobDesc") String jobDesc,
+            @QueryParam("experience") String experience, @QueryParam("closingDate") String closingDate,
+            @QueryParam("sendTo") String sendTo, @QueryParam("jobNoNeed") int jobNoNeed,
+            @QueryParam("subTrackId") int subTrackId , @QueryParam("jobDate") String jobDate ){
         
-        PostJobDAO dao = DaoInstance.getInstance().getPostJopDAO();
-        return dao.InsertNewJop(companyId, jopCode, jopTitle, jopDesc, experience, closingDate, sendTo, jopNoNeed, subTrackId, jopDate);
+        PostJobDAO dao = DaoInstance.getInstance().getPostJobDAO();
+        return dao.postJob(companyId, jobCode, jobTitle, jobDesc, experience, closingDate, sendTo, jobNoNeed, subTrackId, jobDate);
     }
 }
