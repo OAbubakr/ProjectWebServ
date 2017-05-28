@@ -11,9 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import second.CourseDaoInstance;
+import second.DaoInstance;
+//import second.CourseDaoInstance;
 import second.EmpHoursDAO;
-import second.EmpHours_DAOInstance;
+//import second.EmpHours_DAOInstance;
 
 /**
  *
@@ -26,7 +27,7 @@ public class EmpHours_Controller {
     public EmployeeHours getAnswers(@RequestParam("id") int id, @RequestParam("start") String start, 
             @RequestParam("end") String end) {
         
-        EmpHoursDAO empHoursDAO = EmpHours_DAOInstance.getInstance().getEmpHours();
+        EmpHoursDAO empHoursDAO = DaoInstance.getInstance().getEmpHours();
         return empHoursDAO.getEmployeeHours(id, start, end);
 
     }

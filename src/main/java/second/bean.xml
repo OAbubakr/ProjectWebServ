@@ -32,6 +32,14 @@ http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
         <property name="template" ref="template"/>
     </bean>
     
+    <bean id ="PostJobDAO" class="second.PostJobDAO">
+        <property name="template" ref="template"/>
+    </bean>
+    
+    <bean id ="InstructorsByBranchDAO" class="second.InstructorsByBranchDAO">
+        <property name="template" ref="template"/>
+    </bean>
+    
     
     <!--    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name = "hibernate.dialect" value="org.hibernate.dialect.SQLServerDialect"/>

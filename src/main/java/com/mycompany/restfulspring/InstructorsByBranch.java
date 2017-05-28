@@ -5,28 +5,29 @@
  */
 package com.mycompany.restfulspring;
 
-import bean.StudentGrade;
-import java.util.ArrayList;
+import bean.Instructor;
+import java.util.List;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import second.CourseDAO;
 import second.DaoInstance;
-//import second.CourseDaoInstance;
+import second.InstructorsByBranchDAO;
 import second.StudentGradeDAO;
-//import second.StuGrade_Instance;
 
 /**
  *
- * @author engra
+ * @author home
  */
 @RestController
-public class StudentGradeController {
-    @RequestMapping(value = "/getStudentGrades", method = RequestMethod.GET, headers = "Accept=application/json")
-    public ArrayList<StudentGrade> getAnswers(@RequestParam("id") int id) {
-        StudentGradeDAO studentGradeDAO = DaoInstance.getInstance().getGrades();
-        return studentGradeDAO.getAllStudentGrade(id);
-       
+public class InstructorsByBranch {
+ 
+    @RequestMapping(value = "/getInstructorByBranch",  method = RequestMethod.GET, headers = "Accept=application/json")
+    public List<Instructor> getInstructorByBranch(@RequestParam("id") int branchId){
+        
+        InstructorsByBranchDAO instructorsByBranchDAO = DaoInstance.getInstance().getInstructorsByBranchDAO();
+        return instructorsByBranchDAO.getInstructorsByBranch(branchId);
+        
     }
+    
 }

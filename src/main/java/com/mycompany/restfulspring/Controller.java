@@ -8,6 +8,7 @@ package com.mycompany.restfulspring;
 
 import bean.StudentSession;
 import java.util.ArrayList;
+import javax.ws.rs.QueryParam;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
