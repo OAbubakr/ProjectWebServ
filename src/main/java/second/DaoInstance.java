@@ -75,5 +75,9 @@ public class DaoInstance {
         public StudentGradeDAO getGrades() {
         return  factory.getBean("StudentGradeDAO", StudentGradeDAO.class);
     }
+
+    public PostJobDAO getPostJopDAO() {
+        return  factory.getBean("PostJopDAO",PostJobDAO.class);
+    }
 }
 

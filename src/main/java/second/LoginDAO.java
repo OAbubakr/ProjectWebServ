@@ -49,7 +49,7 @@ public class LoginDAO {
                 userTypeProcedure = "";
                 break;
             case 3://login as a company
-                userTypeProcedure = "";
+                userTypeProcedure = "CompanycheckLogin";
                 break;
             case 4://login as a graduate
                 userTypeProcedure = "";
