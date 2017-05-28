@@ -38,9 +38,9 @@ public class InstructorsByBranchDAO {
 
     public List<Instructor> getInstructorsByBranch(final int branchIdArg) {
 
-        template.execute(new HibernateCallback<EmployeeHours>() {
+        return template.execute(new HibernateCallback<ArrayList<Instructor>>() {
             @Override
-            public EmployeeHours doInHibernate(Session sn) throws HibernateException, SQLException {
+            public ArrayList<Instructor> doInHibernate(Session sn) throws HibernateException, SQLException {
                 Query query = sn.createSQLQuery(" { CALL GetAllInstructor() }");
                 List<Object[]> data = query.list();
                 ArrayList<Instructor> instructors = new ArrayList<>();
@@ -57,15 +57,10 @@ public class InstructorsByBranchDAO {
                     }
                 }
 
-                for (Instructor instructor : instructors) {
-                    System.out.println(instructor.getInstuctorId() + " " + instructor.getInstructorName() + "  " + instructor.getBranchId());
-                }
-
-                return null;
+                return instructors;
             }
 
         });
-        return null;
     }
 
 }
