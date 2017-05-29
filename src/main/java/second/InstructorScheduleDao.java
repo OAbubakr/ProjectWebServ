@@ -79,6 +79,8 @@ public class InstructorScheduleDao {
                     instructorSession.setRoomName((String) row[11]);
                     instructorSession.setSessionPercentage((String) row[15]);
                     instructorSession.setBranchName((String) row[16]);
+                    Timestamp timestamp = (Timestamp) row[3];
+                    instructorSession.setSessionDate(timestamp.getTime());
                     
                     
 
