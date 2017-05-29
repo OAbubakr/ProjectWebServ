@@ -27,7 +27,7 @@ public class DaoInstance {
     private DaoInstance() {
         // TODO code application logic here
 
-         factory = new FileSystemXmlApplicationContext("C:\\Users\\omari\\Desktop\\project\\ProjectWerServ\\src\\main\\java\\second\\bean.xml");
+         factory = new FileSystemXmlApplicationContext("D:\\dina iti\\android\\graduation project\\New Folder\\ProjectWerServ\\src\\main\\java\\second\\bean.xml");
 
 
     }
@@ -55,6 +55,11 @@ public class DaoInstance {
     public StudentScheduleDao getStudentScheduleDao() {
         return factory.getBean("StudentScheduleDao", StudentScheduleDao.class);
     }
+    
+    public TrackScheduleDao getTrackScheduleDao() {
+        return factory.getBean("TrackScheduleDao", TrackScheduleDao.class);
+    }
+    
 
     public ProgramDAO getProgramDAO() {
         return factory.getBean("ProgramDAO", ProgramDAO.class);
