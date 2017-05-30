@@ -5,13 +5,12 @@
  */
 package bean;
 
-
 /**
  *
  * @author Sandra
  */
-public class StudentSession {
-    String sessionTime;
+public class InstructorSession {
+     String sessionTime;
     int sessionId;
     String courseName;
     long sessionDate;
@@ -20,13 +19,25 @@ public class StudentSession {
     String instructorName;
     String sessionPercentage;
     int typeId;
+    String trackName;
+    String branchName;
 
-    public int getTypeId() {
-        return typeId;
+    public String getBranchName() {
+        return branchName;
     }
 
-    public void setTypeId(int typeId) {
-        this.typeId = typeId;
+    public void setBranchName(String branchName) {
+        this.branchName = branchName;
+    }
+    
+    
+
+    public String getTrackName() {
+        return trackName;
+    }
+
+    public void setTrackName(String trackName) {
+        this.trackName = trackName;
     }
     
     
@@ -39,12 +50,28 @@ public class StudentSession {
         this.sessionTime = sessionTime;
     }
 
+    public int getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(int sessionId) {
+        this.sessionId = sessionId;
+    }
+
     public String getCourseName() {
         return courseName;
     }
 
     public void setCourseName(String courseName) {
         this.courseName = courseName;
+    }
+
+    public long getSessionDate() {
+        return sessionDate;
+    }
+
+    public void setSessionDate(long sessionDate) {
+        this.sessionDate = sessionDate;
     }
 
     public int getWeekNumber() {
@@ -79,24 +106,14 @@ public class StudentSession {
         this.sessionPercentage = sessionPercentage;
     }
 
-    public long getSessionDate() {
-        return sessionDate;
+    public int getTypeId() {
+        return typeId;
     }
 
-    public void setSessionDate(long sessionDate) {
-        this.sessionDate = sessionDate;
+    public void setTypeId(int typeId) {
+        this.typeId = typeId;
     }
-
-    public int getSessionId() {
-        return sessionId;
-    }
-
-    public void setSessionId(int sessionId) {
-        this.sessionId = sessionId;
-    }
-
-
-    
     
     
 }
+    

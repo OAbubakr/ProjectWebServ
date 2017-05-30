@@ -14,12 +14,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import second.DaoInstance;
 import second.ProgramDAO;
 import second.StudentDAO;
 import second.StudentScheduleDao;
+import second.TrackScheduleDao;
 
 /**
  *
@@ -41,9 +43,19 @@ public class Controller {
 //    }
     
     @RequestMapping(value= "/getStudentSchedule", method = RequestMethod.GET, headers = "Accept=application/json")
-    public ArrayList<StudentSession> getStudentSchedule(){
+    public ArrayList<StudentSession> getStudentSchedule(@RequestParam("studentId") int studentId){
         StudentScheduleDao studentScheduleDao = DaoInstance.getInstance().getStudentScheduleDao();
-        return studentScheduleDao.getStudentSchedule();
+        return studentScheduleDao.getStudentSchedule(studentId);
+        
+    }
+    
+    
+    @RequestMapping(value= "/getTrackSchedule", method = RequestMethod.GET, headers = "Accept=application/json")
+    public ArrayList<StudentSession> getTrackSchedule(@RequestParam("trackId") int trackId){
+        
+        System.out.println("track schedualeeeeeeee");
+       TrackScheduleDao trackScheduleDao=DaoInstance.getInstance().getTrackScheduleDao();
+       return  trackScheduleDao.getTrackSchedule(trackId);
         
     }
 

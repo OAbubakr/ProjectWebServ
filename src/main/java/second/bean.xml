@@ -11,6 +11,11 @@ http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
         <property name="template" ref="template"/>
     </bean>
     
+    <bean id ="InstructorScheduleDao" class="second.InstructorScheduleDao">
+        <property name="template" ref="template"/>
+    </bean>
+    
+    
     <bean id ="ProgramDAO" class="second.ProgramDAO">
         <property name="template" ref="template"/>
     </bean>
@@ -32,6 +37,10 @@ http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
         <property name="template" ref="template"/>
     </bean>
     
+    <bean id ="TrackScheduleDao" class="second.TrackScheduleDao">
+        <property name="template" ref="template"/>
+    </bean>
+    
     <bean id ="PostJobDAO" class="second.PostJobDAO">
         <property name="template" ref="template"/>
     </bean>
@@ -39,6 +48,7 @@ http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
     <bean id ="InstructorsByBranchDAO" class="second.InstructorsByBranchDAO">
         <property name="template" ref="template"/>
     </bean>
+
     
     <bean id ="CompanyDAO" class="second.CompanyDAO">
         <property name="template" ref="template"/>

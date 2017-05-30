@@ -5,32 +5,28 @@
  */
 package second;
 
-import bean.StudentSession;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import javax.persistence.Convert;
-import javax.persistence.TemporalType;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.springframework.jdbc.core.simple.SimpleJdbcCall;
+import bean.StudentSession;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
 /**
  *
- * @author Sandra
+ * @author HP
  */
-public class StudentScheduleDao {
-
-    private HibernateTemplate template;
+public class TrackScheduleDao {
+    
+     private HibernateTemplate template;
 
     public HibernateTemplate getTemplate() {
         return template;
@@ -40,10 +36,10 @@ public class StudentScheduleDao {
         this.template = template;
     }
 
-    public StudentScheduleDao() {
+    public TrackScheduleDao() {
     }
 
-    public ArrayList<StudentSession> getStudentSchedule(final int studentId) {
+    public ArrayList<StudentSession> getTrackSchedule(final int TrackId) {
         return template.execute(new HibernateCallback<ArrayList>() {
             @Override
             public ArrayList doInHibernate(Session sn) throws HibernateException, SQLException {
@@ -66,27 +62,36 @@ public class StudentScheduleDao {
                 //to put the parameters of the fromDate and toDate
 
                 Query query = sn.createSQLQuery(
-                        " { CALL GetScheduleByStudentID(:studentId, :fromDate, :toDate) }")
+                        " { CALL GetSchedule(:PlatformIntakeID, :fromDate, :toDate) }")
 //                        .setParameter("studentId", "5699")
-                        .setParameter("studentId", String.valueOf(studentId))
+                        .setParameter("PlatformIntakeID", String.valueOf(TrackId))
                         .setParameter("fromDate", "2014-10-20")
-                        .setParameter("toDate", "2014-10-26");
+                        .setParameter("toDate", "2014-11-3");
                 List<Object[]> list = query.list();
                 ArrayList<StudentSession> sessions = new ArrayList<>();
 
                 for (Object[] row : list) {
                     StudentSession studentSession = new StudentSession();
                     studentSession.setCourseName((String) row[3]);
+                    System.out.println("course name "+(String) row[3]);
 
                     Timestamp ts = (Timestamp) row[4];
                     studentSession.setSessionDate(ts.getTime());
                     studentSession.setSessionTime((String) row[1]);
+                    System.out.println("session time "+(String) row[1]);
                     studentSession.setTypeId((int) row[2]);
+                    System.out.println(" type id"+(int) row[2]);
                     studentSession.setWeekNumber((int) row[6]);
+                    System.out.println("week number "+(int) row[6]);
                     studentSession.setSessionId((int) row[9]);
+                    System.out.println("session id  "+(int) row[9]);
                     studentSession.setRoomName((String) row[11]);
+                    System.out.println(" rooom"+(String) row[11]);
                     studentSession.setInstructorName((String) row[12]);
-                    studentSession.setSessionPercentage((String) row[14]);
+                    System.out.println("instructor name "+(String) row[12]);
+                    
+                    studentSession.setSessionPercentage((String) row[15]);
+                    System.out.println("session percentage "+(String) row[15]);
 
                     sessions.add(studentSession);
                 }
@@ -95,5 +100,5 @@ public class StudentScheduleDao {
 
         });
     }
-
+    
 }
