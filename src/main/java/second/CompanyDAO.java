@@ -8,12 +8,13 @@ package second;
 
 import bean.CompanyProfile;
 import bean.JobVacancy;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -83,33 +84,28 @@ public class CompanyDAO {
                 Query query = sn.createSQLQuery(
                         " { CALL GetAllJopOpportunitie }");
                      
-                System.out.println("jobbbbbbb mathod");
                 List<Object[]> jobsList = query.list();
                 ArrayList<JobVacancy> jobs = new ArrayList<>();
                 for(Object[] row:jobsList){
                     JobVacancy job = new JobVacancy();
                     System.out.println("jobbbbbbb");
                     job.setJobID((int) row[0]);
-                    int companyID=(int) row[1];
+                   int companyID=(int) row[1];
                     job.setCompanyID(companyID);
                     job.setJobCode((String) row[2]);
                     job.setJobTitle((String) row[3]);
                     job.setJobDesc((String) row[4]);
-                    job.setJobYearExperience((int) row[5]);
+                   job.setJobYearExperience((String) row[5]);
                     SimpleDateFormat f = new SimpleDateFormat("yyyy-mm-dd");
-                    Date d1 = null;
-                    Date d2 = null;
-                    try {
-                        d1 = f.parse((String) row[6]);
-                        d2 = f.parse((String) row[10]);
-                    } catch (ParseException ex) {
-                        Logger.getLogger(CompanyDAO.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    job.setJobClosingDate(d1.getTime()); 
-                    job.setJobDate(d2.getTime());
+                    Date date1 = (Date) row[6];
+                    Date date2 = (Date) row[10];
+                    long d1 = date1.getTime();
+                    long d2 = date2.getTime();
+                    job.setJobClosingDate(d1); 
+                    job.setJobDate(d2);
                     job.setJobCVTo((String) row[7]);
                     job.setJobNoNeed((int) row[8]);
-                    job.setSubTrackID((int) row[9]);
+                   // job.setSubTrackID((int) row[9]);
                     
                     Query query2 = sn.createSQLQuery(
                         " { CALL GetCompanyProfileByCompanyID(:CompanyID) }")

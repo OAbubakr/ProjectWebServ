@@ -19,7 +19,7 @@ public class JobVacancy {
     String jobCode;
     String jobTitle;
     String jobDesc;
-    int jobYearExperience;
+    String jobYearExperience;
     long jobClosingDate;
     String jobCVTo;
     int jobNoNeed;
@@ -74,13 +74,15 @@ public class JobVacancy {
         this.jobDesc = jobDesc;
     }
 
-    public int getJobYearExperience() {
+    public String getJobYearExperience() {
         return jobYearExperience;
     }
 
-    public void setJobYearExperience(int jobYearExperience) {
+    public void setJobYearExperience(String jobYearExperience) {
         this.jobYearExperience = jobYearExperience;
     }
+
+    
 
     
 
