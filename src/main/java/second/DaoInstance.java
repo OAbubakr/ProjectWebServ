@@ -105,5 +105,8 @@ public class DaoInstance {
         return  factory.getBean("InstructorScheduleDao",InstructorScheduleDao.class);
     }
     
+    public ProfileDAO getProfileDao(){
+        return factory.getBean("ProfileDAO",ProfileDAO.class);
+    }
 }
 
