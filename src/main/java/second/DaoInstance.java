@@ -26,7 +26,7 @@ public class DaoInstance {
     private DaoInstance() {
         // TODO code application logic here
 
-        factory = new FileSystemXmlApplicationContext("D:\\ITI_GRADUATION\\ProjectWerServ\\src\\main\\java\\second\\bean.xml");
+        factory = new FileSystemXmlApplicationContext("C:\\Users\\engra\\OneDrive\\Documents\\NetBeansProjects\\ProjectWerServ\\src\\main\\java\\second\\bean.xml");
 
 //        studentDao = factory.getBean("StudentDAO", StudentDAO.class);
 //        programDAO = factory.getBean("ProgramDAO", ProgramDAO.class);
