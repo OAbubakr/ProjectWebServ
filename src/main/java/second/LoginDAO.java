@@ -46,7 +46,7 @@ public class LoginDAO {
                 userTypeProcedure = "StudentDataLogin";
                 break;
             case 2://login as a staff
-                userTypeProcedure = "";
+                userTypeProcedure = "EmployeeCheckLogin";
                 break;
             case 3://login as a company
                 userTypeProcedure = "CompanycheckLogin";
@@ -67,8 +67,8 @@ public class LoginDAO {
              */
             @Override
             public Response doInHibernate(Session sn) throws HibernateException, SQLException {
-                Query query = sn.createSQLQuery("{CALL " + userTypeProcedure + "(:userName,:password)}")
-                        .setParameter("userName", userNameValue)
+                Query query = sn.createSQLQuery("{CALL " + userTypeProcedure + "(:username,:password)}")
+                        .setParameter("username", userNameValue)
                         .setParameter("password", passwordValue);
                 List<Object[]> idValue = query.list();
                 if(idValue.size()>0){
