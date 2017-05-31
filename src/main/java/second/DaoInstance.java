@@ -27,11 +27,12 @@ public class DaoInstance {
     private DaoInstance() {
         // TODO code application logic here
 
-        factory = new FileSystemXmlApplicationContext("C:\\Users\\engra\\OneDrive\\Documents\\NetBeansProjects\\ProjectWerServ\\src\\main\\java\\second\\bean.xml");
+         factory = new FileSystemXmlApplicationContext("F:\\ITI- MWD - intake 37\\graduation project\\FinalProject\\java 30-5\\ProjectWerServ\\src\\main\\java\\second\\bean.xml");
 
 
     }
 
+    
     public static DaoInstance getInstance() {
         DaoInstance singleInstance = DaoInstance.singleInstance;
 
