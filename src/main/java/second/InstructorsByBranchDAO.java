@@ -47,20 +47,32 @@ public class InstructorsByBranchDAO {
 
                 int id;
                 for (Object[] row : data) {
-                    id = (int) row[2];
-                    if (id == branchIdArg) {
-                        Instructor instructor = new Instructor();
-                        instructor.setInstuctorId((int) row[0]);
-                        instructor.setInstructorName((String) row[1]);
-                        instructor.setBranchId(id);
-                        instructors.add(instructor);
+                    //get all instructors
+                    if (branchIdArg == -1) {
+                        instructors.add(fillInstructor(row));
+                    } else {
+                        id = (int) row[2];
+                        if (id == branchIdArg) {
+                            instructors.add(fillInstructor(row));
+                        }
                     }
+
                 }
 
                 return instructors;
             }
 
         });
+    }
+
+    private Instructor fillInstructor(Object[] row) {
+
+        Instructor instructor = new Instructor();
+        instructor.setInstuctorId((int) row[0]);
+        instructor.setInstructorName((String) row[1]);
+        instructor.setBranchId((int) row[2]);
+        instructor.setImagePath((String) row[13]);
+        return instructor;
     }
 
 }
