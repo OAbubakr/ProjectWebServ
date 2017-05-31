@@ -27,7 +27,7 @@ import second.DaoInstance;
 @RestController
 public class CourseController {
     
-//    @RequestMapping(value = "/getCoursesStudent", method = RequestMethod.GET, headers = "Accept=application/json")
+//    @RequestMapping(value = "/getCourses", method = RequestMethod.GET, headers = "Accept=application/json")
 //    public ArrayList<Course> getAnswers(@RequestParam("id") int id) {
 //        CourseDAO courseDAO = CourseDaoInstance.getInstance().getCourseDao();
 //        return courseDAO.getCourseByTrackId(id);
