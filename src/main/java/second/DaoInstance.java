@@ -96,10 +96,17 @@ public class DaoInstance {
     public InstructorsByBranchDAO getInstructorsByBranchDAO() {
         return  factory.getBean("InstructorsByBranchDAO",InstructorsByBranchDAO.class);
     }
+    public CompanyDAO getCompanyDAO() {
+        return factory.getBean("CompanyDAO",CompanyDAO.class);
+    }
+    
 
     public InstructorScheduleDao getInstructorScheduleDao() {
         return  factory.getBean("InstructorScheduleDao",InstructorScheduleDao.class);
     }
     
+    public ProfileDAO getProfileDao(){
+        return factory.getBean("ProfileDAO",ProfileDAO.class);
+    }
 }
 
