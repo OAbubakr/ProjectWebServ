@@ -16,7 +16,16 @@ public class Instructor {
     private int instuctorId;
     private String instructorName;
     private int branchId;
+    private String imagePath;
 
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+    
     public int getInstuctorId() {
         return instuctorId;
     }
