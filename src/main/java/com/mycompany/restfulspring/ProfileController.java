@@ -29,8 +29,8 @@ public class ProfileController {
     }
 
     @RequestMapping(value = "/onSetUserData", method = RequestMethod.GET, headers = "Accept=application/json")
-    public Response setUserData(@RequestParam("userType") int userType,@RequestParam("userId") int userId, @RequestParam("userData") UserData userData) {
+    public void setUserData(@RequestParam("userType") int userType,@RequestParam("userId") int userId, @RequestParam("userData") UserData userData) {
         ProfileDAO profileDao = DaoInstance.getInstance().getProfileDao();
-        return profileDao.setData(userType,userId, userData);
+        profileDao.setData(userType,userId, userData);
     }
 }
