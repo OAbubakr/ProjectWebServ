@@ -60,6 +60,7 @@ public class ProfileDAO {
                 userIdProcedure = "";
                 break;
         }
+        final int userTypeValue=userType;
         final int userIdValue = userId;
         return template.execute(new HibernateCallback<Response>() {
             boolean isCorrect = false;
@@ -76,7 +77,7 @@ public class ProfileDAO {
                 List<Object[]> userDataValue = query.list();
                 if (userDataValue.size() > 0) {
                     isCorrect = true;
-                    switch (userIdValue) {
+                    switch (userTypeValue) {
                         case 1://login as a student
                             userData = prepareStudentData(sn, userDataValue, userIdValue);
                             break;
