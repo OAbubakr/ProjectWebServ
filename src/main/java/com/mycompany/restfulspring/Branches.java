@@ -52,6 +52,14 @@ public class Branches {
         return branchs;
     }
     
+    @RequestMapping(value = "/getBranchesNames", method = RequestMethod.GET, headers = "Accept=application/json")
+    public ArrayList<Branch> getBranchesNames() {
+        ProgramDAO d = DaoInstance.getInstance().getProgramDAO();
+        ArrayList<Branch> branchs = d.getBranchesNames();
+        return branchs;
+    }
+    
+    
     @RequestMapping(value = "/getCourses", method = RequestMethod.GET, headers = "Accept=application/json")
     public ArrayList<Course> getCourses(@RequestParam("trackId") int platformIntakeId) {
 

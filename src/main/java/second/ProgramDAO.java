@@ -55,9 +55,12 @@ public class ProgramDAO {
 //    System.out.print(d);
 //    return d;
 //    }
-    public ArrayList<Branch> getBranches() {
-
-        return template.execute(new HibernateCallback<ArrayList>() {
+    
+    
+    
+    
+    public  ArrayList<Branch> getBranches (){
+       return template.execute(new HibernateCallback<ArrayList>() {
             @Override
             public ArrayList doInHibernate(Session sn) throws HibernateException, SQLException {
                 Query query = sn.createSQLQuery(
@@ -118,8 +121,34 @@ public class ProgramDAO {
             }
 
         });
-    }
+    }  
+    
+    public  ArrayList<Branch> getBranchesNames (){
+       return template.execute(new HibernateCallback<ArrayList>() {
+            @Override
+            public ArrayList doInHibernate(Session sn) throws HibernateException, SQLException {
+                Query query = sn.createSQLQuery(
+                        " { CALL GetAllBranch }");
+                
+                System.out.println("in getbraches method in programDao");
+                
+                List<Object[]> list = query.list();
+                ArrayList<Branch> branches = new ArrayList<>();
 
+                for (Object[] row : list) {
+                    Branch branch =new Branch();
+                    branch.setBranchId((int) row[0]);
+                    branch.setBranchName((String) row[1]);
+                    branch.setBranchArabicName((String) row[2]);
+                    branches.add(branch);                    
+                }
+                return branches;
+            }
+
+        });
+    }  
+    
+    
     public ArrayList<Course> getCourseByTrackId(final int id) {
         return template.execute(new HibernateCallback<ArrayList>() {
             @Override

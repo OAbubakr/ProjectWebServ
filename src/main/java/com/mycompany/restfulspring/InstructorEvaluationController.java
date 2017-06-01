@@ -6,13 +6,15 @@
 package com.mycompany.restfulspring;
 
 import bean.EventId;
+import bean.InstructorEvaluation;
 import java.util.ArrayList;
-import javax.ws.rs.QueryParam;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import second.DaoInstance;
 import second.EventDAO;
+import second.InstructorEvaluationDAO;
 
 /**
  *
@@ -20,11 +22,11 @@ import second.EventDAO;
  */
 
 @RestController
-public class EventController {
-   
-    @RequestMapping(value= "/getEvents", method = RequestMethod.GET, headers = "Accept=application/json")
-    public ArrayList<EventId> getEvents(){
-        EventDAO dao = DaoInstance.getInstance().getEventDAO();
-        return dao.getEvents();
+public class InstructorEvaluationController {
+    
+    @RequestMapping(value= "/getInstructorEvaluation", method = RequestMethod.GET, headers = "Accept=application/json")
+    public ArrayList<InstructorEvaluation> getEvents(@RequestParam("instId") int instId){
+        InstructorEvaluationDAO dao = DaoInstance.getInstance().getInstructorEvaluationDAO();
+        return dao.getInstEvaluation(instId);
     }
 }

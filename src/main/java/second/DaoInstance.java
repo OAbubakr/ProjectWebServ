@@ -16,20 +16,11 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
  */
 public class DaoInstance {
 
-//    private StudentDAO studentDao;
-//    private ProgramDAO programDAO;
     private static DaoInstance singleInstance;
-//    private StudentScheduleDao studentScheduleDao;
-//    private LoginDAO loginDao;
-    
      ApplicationContext factory = null;
 
     private DaoInstance() {
-        // TODO code application logic here
-
-         factory = new FileSystemXmlApplicationContext("F:\\ITI- MWD - intake 37\\graduation project\\FinalProject\\java 30-5\\ProjectWerServ\\src\\main\\java\\second\\bean.xml");
-
-
+        factory = new FileSystemXmlApplicationContext("D:\\ITI_GRADUATION\\ProjectWerServ\\src\\main\\java\\second\\bean.xml");
     }
 
     
@@ -76,16 +67,16 @@ public class DaoInstance {
     public EventDAO getEventDAO() {
         return factory.getBean("eventDAO",EventDAO.class);
     }
-
-
     
-      public CourseDAO getCourseDao() {
+    public CourseDAO getCourseDao() {
         return factory.getBean("CourseDAO", CourseDAO.class);
     }
-       public EmpHoursDAO getEmpHours() {
+    
+    public EmpHoursDAO getEmpHours() {
         return factory.getBean("EmpHours", EmpHoursDAO.class);
     }
-        public StudentGradeDAO getGrades() {
+        
+    public StudentGradeDAO getGrades() {
         return  factory.getBean("StudentGradeDAO", StudentGradeDAO.class);
     }
 
@@ -105,8 +96,15 @@ public class DaoInstance {
         return  factory.getBean("InstructorScheduleDao",InstructorScheduleDao.class);
     }
     
+    public PermissionDAO getPermissionDAO() {
+        return  factory.getBean("PermissionDAO",PermissionDAO.class);
+    }
     public ProfileDAO getProfileDao(){
         return factory.getBean("ProfileDAO",ProfileDAO.class);
+    }
+    
+    public InstructorEvaluationDAO getInstructorEvaluationDAO(){
+        return factory.getBean("InstructorEvaluationDAO",InstructorEvaluationDAO.class);
     }
 }
 
