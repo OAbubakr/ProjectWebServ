@@ -102,5 +102,9 @@ public class DaoInstance {
     public ProfileDAO getProfileDao(){
         return factory.getBean("ProfileDAO",ProfileDAO.class);
     }
+    
+    public InstructorEvaluationDAO getInstructorEvaluationDAO(){
+        return factory.getBean("InstructorEvaluationDAO",InstructorEvaluationDAO.class);
+    }
 }
 
