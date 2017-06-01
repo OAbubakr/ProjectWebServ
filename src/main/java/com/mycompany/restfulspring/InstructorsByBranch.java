@@ -23,10 +23,11 @@ import second.StudentGradeDAO;
 public class InstructorsByBranch {
  
     @RequestMapping(value = "/getInstructorByBranch",  method = RequestMethod.GET, headers = "Accept=application/json")
-    public List<Instructor> getInstructorByBranch(@RequestParam("id") int branchId){
+    public List<Instructor> getInstructorByBranch(@RequestParam("id") int branchId, 
+            @RequestParam("excludeId") int excludeId){
         
         InstructorsByBranchDAO instructorsByBranchDAO = DaoInstance.getInstance().getInstructorsByBranchDAO();
-        return instructorsByBranchDAO.getInstructorsByBranch(branchId);
+        return instructorsByBranchDAO.getInstructorsByBranch(branchId, excludeId);
         
     }
     

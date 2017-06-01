@@ -21,9 +21,7 @@ import second.EventDAO;
 
 @RestController
 public class EventController {
-    
-  
-    
+   
     @RequestMapping(value= "/getEvents", method = RequestMethod.GET, headers = "Accept=application/json")
     public ArrayList<EventId> getEvents(){
         EventDAO dao = DaoInstance.getInstance().getEventDAO();
