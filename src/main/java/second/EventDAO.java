@@ -44,13 +44,6 @@ public class EventDAO {
         return template.execute(new HibernateCallback<ArrayList>() {
             @Override
             public ArrayList doInHibernate(Session sn) throws HibernateException, SQLException {
-//                List<Object[]> list = template.findByCriteria(DetachedCriteria.forClass(Event.class,"ev")
-//                .setProjection(Projections.projectionList()
-//                .add(Projections.property("ev.id.eventId"))
-//                .add(Projections.property("ev.id.title"))
-//                .add(Projections.property("ev.id.description"))
-//                .add(Projections.property("ev.id.eventStart"))
-//                .add(Projections.property("ev.id.eventEnd"))));
             
                 Query query = sn.createSQLQuery(" { CALL GetEvents() }");
                 List<Object[]> list = query.list();
