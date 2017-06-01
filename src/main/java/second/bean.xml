@@ -37,6 +37,10 @@
         <property name="template" ref="template"/>
     </bean>
     
+    <bean id ="TrackScheduleDao" class="second.TrackScheduleDao">
+        <property name="template" ref="template"/>
+    </bean>
+    
     <bean id ="PostJobDAO" class="second.PostJobDAO">
         <property name="template" ref="template"/>
     </bean>
@@ -46,7 +50,9 @@
     </bean>
 
     
-    
+    <bean id ="CompanyDAO" class="second.CompanyDAO">
+        <property name="template" ref="template"/>
+    </bean>
     <!--    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name = "hibernate.dialect" value="org.hibernate.dialect.SQLServerDialect"/>
         <property name = "hibernate.connection.driver_class" value = "com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
@@ -59,7 +65,7 @@
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
-        <property name="url" value="jdbc:sqlserver://localhost:49293;databaseName=NewData" />
+        <property name="url" value="jdbc:sqlserver://localhost;databaseName=NewData;" />
         <property name="username" value="sa" />
         <property name="password" value="123" />
         <!--<property name="show_sql" value="true"/>-->
@@ -91,9 +97,13 @@
         <property name="template" ref="template"/>
     </bean>
     <!--//-->
-    <!--mahmoud-->
+<!--mahmoud-->
     <bean id ="LoginDAO" class="second.LoginDAO">
         <property name="template" ref="template"/>
     </bean>
-    <!--//-->
+     <bean id ="ProfileDAO" class="second.ProfileDAO">
+        <property name="template" ref="template"/>
+    </bean>
+
+<!--//-->
 </beans>

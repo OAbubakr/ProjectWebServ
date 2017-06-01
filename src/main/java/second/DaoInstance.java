@@ -46,6 +46,11 @@ public class DaoInstance {
     public StudentScheduleDao getStudentScheduleDao() {
         return factory.getBean("StudentScheduleDao", StudentScheduleDao.class);
     }
+    
+    public TrackScheduleDao getTrackScheduleDao() {
+        return factory.getBean("TrackScheduleDao", TrackScheduleDao.class);
+    }
+    
 
     public ProgramDAO getProgramDAO() {
         return factory.getBean("ProgramDAO", ProgramDAO.class);
@@ -82,6 +87,10 @@ public class DaoInstance {
     public InstructorsByBranchDAO getInstructorsByBranchDAO() {
         return  factory.getBean("InstructorsByBranchDAO",InstructorsByBranchDAO.class);
     }
+    public CompanyDAO getCompanyDAO() {
+        return factory.getBean("CompanyDAO",CompanyDAO.class);
+    }
+    
 
     public InstructorScheduleDao getInstructorScheduleDao() {
         return  factory.getBean("InstructorScheduleDao",InstructorScheduleDao.class);
@@ -89,6 +98,9 @@ public class DaoInstance {
     
     public PermissionDAO getPermissionDAO() {
         return  factory.getBean("PermissionDAO",PermissionDAO.class);
+    }
+    public ProfileDAO getProfileDao(){
+        return factory.getBean("ProfileDAO",ProfileDAO.class);
     }
 }
 

@@ -21,6 +21,7 @@ import second.DaoInstance;
 import second.ProgramDAO;
 import second.StudentDAO;
 import second.StudentScheduleDao;
+import second.TrackScheduleDao;
 
 /**
  *
@@ -45,6 +46,16 @@ public class Controller {
     public ArrayList<StudentSession> getStudentSchedule(@RequestParam("studentId") int studentId){
         StudentScheduleDao studentScheduleDao = DaoInstance.getInstance().getStudentScheduleDao();
         return studentScheduleDao.getStudentSchedule(studentId);
+        
+    }
+    
+    
+    @RequestMapping(value= "/getTrackSchedule", method = RequestMethod.GET, headers = "Accept=application/json")
+    public ArrayList<StudentSession> getTrackSchedule(@RequestParam("trackId") int trackId){
+        
+        System.out.println("track schedualeeeeeeee");
+       TrackScheduleDao trackScheduleDao=DaoInstance.getInstance().getTrackScheduleDao();
+       return  trackScheduleDao.getTrackSchedule(trackId);
         
     }
 
