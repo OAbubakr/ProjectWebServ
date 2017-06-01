@@ -41,6 +41,10 @@
         <property name="template" ref="template"/>
     </bean>
     
+    <bean id ="TrackScheduleDao" class="second.TrackScheduleDao">
+        <property name="template" ref="template"/>
+    </bean>
+    
     <bean id ="PostJobDAO" class="second.PostJobDAO">
         <property name="template" ref="template"/>
     </bean>
