@@ -36,7 +36,7 @@ public class InstructorsByBranchDAO {
         this.template = template;
     }
 
-    public List<Instructor> getInstructorsByBranch(final int branchIdArg) {
+    public List<Instructor> getInstructorsByBranch(final int branchIdArg, final int excludeId) {
 
         return template.execute(new HibernateCallback<ArrayList<Instructor>>() {
             @Override
@@ -46,16 +46,14 @@ public class InstructorsByBranchDAO {
                 ArrayList<Instructor> instructors = new ArrayList<>();
 
                 int id;
+                int instructorId;
                 for (Object[] row : data) {
                     //get all instructors
-                    if (branchIdArg == -1) {
+                    instructorId = (int)row[0];
+                    if(excludeId != instructorId){                        
                         instructors.add(fillInstructor(row));
-                    } else {
-                        id = (int) row[2];
-                        if (id == branchIdArg) {
-                            instructors.add(fillInstructor(row));
-                        }
                     }
+                    
 
                 }
 
@@ -72,6 +70,9 @@ public class InstructorsByBranchDAO {
         instructor.setInstructorName((String) row[1]);
         instructor.setBranchId((int) row[2]);
         instructor.setImagePath((String) row[13]);
+//        instructor.setBranchName((String) row[56]);
+//        instructor.setArabicBranchName((String) row[57]);
+        
         return instructor;
     }
 
