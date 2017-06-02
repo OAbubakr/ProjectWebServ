@@ -160,8 +160,8 @@ public class ProfileDAO {
         userData.setName((String) userDataValue.get(0)[6]);
         userData.setImagePath((String) userDataValue.get(0)[21]);
         userData.setTrackName((String) userDataValue.get(0)[4]);
-        userData.setStudentEmail((String) userDataValue.get(0)[4]);
-        userData.setStudentMobile((String) userDataValue.get(0)[4]);
+        userData.setStudentEmail((String) userDataValue.get(0)[15]);
+        userData.setStudentMobile((String) userDataValue.get(0)[14]);
         Query queryBranch = sn.createSQLQuery("{CALL GetBranchByID (:BranchID)}")
                 .setParameter("BranchID", userDataValue.get(0)[3]);
         List<Object[]> branchData = queryBranch.list();
