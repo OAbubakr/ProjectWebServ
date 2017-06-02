@@ -20,7 +20,8 @@ public class DaoInstance {
      ApplicationContext factory = null;
 
     private DaoInstance() {
-        factory = new FileSystemXmlApplicationContext("F:\\ITI- MWD - intake 37\\graduation project\\FinalProject\\java 30-5\\ProjectWerServ\\src\\main\\java\\second\\bean.xml");
+//        factory = new FileSystemXmlApplicationContext("F:\\ITI- MWD - intake 37\\graduation project\\FinalProject\\java 30-5\\ProjectWerServ\\src\\main\\java\\second\\bean.xml");
+        factory = new FileSystemXmlApplicationContext("C:\\Users\\engra\\OneDrive\\Documents\\NetBeansProjects\\ProjectWerServ\\src\\main\\java\\second\\bean.xml");
     }
 
     
@@ -106,5 +107,10 @@ public class DaoInstance {
     public InstructorEvaluationDAO getInstructorEvaluationDAO(){
         return factory.getBean("InstructorEvaluationDAO",InstructorEvaluationDAO.class);
     }
+    public SaveImageDao getSaveImageDao(){
+        return factory.getBean("SaveImageDao",SaveImageDao.class);
+    }
+    
+    
 }
 

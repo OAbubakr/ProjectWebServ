@@ -12,6 +12,9 @@
     <bean id ="InstructorScheduleDao" class="second.InstructorScheduleDao">
         <property name="template" ref="template"/>
     </bean>
+    <bean id ="SaveImageDao" class="second.SaveImageDao">
+        <property name="template" ref="template"/>
+    </bean>
     
     <bean id ="ProgramDAO" class="second.ProgramDAO">
         <property name="template" ref="template"/>
