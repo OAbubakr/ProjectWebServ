@@ -12,6 +12,9 @@
     <bean id ="InstructorScheduleDao" class="second.InstructorScheduleDao">
         <property name="template" ref="template"/>
     </bean>
+    <bean id ="SaveImageDao" class="second.SaveImageDao">
+        <property name="template" ref="template"/>
+    </bean>
     
     <bean id ="ProgramDAO" class="second.ProgramDAO">
         <property name="template" ref="template"/>
@@ -65,7 +68,7 @@
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
-        <property name="url" value="jdbc:sqlserver://localhost:1433;databaseName=NewData;" />
+        <property name="url" value="jdbc:sqlserver://localhost:59433;databaseName=NewData;" />
         <property name="username" value="sa" />
         <property name="password" value="123" />
         <!--<property name="show_sql" value="true"/>-->
