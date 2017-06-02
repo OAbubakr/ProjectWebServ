@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-
        xsi:schemaLocation="http://www.springframework.org/schema/beans 
-http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
-">
+       http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
     
     
     <bean id ="StudentDAO" class="second.StudentDAO">
@@ -14,7 +12,9 @@ http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
     <bean id ="InstructorScheduleDao" class="second.InstructorScheduleDao">
         <property name="template" ref="template"/>
     </bean>
-    
+    <bean id ="SaveImageDao" class="second.SaveImageDao">
+        <property name="template" ref="template"/>
+    </bean>
     
     <bean id ="ProgramDAO" class="second.ProgramDAO">
         <property name="template" ref="template"/>
@@ -23,12 +23,15 @@ http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
     <bean id ="CourseDAO" class="second.CourseDAO">
         <property name="template" ref="template"/>
     </bean>
+    
     <bean id ="EmpHours" class="second.EmpHoursDAO">
         <property name="template" ref="template"/>
     </bean>
+    
     <bean id ="StudentGradeDAO" class="second.StudentGradeDAO">
         <property name="template" ref="template"/>
     </bean>
+    
     <bean id ="template" class="org.springframework.orm.hibernate3.HibernateTemplate">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
@@ -84,9 +87,14 @@ http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
             </props>
         </property>
     </bean>
-    <bean   id="eventDAO" class="second.EventDAO">
-           <property name="template" ref="template"/>  
+    <bean id="eventDAO" class="second.EventDAO">
+        <property name="template" ref="template"/>  
     </bean>
+    
+    <bean id ="PermissionDAO" class="second.PermissionDAO">
+        <property name="template" ref="template"/>
+    </bean>
+    
     <!-- mohamedAli-->
     <bean id="allStudentByTrackDao" class="second.AllStudentByTrackDao">
         <property name="template" ref="template"/>
@@ -101,4 +109,7 @@ http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
     </bean>
 
 <!--//-->
+    <bean id ="InstructorEvaluationDAO" class="second.InstructorEvaluationDAO">
+        <property name="template" ref="template"/>
+    </bean>
 </beans>
