@@ -33,7 +33,7 @@ public class SaveImageController {
      */
     @RequestMapping(value = "{id}/fileupload", headers = ("content-type=multipart/*"), method = RequestMethod.POST)
     public String upload(@RequestParam("file") MultipartFile inputFile, @PathVariable int id) { //,@RequestParam("id") int id
-//        System.out.println("id is "+ id);
+        System.out.println("id is "+ id);
         Gson gson = new Gson();
         ReturnMessage returnMessage = new ReturnMessage();
         FileInfo fileInfo = new FileInfo();
