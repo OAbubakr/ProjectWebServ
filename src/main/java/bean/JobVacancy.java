@@ -25,6 +25,7 @@ public class JobVacancy {
     int jobNoNeed;
     int subTrackID;
     long jobDate;
+    String companyLogoPath;
 
     public int getJobID() {
         return jobID;
@@ -124,6 +125,14 @@ public class JobVacancy {
 
     public void setJobDate(long jobDate) {
         this.jobDate = jobDate;
+    }
+
+    public String getCompanyLogoPath() {
+        return companyLogoPath;
+    }
+
+    public void setCompanyLogoPath(String companyLogoPath) {
+        this.companyLogoPath = companyLogoPath;
     }
 
     
