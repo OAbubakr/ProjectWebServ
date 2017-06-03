@@ -22,7 +22,7 @@ public class DaoInstance {
     private DaoInstance() {
         // TODO code application logic here
 
-        factory = new FileSystemXmlApplicationContext("D:\\ITI\\Projects\\Graduation Project\\ProjectWerServ\\src\\main\\java\\second\\bean.xml");
+         factory = new FileSystemXmlApplicationContext("C:\\Users\\omari\\Desktop\\project\\ProjectWerServ\\src\\main\\java\\second\\bean.xml");
 
 
     }
