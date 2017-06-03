@@ -14,6 +14,15 @@ import java.util.List;
  */
 public class UserData implements Serializable {
 //
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
     //student
     private int intakeId;
     private String branchName;
