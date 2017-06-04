@@ -43,7 +43,7 @@ public class AllStudentByTrackDao {
             public ArrayList doInHibernate(Session sn) throws HibernateException, SQLException {
                 String idString = String.valueOf(id);
                Query query =sn.createSQLQuery("{ CALL GetStudentByTrackID(:PlatformIntakeID) }")
-                       .setParameter("PlatformIntakeID","240");
+                       .setParameter("PlatformIntakeID",idString);
                
            
                

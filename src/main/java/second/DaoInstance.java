@@ -94,6 +94,9 @@ public class DaoInstance {
     public InstructorsByBranchDAO getInstructorsByBranchDAO() {
         return  factory.getBean("InstructorsByBranchDAO",InstructorsByBranchDAO.class);
     }
+    public SupervisorDao getSupervisorDao(){
+        return factory.getBean("supervisorDao",SupervisorDao.class);
+    }
     
 }
 

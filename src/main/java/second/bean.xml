@@ -79,6 +79,10 @@ http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
     <bean id="allStudentByTrackDao" class="second.AllStudentByTrackDao">
         <property name="template" ref="template"/>
     </bean>
+    <bean id ="supervisorDao" class="second.SupervisorDao">
+        <property name="template" ref="template"/>
+    </bean>
+    
     <!--//-->
 <!--mahmoud-->
 <bean id ="LoginDAO" class="second.LoginDAO">
