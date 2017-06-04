@@ -36,31 +36,44 @@ public class InstructorsByBranchDAO {
         this.template = template;
     }
 
-    public List<Instructor> getInstructorsByBranch(final int branchIdArg) {
+    public List<Instructor> getInstructorsByBranch(final int branchIdArg, final int excludeId) {
 
         return template.execute(new HibernateCallback<ArrayList<Instructor>>() {
             @Override
             public ArrayList<Instructor> doInHibernate(Session sn) throws HibernateException, SQLException {
-                Query query = sn.createSQLQuery(" { CALL GetAllInstructor() }");
+                Query query = sn.createSQLQuery(" { CALL GetAllInstructorsWithBranchName() }");
                 List<Object[]> data = query.list();
                 ArrayList<Instructor> instructors = new ArrayList<>();
 
                 int id;
+                int instructorId;
                 for (Object[] row : data) {
-                    id = (int) row[2];
-                    if (id == branchIdArg) {
-                        Instructor instructor = new Instructor();
-                        instructor.setInstuctorId((int) row[0]);
-                        instructor.setInstructorName((String) row[1]);
-                        instructor.setBranchId(id);
-                        instructors.add(instructor);
+                    //get all instructors
+                    instructorId = (int)row[0];
+                    if(excludeId != instructorId){                        
+                        instructors.add(fillInstructor(row));
                     }
+                    
+
                 }
 
                 return instructors;
             }
 
         });
+    }
+
+    private Instructor fillInstructor(Object[] row) {
+
+        Instructor instructor = new Instructor();
+        instructor.setInstuctorId((int) row[0]);
+        instructor.setInstructorName((String) row[1]);
+        instructor.setBranchId((int) row[2]);
+        instructor.setImagePath((String) row[13]);
+        instructor.setBranchName((String) row[56]);
+        instructor.setArabicBranchName((String) row[57]);
+        
+        return instructor;
     }
 
 }

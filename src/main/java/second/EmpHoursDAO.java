@@ -46,32 +46,18 @@ public class EmpHoursDAO {
                         .setParameter("EndDate", end);
                 System.out.println(query.list().toString());
                 List<Object[]> list = query.list();
-                ArrayList<EmployeeHours> employeeHourses = new ArrayList<>();
-                EmployeeHours emp = new EmployeeHours();
-                emp.setWorkingDays((int) list.get(0)[0]);
-                emp.setAbsenceDays((int) list.get(0)[1]);
-                emp.setLateDays((int) list.get(0)[2]);
-                emp.setAttendDays((int) list.get(0)[3]);
-                emp.setAttendHours((int) list.get(0)[4]);
-                emp.setMissionHours((int) list.get(0)[5]);
-                emp.setVacationHours((int) list.get(0)[6]);
-                emp.setPermissionHours((int) list.get(0)[7]);
-
-//                for(Object[] row:list){
-//                    EmployeeHours empl_hours = new EmployeeHours();
-//                    empl_hours.setWorkingDays((int) row[0]);
-//                    empl_hours.setAbsenceDays((int) row[1]);
-//                    empl_hours.setLateDays((int) row[2]);
-//                    empl_hours.setAttendDays((int) row[3]);
-//                    empl_hours.setAttendHours((int) row[4]);
-//                    empl_hours.setMissionHours((int) row[5]);
-//                    empl_hours.setVacationHours((int) row[6]);
-//                    empl_hours.setPermissionHours((int) row[7]);
-//                    
-//                    employeeHourses.add(empl_hours);
-//                }
-//                
-                return emp;
+                EmployeeHours employeeHours = new EmployeeHours();
+                System.out.println("size is "+ list.size());
+                employeeHours.setWorkingDays((int)list.get(0)[0]);
+                employeeHours.setAbsenceDays((int)list.get(0)[1]);
+                employeeHours.setLateDays((int)list.get(0)[2]);
+                employeeHours.setAttendDays((int)list.get(0)[3]);
+                employeeHours.setAttendHours((int)list.get(0)[4]);
+                employeeHours.setMissionHours((int)list.get(0)[5]);
+                employeeHours.setVacationHours((int)list.get(0)[6]);
+                employeeHours.setPermissionHours((int)list.get(0)[7]);
+                
+                return employeeHours;
             }
         });
     }

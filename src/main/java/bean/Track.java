@@ -18,7 +18,7 @@ public class Track {
     String trackName;
     String platformName;
     ArrayList<Course> courses = new ArrayList<>();
-
+    
     public int getTrackId() {
         return trackId;
     }
@@ -58,5 +58,5 @@ public class Track {
     public void setCourses(ArrayList<Course> courses) {
         this.courses = courses;
     }
-    
+
 }

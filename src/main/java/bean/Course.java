@@ -5,6 +5,8 @@
  */
 package bean;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author salma
@@ -13,6 +15,7 @@ public class Course {
     
     private int courseId;
     private String courseName;
+    ArrayList<TrackInstructor> trackInstructors = new ArrayList<>();
 
     public int getCourseId() {
         return courseId;
@@ -28,6 +31,14 @@ public class Course {
 
     public void setCourseName(String courseName) {
         this.courseName = courseName;
+    }
+
+    public ArrayList<TrackInstructor> getTrackInstructors() {
+        return trackInstructors;
+    }
+
+    public void setTrackInstructors(ArrayList<TrackInstructor> trackInstructors) {
+        this.trackInstructors = trackInstructors;
     }
     
 }

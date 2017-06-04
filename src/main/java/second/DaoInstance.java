@@ -6,6 +6,7 @@
 package second;
 
 //import beans.Users;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
@@ -15,23 +16,14 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
  */
 public class DaoInstance {
 
-//    private StudentDAO studentDao;
-//    private ProgramDAO programDAO;
     private static DaoInstance singleInstance;
-//    private StudentScheduleDao studentScheduleDao;
-//    private LoginDAO loginDao;
-    
      ApplicationContext factory = null;
 
     private DaoInstance() {
         // TODO code application logic here
 
-         factory = new FileSystemXmlApplicationContext("E:\\GraduationProject\\ProjectWerServ\\src\\main\\java\\second\\bean.xml");
+         factory = new FileSystemXmlApplicationContext("C:\\Users\\omari\\Desktop\\project\\ProjectWerServ\\src\\main\\java\\second\\bean.xml");
 
-//        studentDao = factory.getBean("StudentDAO", StudentDAO.class);
-//        programDAO = factory.getBean("ProgramDAO", ProgramDAO.class);
-//        studentScheduleDao = factory.getBean("StudentScheduleDao", StudentScheduleDao.class);
-//        loginDao = factory.getBean("LoginDAO", LoginDAO.class);
 
     }
 
@@ -58,6 +50,11 @@ public class DaoInstance {
     public StudentScheduleDao getStudentScheduleDao() {
         return factory.getBean("StudentScheduleDao", StudentScheduleDao.class);
     }
+    
+    public TrackScheduleDao getTrackScheduleDao() {
+        return factory.getBean("TrackScheduleDao", TrackScheduleDao.class);
+    }
+    
 
     public ProgramDAO getProgramDAO() {
         return factory.getBean("ProgramDAO", ProgramDAO.class);
@@ -74,16 +71,16 @@ public class DaoInstance {
     public EventDAO getEventDAO() {
         return factory.getBean("eventDAO",EventDAO.class);
     }
-
-
     
-      public CourseDAO getCourseDao() {
+    public CourseDAO getCourseDao() {
         return factory.getBean("CourseDAO", CourseDAO.class);
     }
-       public EmpHoursDAO getEmpHours() {
+    
+    public EmpHoursDAO getEmpHours() {
         return factory.getBean("EmpHours", EmpHoursDAO.class);
     }
-        public StudentGradeDAO getGrades() {
+        
+    public StudentGradeDAO getGrades() {
         return  factory.getBean("StudentGradeDAO", StudentGradeDAO.class);
     }
 
@@ -94,10 +91,32 @@ public class DaoInstance {
     public InstructorsByBranchDAO getInstructorsByBranchDAO() {
         return  factory.getBean("InstructorsByBranchDAO",InstructorsByBranchDAO.class);
     }
+    public CompanyDAO getCompanyDAO() {
+        return factory.getBean("CompanyDAO",CompanyDAO.class);
+    }
+    
+
+    public InstructorScheduleDao getInstructorScheduleDao() {
+        return  factory.getBean("InstructorScheduleDao",InstructorScheduleDao.class);
+    }
+    
+    public PermissionDAO getPermissionDAO() {
+        return  factory.getBean("PermissionDAO",PermissionDAO.class);
+    }
+    public ProfileDAO getProfileDao(){
+        return factory.getBean("ProfileDAO",ProfileDAO.class);
+    }
+    
+    public InstructorEvaluationDAO getInstructorEvaluationDAO(){
+        return factory.getBean("InstructorEvaluationDAO",InstructorEvaluationDAO.class);
+    }
+    public SaveImageDao getSaveImageDao(){
+        return factory.getBean("SaveImageDao",SaveImageDao.class);
+    }
+    
     public SupervisorDao getSupervisorDao(){
         return factory.getBean("supervisorDao",SupervisorDao.class);
     }
     
 }
-
 

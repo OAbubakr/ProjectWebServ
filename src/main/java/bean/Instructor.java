@@ -16,7 +16,34 @@ public class Instructor {
     private int instuctorId;
     private String instructorName;
     private int branchId;
+    private String imagePath;
+    private String branchName;
+    private String arabicBranchName;
 
+    public String getArabicBranchName() {
+        return arabicBranchName;
+    }
+
+    public void setArabicBranchName(String arabicBranchName) {
+        this.arabicBranchName = arabicBranchName;
+    }
+
+    public String getBranchName() {
+        return branchName;
+    }
+
+    public void setBranchName(String branchName) {
+        this.branchName = branchName;
+    }
+    
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+    
     public int getInstuctorId() {
         return instuctorId;
     }
