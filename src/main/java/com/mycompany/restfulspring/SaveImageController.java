@@ -1,20 +1,22 @@
 package com.mycompany.restfulspring;
 
 import bean.FileInfo;
-import java.io.BufferedOutputStream;
+import bean.ReturnMessage;
+import com.google.gson.Gson;
 import java.io.File;
-import java.io.FileOutputStream;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import second.DaoInstance;
+import second.SaveImageDao;
 
 @RestController
 public class SaveImageController {
@@ -22,49 +24,40 @@ public class SaveImageController {
     @Autowired
     ServletContext context;
 
-    @RequestMapping(value = "/fileupload", headers = ("content-type=multipart/*"), method = RequestMethod.POST)
-    public String upload(@RequestParam("file") MultipartFile inputFile) {
+    /**
+     *
+     * @param inputFile
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "{id}/fileupload", headers = ("content-type=multipart/*"), method = RequestMethod.POST)
+    public String upload(HttpServletRequest request,
+            HttpServletResponse response,@RequestParam("file") MultipartFile inputFile, @PathVariable int id) { //,@RequestParam("id") int id
+        System.out.println("id is "+ id);
+        Gson gson = new Gson();
+        ReturnMessage returnMessage = new ReturnMessage();
         FileInfo fileInfo = new FileInfo();
         HttpHeaders headers = new HttpHeaders();
         if (!inputFile.isEmpty()) {
             try {
                 String originalFilename = inputFile.getOriginalFilename();
-                File destinationFile = new File("D:"
+                File destinationFile = new File(request.getServletContext().getRealPath("/WEB-INF/uploaded")
                         + File.separator + originalFilename);
                 inputFile.transferTo(destinationFile);
                 fileInfo.setFileName(destinationFile.getPath());
+                System.out.println(destinationFile.getPath());
+
                 fileInfo.setFileSize(inputFile.getSize());
                 headers.add("File Uploaded Successfully - ", originalFilename);
-                return "ok";
+                SaveImageDao saveImageDao = DaoInstance.getInstance().getSaveImageDao();
+                String s = saveImageDao.insertImage(5700, destinationFile.getPath());
+
+                returnMessage.setMessage(s);
+                return gson.toJson(returnMessage);
             } catch (Exception e) {
                 return "" + e.getMessage();
             }
-        } else {
-//            return new ResponseEntity<FileInfo>(HttpStatus.BAD_REQUEST);
         }
-        
-        return "fff";
+        return gson.toJson(returnMessage);
     }
-
-    @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public @ResponseBody
-    String handleFileUpload(
-            @RequestParam("file") MultipartFile file) {
-        String name = "test11";
-        if (!file.isEmpty()) {
-            try {
-                byte[] bytes = file.getBytes();
-                BufferedOutputStream stream
-                        = new BufferedOutputStream(new FileOutputStream(new File(name + "-uploaded")));
-                stream.write(bytes);
-                stream.close();
-                return "You successfully uploaded " + name + " into " + name + "-uploaded !";
-            } catch (Exception e) {
-                return "You failed to upload " + name + " => " + e.getMessage();
-            }
-        } else {
-            return "You failed to upload " + name + " because the file was empty.";
-        }
-    }
-
 }

@@ -140,7 +140,13 @@ public class ProfileDAO {
                         .setParameter("gitUrl", userDataInfo.getGitUrl())
                         .setParameter("behanceUrl", userDataInfo.getBehanceUrl())
                         .setParameter("linkedInUrl", userDataInfo.getLinkedInUrl());
-                query.list();
+                query.executeUpdate();
+                
+                query = sn.createSQLQuery("{CALL EditStudentData(:StudentID,:Mobile,:Email)}")
+                        .setParameter("StudentID", userIdValue)
+                        .setParameter("Mobile", userDataInfo.getStudentMobile())
+                        .setParameter("Email", userDataInfo.getStudentEmail());
+                query.executeUpdate();
                 return null;
             }
 
@@ -151,9 +157,12 @@ public class ProfileDAO {
         UserData userData = new UserData();
 
         userData.setIntakeId((int) userDataValue.get(0)[1]);
+        userData.setId((int)userDataValue.get(0)[5]);
         userData.setName((String) userDataValue.get(0)[6]);
         userData.setImagePath((String) userDataValue.get(0)[21]);
         userData.setTrackName((String) userDataValue.get(0)[4]);
+        userData.setStudentEmail((String) userDataValue.get(0)[15]);
+        userData.setStudentMobile((String) userDataValue.get(0)[14]);
         Query queryBranch = sn.createSQLQuery("{CALL GetBranchByID (:BranchID)}")
                 .setParameter("BranchID", userDataValue.get(0)[3]);
         List<Object[]> branchData = queryBranch.list();
@@ -178,19 +187,19 @@ public class ProfileDAO {
 
         for (Object[] cObject : companyList) {
 
-            companyProfile.setCompanyID((int) cObject[0]);
-            companyProfile.setCompanyName((String) cObject[1]);
-            companyProfile.setCompanyNoOfEmp(Integer.parseInt((String) cObject[2]));
-            companyProfile.setCompanyAreaKnowledge((String) cObject[3]);
-            companyProfile.setCompanyWebSite((String) cObject[4]);
-            companyProfile.setCompanyAddress((String) cObject[5]);
-            companyProfile.setCompanyPhone((String) cObject[6]);
-            companyProfile.setCompanyMobile((String) cObject[7]);
-            companyProfile.setCompanyEmail((String) cObject[8]);
-            companyProfile.setCompanyLogoPath((String) cObject[9]);
-            companyProfile.setCompanyProfilePath((String) cObject[10]);
-            companyProfile.setCompanyUserName((String) cObject[13]);
-            companyProfile.setCompanyPassWord((String) cObject[14]);
+            if(cObject[0]!=null)  companyProfile.setCompanyID((int) cObject[0]);
+            if(cObject[1]!=null)  companyProfile.setCompanyName((String) cObject[1]);
+            if(cObject[2]!=null)   companyProfile.setCompanyNoOfEmp(Integer.parseInt((String) cObject[2]));
+            if(cObject[3]!=null)  companyProfile.setCompanyAreaKnowledge((String) cObject[3]);
+            if(cObject[4]!=null)  companyProfile.setCompanyWebSite((String) cObject[4]);
+            if(cObject[5]!=null)  companyProfile.setCompanyAddress((String) cObject[5]);
+            if(cObject[6]!=null)  companyProfile.setCompanyPhone((String) cObject[6]);
+            if(cObject[7]!=null)  companyProfile.setCompanyMobile((String) cObject[7]);
+            if(cObject[8]!=null)  companyProfile.setCompanyEmail((String) cObject[8]);
+            if(cObject[9]!=null)   companyProfile.setCompanyLogoPath((String) cObject[9]);
+            if(cObject[10]!=null)   companyProfile.setCompanyProfilePath((String) cObject[10]);
+            if(cObject[13]!=null)   companyProfile.setCompanyUserName((String) cObject[13]);
+            if(cObject[14]!=null)  companyProfile.setCompanyPassWord((String) cObject[14]);
         }
 
         return companyProfile;
@@ -198,7 +207,7 @@ public class ProfileDAO {
 
     private UserData prepareStaffData(Session sn, List<Object[]> userDataValue) {
         UserData userData = new UserData();
-        
+        userData.setId((int) userDataValue.get(0)[0]);
         userData.setEmployeeName((String) userDataValue.get(0)[1]);
         userData.setEmployeePosition((String) userDataValue.get(0)[41]);
         userData.setEmployeeBranchId((int) userDataValue.get(0)[2]);

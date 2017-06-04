@@ -106,5 +106,13 @@ public class DaoInstance {
     public InstructorEvaluationDAO getInstructorEvaluationDAO(){
         return factory.getBean("InstructorEvaluationDAO",InstructorEvaluationDAO.class);
     }
+    public SaveImageDao getSaveImageDao(){
+        return factory.getBean("SaveImageDao",SaveImageDao.class);
+    }
+    
+    public SupervisorDao getSupervisorDao(){
+        return factory.getBean("supervisorDao",SupervisorDao.class);
+    }
+    
 }
 
