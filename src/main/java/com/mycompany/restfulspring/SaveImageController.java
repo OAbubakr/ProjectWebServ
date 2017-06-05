@@ -3,17 +3,16 @@ package com.mycompany.restfulspring;
 import bean.FileInfo;
 import bean.ReturnMessage;
 import com.google.gson.Gson;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import second.DaoInstance;
@@ -32,8 +31,9 @@ public class SaveImageController {
      * @return
      */
     @RequestMapping(value = "{id}/fileupload", headers = ("content-type=multipart/*"), method = RequestMethod.POST)
-    public String upload(@RequestParam("file") MultipartFile inputFile, @PathVariable int id) { //,@RequestParam("id") int id
-//        System.out.println("id is "+ id);
+    public String upload(HttpServletRequest request,
+            HttpServletResponse response,@RequestParam("file") MultipartFile inputFile, @PathVariable int id) { //,@RequestParam("id") int id
+        System.out.println("id is "+ id);
         Gson gson = new Gson();
         ReturnMessage returnMessage = new ReturnMessage();
         FileInfo fileInfo = new FileInfo();
@@ -41,7 +41,7 @@ public class SaveImageController {
         if (!inputFile.isEmpty()) {
             try {
                 String originalFilename = inputFile.getOriginalFilename();
-                File destinationFile = new File("D:"
+                File destinationFile = new File(request.getServletContext().getRealPath("/WEB-INF/uploaded")
                         + File.separator + originalFilename);
                 inputFile.transferTo(destinationFile);
                 fileInfo.setFileName(destinationFile.getPath());
