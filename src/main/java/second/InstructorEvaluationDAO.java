@@ -8,6 +8,8 @@ package second;
 import bean.InstructorEvaluation;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -20,11 +22,12 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
  * @author Rana Gamal
  */
 public class InstructorEvaluationDAO {
+
     private HibernateTemplate template;
 
     public InstructorEvaluationDAO() {
     }
-    
+
     public HibernateTemplate getTemplate() {
         return template;
     }
@@ -32,37 +35,79 @@ public class InstructorEvaluationDAO {
     public void setTemplate(HibernateTemplate template) {
         this.template = template;
     }
-    
-    public ArrayList<InstructorEvaluation> getInstEvaluation(final int instId) {
+
+    public ArrayList<InstructorEvaluation> getInstructorEvaluation(final int instId) {
         return template.execute(new HibernateCallback<ArrayList>() {
             @Override
             public ArrayList doInHibernate(Session sn) throws HibernateException, SQLException {
-            
+
                 Query query = sn.createSQLQuery(" { CALL getInstEval(:instId) }")
                         .setParameter("instId", String.valueOf(instId));
-                
+
                 List<Object[]> list = query.list();
                 ArrayList<InstructorEvaluation> instructorEvaluation = new ArrayList<>();
 
                 for (Object[] row : list) {
-                    
                     InstructorEvaluation iv = new InstructorEvaluation();
-                    
-                    iv.setGeneralEvaluation((String) row[0]);
                     iv.setEval((String) row[2]);
-                    iv.setInstId((int) row[3]);
                     iv.setCourseId((int) row[4]);
-                    iv.setStudentId((int) row[6]);
-                    iv.setTypeId((int) row[7]);
-                    iv.setGroupId((int) row[8]);
-                    iv.setComment((String) row[9]);
-                    
                     instructorEvaluation.add(iv);
                 }
-                return instructorEvaluation;
+                //---------------------------------------------------------------------
+                InstructorEvaluation tempObject = new InstructorEvaluation();
+                tempObject.setCourseId(-1);
+
+                ArrayList<ArrayList<InstructorEvaluation>> all = new ArrayList<>();
+                ArrayList<InstructorEvaluation> part;
+                ArrayList<InstructorEvaluation> temp;
+
+                while (instructorEvaluation.size() > 0) {
+                    temp = new ArrayList();
+                    part = new ArrayList<>();
+                    int tempId = instructorEvaluation.get(0).getCourseId();
+
+                    for (int i = 0; i < instructorEvaluation.size(); i++) {
+                        if (instructorEvaluation.get(i).getCourseId() == tempId) {
+                            part.add(instructorEvaluation.get(i));
+                            instructorEvaluation.set(i, tempObject);
+                        }
+                    }
+                    all.add(part);
+                    for (int i = 0; i < instructorEvaluation.size(); i++) {
+                        if (instructorEvaluation.get(i).getCourseId() != -1) {
+                            temp.add(instructorEvaluation.get(i));
+                        }
+                    }
+                    instructorEvaluation = temp;
+                }
+
+                for (int j = 0; j < all.size(); j++) {
+                    for (int k = 0; k < all.get(j).size(); k++) {
+                        System.out.println(all.get(j).get(k).getCourseId());
+                    }
+                    System.out.println("------------------------------------------------------------------");
+                }
+                //----------------------------------------------------------------
+                
+                ArrayList<InstructorEvaluation> averageEval = new ArrayList<>();
+                for(int j=0; j< all.size(); j++){
+                    
+                    int avgEval = 0;
+                    int courseId = all.get(j).get(0).getCourseId();
+                    int size = all.get(j).size();
+                    
+                    for (int k=0; k< all.get(j).size(); k++){
+                        avgEval = avgEval + Integer.valueOf(all.get(j).get(k).getEval());
+                    }
+                    InstructorEvaluation obj = new InstructorEvaluation();
+                    obj.setCourseId(courseId);
+                    obj.setEval(String.valueOf(avgEval/size));
+                    averageEval.add(obj);
+                }
+
+                return averageEval;
             }
         });
-    }  
-    
-    
+    }
+
 }

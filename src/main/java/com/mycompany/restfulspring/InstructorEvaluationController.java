@@ -25,8 +25,8 @@ import second.InstructorEvaluationDAO;
 public class InstructorEvaluationController {
     
     @RequestMapping(value= "/getInstructorEvaluation", method = RequestMethod.GET, headers = "Accept=application/json")
-    public ArrayList<InstructorEvaluation> getEvents(@RequestParam("instId") int instId){
+    public ArrayList<InstructorEvaluation> getInstructorEvaluation(@RequestParam("instId") int instId){
         InstructorEvaluationDAO dao = DaoInstance.getInstance().getInstructorEvaluationDAO();
-        return dao.getInstEvaluation(instId);
+        return dao.getInstructorEvaluation(instId);
     }
 }
