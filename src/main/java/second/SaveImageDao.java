@@ -19,10 +19,10 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
  *
  * @author engra
  */
-public class SaveImage {
+public class SaveImageDao {
     private HibernateTemplate template;
 
-    public SaveImage() {
+    public SaveImageDao() {
     }
 
     public HibernateTemplate getTemplate() {
@@ -33,8 +33,17 @@ public class SaveImage {
         this.template = template;
     }
     
-    
-//    public String getCourseByTrackId(final int id) {
-//        
-//    }
+    public String insertImage(final int id , final String imagePath){
+        return (String) template.execute(new HibernateCallback<String>() {
+            @Override
+            public String doInHibernate(Session sn) throws HibernateException, SQLException {
+                Query query = sn.createSQLQuery(
+                        " { CALL setStudentImage(:studentId,:imagepath) }")
+                        .setParameter("studentId", id)
+                        .setParameter("imagepath", imagePath);
+                 query.executeUpdate();
+                return "Done";
+            }
+        });
+    }
 }

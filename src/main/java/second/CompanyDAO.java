@@ -113,6 +113,7 @@ public class CompanyDAO {
                     List<Object[]> companyList = query2.list();
                 for (Object[] cObject : companyList) {
                     job.setCompanyName((String) cObject[1]);
+                    job.setCompanyLogoPath((String)cObject[9]);
                 }
                
                     jobs.add(job);

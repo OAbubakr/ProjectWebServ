@@ -41,7 +41,7 @@ public class InstructorsByBranchDAO {
         return template.execute(new HibernateCallback<ArrayList<Instructor>>() {
             @Override
             public ArrayList<Instructor> doInHibernate(Session sn) throws HibernateException, SQLException {
-                Query query = sn.createSQLQuery(" { CALL GetAllInstructor() }");
+                Query query = sn.createSQLQuery(" { CALL GetAllInstructorsWithBranchName() }");
                 List<Object[]> data = query.list();
                 ArrayList<Instructor> instructors = new ArrayList<>();
 
@@ -70,8 +70,8 @@ public class InstructorsByBranchDAO {
         instructor.setInstructorName((String) row[1]);
         instructor.setBranchId((int) row[2]);
         instructor.setImagePath((String) row[13]);
-//        instructor.setBranchName((String) row[56]);
-//        instructor.setArabicBranchName((String) row[57]);
+        instructor.setBranchName((String) row[56]);
+        instructor.setArabicBranchName((String) row[57]);
         
         return instructor;
     }

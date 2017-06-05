@@ -7,6 +7,7 @@ package com.mycompany.restfulspring;
 
 import dto.Response;
 import dto.UserData;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,9 +29,9 @@ public class ProfileController {
         return profileDao.getData(userType,userId);
     }
 
-    @RequestMapping(value = "/onSetUserData", method = RequestMethod.GET, headers = "Accept=application/json")
-    public Response setUserData(@RequestParam("userType") int userType,@RequestParam("userId") int userId, @RequestParam("userData") UserData userData) {
+    @RequestMapping(value = "/onSetUserData", method = RequestMethod.POST, headers = "Accept=application/json")
+    public void setUserData(@RequestParam("userType") int userType,@RequestParam("userId") int userId, @RequestBody UserData userData) {
         ProfileDAO profileDao = DaoInstance.getInstance().getProfileDao();
-        return profileDao.setData(userType,userId, userData);
+        profileDao.setData(userType,userId, userData);
     }
 }
