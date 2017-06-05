@@ -11,10 +11,11 @@ import java.io.Serializable;
  *
  * @author Mahmoud
  */
-public class Response implements Serializable {
+public class Response  {
 
-    public static final String sucess = "success";
-    public static final String failure = "failure";
+    public static final String sucess = "SUCCESS";
+    public static final String failure = "FAILURE";
+//    @Serializable
     private Object reponseData;
     private String status;
     private String error;

@@ -27,7 +27,7 @@ public class SupervisorController {
     @RequestMapping(value = "/getSupervisorByTrackId", method = RequestMethod.GET, headers = "Accept=application/json")
     public Response getStudents(@QueryParam("id") int id) {
         SupervisorDao dao = DaoInstance.getInstance().getSupervisorDao();
-        return new Response().createResponse(dao);
+        return new Response().createResponse(dao.getSupervisorByTrackId(id));
     }
 
 }

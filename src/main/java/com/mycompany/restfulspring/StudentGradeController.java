@@ -27,8 +27,9 @@ public class StudentGradeController {
 
     @RequestMapping(value = "/getStudentGrades", method = RequestMethod.GET, headers = "Accept=application/json")
     public Response getAnswers(@RequestParam("id") int id) {
+        
         StudentGradeDAO studentGradeDAO = DaoInstance.getInstance().getGrades();
-        return new Response().createResponse(studentGradeDAO);
+        return new Response().createResponse(studentGradeDAO.getAllStudentGrade(id));
 
     }
 }
