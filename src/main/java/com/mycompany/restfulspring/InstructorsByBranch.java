@@ -6,6 +6,7 @@
 package com.mycompany.restfulspring;
 
 import bean.Instructor;
+import dto.Response;
 import java.util.List;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,11 +24,11 @@ import second.StudentGradeDAO;
 public class InstructorsByBranch {
  
     @RequestMapping(value = "/getInstructorByBranch",  method = RequestMethod.GET, headers = "Accept=application/json")
-    public List<Instructor> getInstructorByBranch(@RequestParam("id") int branchId, 
+    public Response getInstructorByBranch(@RequestParam("id") int branchId, 
             @RequestParam("excludeId") int excludeId){
         
         InstructorsByBranchDAO instructorsByBranchDAO = DaoInstance.getInstance().getInstructorsByBranchDAO();
-        return instructorsByBranchDAO.getInstructorsByBranch(branchId, excludeId);
+        return new Response().createResponse(instructorsByBranchDAO.getInstructorsByBranch(branchId, excludeId));
         
     }
     

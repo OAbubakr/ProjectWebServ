@@ -6,6 +6,7 @@
 package com.mycompany.restfulspring;
 
 import bean.StudentDataByTrackID;
+import dto.Response;
 import java.util.ArrayList;
 import javax.ws.rs.QueryParam;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,9 +23,10 @@ import second.DaoInstance;
 public class StudentsDataByTrackIdController {
     
 @RequestMapping(value="/getStudentsByTrackId", method = RequestMethod.GET ,headers ="Accept=application/json") 
-public ArrayList<StudentDataByTrackID>getStudents(@QueryParam("id")int id){
+public Response getStudents(@QueryParam("id")int id){
     AllStudentByTrackDao dao = DaoInstance.getInstance().getAllStudentByTrackDao();
-    return  dao.getAllStudentsDataByTrackId(id);
+    ArrayList<StudentDataByTrackID> data = dao.getAllStudentsDataByTrackId(id);
+    return  new Response().createResponse(data);
 } 
 
 

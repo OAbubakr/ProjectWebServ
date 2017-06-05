@@ -6,6 +6,7 @@
 package com.mycompany.restfulspring;
 
 import bean.JobOpportunity;
+import dto.Response;
 import javax.ws.rs.QueryParam;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,9 +37,9 @@ public class PostJobController {
 //    }
     
     @RequestMapping(value= "/postJob", method = RequestMethod.POST, headers = "Accept=application/json")
-    public String postJob(@RequestBody JobOpportunity jobOpportunity){
+    public Response postJob(@RequestBody JobOpportunity jobOpportunity){
         
         PostJobDAO dao = DaoInstance.getInstance().getPostJobDAO();
-        return dao.postJob(jobOpportunity);
+        return new Response().createResponse(dao.postJob(jobOpportunity)) ;
     }
 }

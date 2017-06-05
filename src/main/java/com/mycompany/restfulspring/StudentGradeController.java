@@ -6,6 +6,7 @@
 package com.mycompany.restfulspring;
 
 import bean.StudentGrade;
+import dto.Response;
 import java.util.ArrayList;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,10 +24,11 @@ import second.StudentGradeDAO;
  */
 @RestController
 public class StudentGradeController {
+
     @RequestMapping(value = "/getStudentGrades", method = RequestMethod.GET, headers = "Accept=application/json")
-    public ArrayList<StudentGrade> getAnswers(@RequestParam("id") int id) {
+    public Response getAnswers(@RequestParam("id") int id) {
         StudentGradeDAO studentGradeDAO = DaoInstance.getInstance().getGrades();
-        return studentGradeDAO.getAllStudentGrade(id);
-       
+        return new Response().createResponse(studentGradeDAO);
+
     }
 }
