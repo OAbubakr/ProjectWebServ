@@ -26,6 +26,15 @@ public class Permission {
     private String creationTime;
     private int perMon;
     private int perYr;
+    private String studentName;
+
+    public String getStudentName() {
+        return studentName;
+    }
+
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
+    }
     
     public Permission(){
         

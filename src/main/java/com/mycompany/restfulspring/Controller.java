@@ -7,19 +7,14 @@ package com.mycompany.restfulspring;
 
 
 import bean.StudentSession;
+import dto.Response;
 import java.util.ArrayList;
-import javax.ws.rs.QueryParam;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import second.DaoInstance;
-import second.ProgramDAO;
-import second.StudentDAO;
 import second.StudentScheduleDao;
 import second.TrackScheduleDao;
 
@@ -43,19 +38,22 @@ public class Controller {
 //    }
     
     @RequestMapping(value= "/getStudentSchedule", method = RequestMethod.GET, headers = "Accept=application/json")
-    public ArrayList<StudentSession> getStudentSchedule(@RequestParam("studentId") int studentId){
+    public Response getStudentSchedule(@RequestParam("studentId") int studentId){
+        Response response = new Response();
         StudentScheduleDao studentScheduleDao = DaoInstance.getInstance().getStudentScheduleDao();
-        return studentScheduleDao.getStudentSchedule(studentId);
+        ArrayList<StudentSession> studentSessions =studentScheduleDao.getStudentSchedule(studentId);
+        return response.createResponse(studentSessions);
         
     }
     
     
     @RequestMapping(value= "/getTrackSchedule", method = RequestMethod.GET, headers = "Accept=application/json")
-    public ArrayList<StudentSession> getTrackSchedule(@RequestParam("trackId") int trackId){
+    public Response getTrackSchedule(@RequestParam("trackId") int trackId){
         
-        System.out.println("track schedualeeeeeeee");
+        Response response = new Response();
        TrackScheduleDao trackScheduleDao=DaoInstance.getInstance().getTrackScheduleDao();
-       return  trackScheduleDao.getTrackSchedule(trackId);
+       ArrayList<StudentSession> studentSessions = trackScheduleDao.getTrackSchedule(trackId);
+       return  response.createResponse(studentSessions);
         
     }
 

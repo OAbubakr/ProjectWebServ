@@ -177,6 +177,7 @@ public class ProfileDAO {
         UserData userData = new UserData();
 
         userData.setIntakeId((int) userDataValue.get(0)[1]);
+        userData.setPlatformIntakeId((int) userDataValue.get(0)[2]);
         userData.setId((int) userDataValue.get(0)[5]);
         userData.setName((String) userDataValue.get(0)[6]);
         userData.setImagePath((String) userDataValue.get(0)[21]);

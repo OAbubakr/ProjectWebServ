@@ -5,20 +5,25 @@
  */
 package dto;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Mahmoud
  */
-public class Response {
+public class Response implements Serializable {
+
+    public static final String sucess = "success";
+    public static final String failure = "failure";
     private Object reponseData;
     private String status;
     private String error;
 
-    public Object getResponseData() {
+    public Object getReponseData() {
         return reponseData;
     }
 
-    public void setResponseData(Object reponseData) {
+    public void setReponseData(Object reponseData) {
         this.reponseData = reponseData;
     }
 
@@ -38,5 +43,15 @@ public class Response {
         this.error = error;
     }
 
-    
+    public Response createResponse(Object data) {
+        Response response = new Response();
+        if (data != null) {
+            response.setStatus(Response.sucess);
+            response.setReponseData(data);
+        } else {
+            response.setStatus(Response.failure);
+        }
+        return response;
+    }
+
 }
