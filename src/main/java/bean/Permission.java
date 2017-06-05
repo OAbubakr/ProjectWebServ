@@ -26,12 +26,21 @@ public class Permission {
     private String creationTime;
     private int perMon;
     private int perYr;
+    private String studentName;
+
+    public String getStudentName() {
+        return studentName;
+    }
+
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
+    }
     
     public Permission(){
         
     }
 
-    public Permission(String permissionDate, int fromH, int toH, int toMin, int fromMin, int empID, String comment, int numOfHours, int numOfMinutes, String creationDate, int levelID, int creatorID, String creationTime, int perMon, int perYr) {
+    public Permission(String permissionDate, int fromH, int toH, int toMin, int fromMin, int empID, String comment, int numOfHours, int numOfMinutes, String creationDate, int levelID, int creatorID, String creationTime, int perMon, int perYr, String studentName) {
         this.permissionDate = permissionDate;
         this.fromH = fromH;
         this.toH = toH;
@@ -47,7 +56,9 @@ public class Permission {
         this.creationTime = creationTime;
         this.perMon = perMon;
         this.perYr = perYr;
+        this.studentName = studentName;
     }
+
 
     public String getPermissionDate() {
         return permissionDate;
