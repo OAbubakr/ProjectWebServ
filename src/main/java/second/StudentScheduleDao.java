@@ -70,7 +70,7 @@ public class StudentScheduleDao {
 //                        .setParameter("studentId", "5699")
                         .setParameter("studentId", String.valueOf(studentId))
                         .setParameter("fromDate", "2014-10-20")
-                        .setParameter("toDate", "2014-10-26");
+                        .setParameter("toDate", "2014-11-3");
                 List<Object[]> list = query.list();
                 ArrayList<StudentSession> sessions = new ArrayList<>();
 

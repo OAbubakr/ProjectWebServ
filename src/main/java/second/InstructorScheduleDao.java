@@ -72,6 +72,7 @@ public class InstructorScheduleDao {
 
                 for (Object[] row : list) {
                     InstructorSession instructorSession = new InstructorSession();
+                    instructorSession.setTypeId((int) row[1]);
                     instructorSession.setSessionId((int) row[8]);
                     instructorSession.setCourseName((String) row[2]);
                     instructorSession.setWeekNumber((int) row[5]);

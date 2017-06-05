@@ -20,11 +20,7 @@ public class DaoInstance {
      ApplicationContext factory = null;
 
     private DaoInstance() {
-        // TODO code application logic here
-
-         factory = new FileSystemXmlApplicationContext("C:\\Users\\omari\\Desktop\\project\\ProjectWerServ\\src\\main\\java\\second\\bean.xml");
-
-
+        factory = new FileSystemXmlApplicationContext("E:\\ITI\\Graduation Project\\ProjectWebServices\\ProjectWerServ\\src\\main\\java\\second\\bean.xml");
     }
 
     
@@ -114,6 +110,9 @@ public class DaoInstance {
         return factory.getBean("SaveImageDao",SaveImageDao.class);
     }
     
+    public SupervisorDao getSupervisorDao(){
+        return factory.getBean("supervisorDao",SupervisorDao.class);
+    }
     
 }
 

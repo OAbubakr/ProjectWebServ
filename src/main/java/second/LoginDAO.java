@@ -52,7 +52,7 @@ public class LoginDAO {
                 userTypeProcedure = "CompanycheckLogin";
                 break;
             case 4://login as a graduate
-                userTypeProcedure = "";
+                userTypeProcedure = "GraduateDataLogin";
                 break;
         }
         final String userNameValue = userName;
