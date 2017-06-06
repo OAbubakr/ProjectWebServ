@@ -22,7 +22,7 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
  */
 public class ProfileDAO {
 
-    private static final String STATUSSUCCESS = "success";
+    private static final String STATUSSUCCESS = "SUCCESS";
     private static final String NOERROR = "";
     private static final String STATUSFAIL = "fail";
     private static final String ERROR = "server down";

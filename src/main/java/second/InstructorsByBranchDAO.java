@@ -8,6 +8,7 @@ package second;
 import bean.EmployeeHours;
 import bean.Instructor;
 import bean.StudentSession;
+import dto.Response;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,16 +37,15 @@ public class InstructorsByBranchDAO {
         this.template = template;
     }
 
-    public List<Instructor> getInstructorsByBranch(final int branchIdArg, final int excludeId) {
+    public Response getInstructorsByBranch(final int branchIdArg, final int excludeId) {
 
-        return template.execute(new HibernateCallback<ArrayList<Instructor>>() {
+        return template.execute(new HibernateCallback<Response>() {
             @Override
-            public ArrayList<Instructor> doInHibernate(Session sn) throws HibernateException, SQLException {
+            public Response doInHibernate(Session sn) throws HibernateException, SQLException {
                 Query query = sn.createSQLQuery(" { CALL GetAllInstructorsWithBranchName() }");
                 List<Object[]> data = query.list();
                 ArrayList<Instructor> instructors = new ArrayList<>();
 
-                int id;
                 int instructorId;
                 for (Object[] row : data) {
                     //get all instructors
@@ -56,8 +56,13 @@ public class InstructorsByBranchDAO {
                     
 
                 }
+                
+                Response response = new Response();
+                response.setError(null);
+                response.setStatus("success");
+                response.setResponseData(instructors);
 
-                return instructors;
+                return response;
             }
 
         });

@@ -7,6 +7,7 @@ package second;
 
 import dto.LoginResponse;
 import dto.Response;
+import dto.UserData;
 import java.sql.SQLException;
 import java.util.List;
 import org.hibernate.HibernateException;
@@ -21,7 +22,7 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
  */
 public class LoginDAO {
 
-    private static final String STATUSSUCCESS = "success";
+    private static final String STATUSSUCCESS = "SUCCESS";
     private static final String NOERROR = "";
     private static final String STATUSFAIL = "fail";
     private static final String ERROR = "invalid username or password";
@@ -78,6 +79,8 @@ public class LoginDAO {
                 }
                 
                 if (isCorrect) {
+//                    UserData userData = new UserData();
+//                    userData.setId(userId);
                     response.setResponseData(userId);
                     response.setStatus(STATUSSUCCESS);
                     response.setError(NOERROR);
