@@ -15,16 +15,16 @@ public class Response implements Serializable {
 
     public static final String sucess = "success";
     public static final String failure = "failure";
-    private Object reponseData;
+    private Object responseData;
     private String status;
     private String error;
 
-    public Object getReponseData() {
-        return reponseData;
+    public Object getResponseData() {
+        return responseData;
     }
 
-    public void setReponseData(Object reponseData) {
-        this.reponseData = reponseData;
+    public void setResponseData(Object responseData) {
+        this.responseData = responseData;
     }
 
     public String getStatus() {
@@ -47,7 +47,7 @@ public class Response implements Serializable {
         Response response = new Response();
         if (data != null) {
             response.setStatus(Response.sucess);
-            response.setReponseData(data);
+            response.setResponseData(data);
         } else {
             response.setStatus(Response.failure);
         }
