@@ -7,6 +7,7 @@ package com.mycompany.restfulspring;
 
 import bean.StudentDataByTrackID;
 import bean.Supervisor;
+import dto.Response;
 import java.util.ArrayList;
 import javax.ws.rs.QueryParam;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,17 +21,13 @@ import second.SupervisorDao;
  *
  * @author admin
  */
-
 @RestController
 public class SupervisorController {
-   
- @RequestMapping(value="/getSupervisorByTrackId", method = RequestMethod.GET ,headers ="Accept=application/json")
- public Supervisor getStudents(@QueryParam("id")int id){
-    SupervisorDao dao = DaoInstance.getInstance().getSupervisorDao();
-    return  dao.getSupervisorByTrackId(id);
-} 
 
+    @RequestMapping(value = "/getSupervisorByTrackId", method = RequestMethod.GET, headers = "Accept=application/json")
+    public Response getStudents(@QueryParam("id") int id) {
+        SupervisorDao dao = DaoInstance.getInstance().getSupervisorDao();
+        return new Response().createResponse(dao.getSupervisorByTrackId(id));
+    }
 
-    
-    
 }

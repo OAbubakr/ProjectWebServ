@@ -26,27 +26,18 @@ public class Permission {
     private String creationTime;
     private int perMon;
     private int perYr;
+    private String studentName;
+
+    public String getStudentName() {
+        return studentName;
+    }
+
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
+    }
     
     public Permission(){
         
-    }
-
-    public Permission(String permissionDate, int fromH, int toH, int toMin, int fromMin, int empID, String comment, int numOfHours, int numOfMinutes, String creationDate, int levelID, int creatorID, String creationTime, int perMon, int perYr) {
-        this.permissionDate = permissionDate;
-        this.fromH = fromH;
-        this.toH = toH;
-        this.toMin = toMin;
-        this.fromMin = fromMin;
-        this.empID = empID;
-        this.comment = comment;
-        this.numOfHours = numOfHours;
-        this.numOfMinutes = numOfMinutes;
-        this.creationDate = creationDate;
-        this.levelID = levelID;
-        this.creatorID = creatorID;
-        this.creationTime = creationTime;
-        this.perMon = perMon;
-        this.perYr = perYr;
     }
 
     public String getPermissionDate() {

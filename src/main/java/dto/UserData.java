@@ -15,6 +15,15 @@ import java.util.List;
 public class UserData implements Serializable {
 //
     private int id;
+    private int platformIntakeId;
+
+    public int getPlatformIntakeId() {
+        return platformIntakeId;
+    }
+
+    public void setPlatformIntakeId(int platformIntakeId) {
+        this.platformIntakeId = platformIntakeId;
+    }
 
     public int getId() {
         return id;

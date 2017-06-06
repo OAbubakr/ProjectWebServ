@@ -28,7 +28,7 @@ public class InstructorsByBranch {
             @RequestParam("excludeId") int excludeId){
         
         InstructorsByBranchDAO instructorsByBranchDAO = DaoInstance.getInstance().getInstructorsByBranchDAO();
-        return instructorsByBranchDAO.getInstructorsByBranch(branchId, excludeId);
+        return new Response().createResponse(instructorsByBranchDAO.getInstructorsByBranch(branchId, excludeId));
         
     }
     

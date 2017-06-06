@@ -22,7 +22,7 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
  */
 public class ProfileDAO {
 
-    private static final String STATUSSUCCESS = "success";
+    private static final String STATUSSUCCESS = "SUCCESS";
     private static final String NOERROR = "";
     private static final String STATUSFAIL = "fail";
     private static final String ERROR = "server down";
@@ -56,11 +56,11 @@ public class ProfileDAO {
                 userIdProcedure = "CompanyID";
                 break;
             case 4://login as a graduate
-                userTypeProcedure = "";
-                userIdProcedure = "";
+                userTypeProcedure = "GetGraduateDetails";
+                userIdProcedure = "graduateId";
                 break;
         }
-        final int userTypeValue=userType;
+        final int userTypeValue = userType;
         final int userIdValue = userId;
         return template.execute(new HibernateCallback<Response>() {
             boolean isCorrect = false;
@@ -82,13 +82,13 @@ public class ProfileDAO {
                             userData = prepareStudentData(sn, userDataValue, userIdValue);
                             break;
                         case 2://login as a staff
-                            userData = prepareStaffData(sn,userDataValue);
+                            userData = prepareStaffData(sn, userDataValue);
                             break;
                         case 3://login as a company
                             userData = prepareCompanyData(sn, userDataValue);
                             break;
                         case 4://login as a graduate
-                            userData = null;
+                            userData = prepareGraduateData(sn, userDataValue, userIdValue);
                             break;
                     }
 
@@ -111,20 +111,8 @@ public class ProfileDAO {
     }
 
     public void setData(int userType, int userId, UserData userData) {
-        switch (userType) {
-            case 1://login as a student
-                userTypeProcedure = "AddStudentProfessionals";
-                break;
-            case 2://login as a staff
-                userTypeProcedure = "";
-                break;
-            case 3://login as a company
-                userTypeProcedure = "";
-                break;
-            case 4://login as a graduate
-                userTypeProcedure = "";
-                break;
-        }
+
+        final int userTypeValue = userType;
         final int userIdValue = userId;
         final UserData userDataInfo = userData;
 
@@ -135,29 +123,62 @@ public class ProfileDAO {
              */
             @Override
             public Object doInHibernate(Session sn) throws HibernateException, SQLException {
-                Query query = sn.createSQLQuery("{CALL " + userTypeProcedure + "(:StudentID,:gitUrl,:behanceUrl,:linkedInUrl)}")
-                        .setParameter("StudentID", userIdValue)
-                        .setParameter("gitUrl", userDataInfo.getGitUrl())
-                        .setParameter("behanceUrl", userDataInfo.getBehanceUrl())
-                        .setParameter("linkedInUrl", userDataInfo.getLinkedInUrl());
-                query.executeUpdate();
-                
-                query = sn.createSQLQuery("{CALL EditStudentData(:StudentID,:Mobile,:Email)}")
-                        .setParameter("StudentID", userIdValue)
-                        .setParameter("Mobile", userDataInfo.getStudentMobile())
-                        .setParameter("Email", userDataInfo.getStudentEmail());
-                query.executeUpdate();
+                switch (userTypeValue) {
+                    case 1://login as a student
+                        addStudentData(sn, userIdValue, userDataInfo);
+                        break;
+                    case 2://login as a staff
+
+                        break;
+                    case 3://login as a company
+
+                        break;
+                    case 4://login as a graduate
+                        addGraduateData(sn, userIdValue, userDataInfo);
+                        break;
+                }
                 return null;
             }
 
         });
     }
 
+    private void addStudentData(Session sn, int userIdValue, UserData userDataInfo) {
+        Query query = sn.createSQLQuery("{CALL AddStudentProfessionals(:StudentID,:gitUrl,:behanceUrl,:linkedInUrl)}")
+                .setParameter("StudentID", userIdValue)
+                .setParameter("gitUrl", userDataInfo.getGitUrl())
+                .setParameter("behanceUrl", userDataInfo.getBehanceUrl())
+                .setParameter("linkedInUrl", userDataInfo.getLinkedInUrl());
+        query.executeUpdate();
+
+        query = sn.createSQLQuery("{CALL EditStudentData(:StudentID,:Mobile,:Email)}")
+                .setParameter("StudentID", userIdValue)
+                .setParameter("Mobile", userDataInfo.getStudentMobile())
+                .setParameter("Email", userDataInfo.getStudentEmail());
+        query.executeUpdate();
+    }
+
+    private void addGraduateData(Session sn, int userIdValue, UserData userDataInfo) {
+        Query query = sn.createSQLQuery("{CALL AddGraduateProfessionals(:graduateID,:gitUrl,:behanceUrl,:linkedInUrl)}")
+                .setParameter("graduateID", userIdValue)
+                .setParameter("gitUrl", userDataInfo.getGitUrl())
+                .setParameter("behanceUrl", userDataInfo.getBehanceUrl())
+                .setParameter("linkedInUrl", userDataInfo.getLinkedInUrl());
+        query.executeUpdate();
+
+        query = sn.createSQLQuery("{CALL EditGraduateData(:graduateID,:Mobile,:Email)}")
+                .setParameter("graduateID", userIdValue)
+                .setParameter("Mobile", userDataInfo.getStudentMobile())
+                .setParameter("Email", userDataInfo.getStudentEmail());
+        query.executeUpdate();
+    }
+
     private UserData prepareStudentData(Session sn, List<Object[]> userDataValue, int userIdValue) {
         UserData userData = new UserData();
 
         userData.setIntakeId((int) userDataValue.get(0)[1]);
-        userData.setId((int)userDataValue.get(0)[5]);
+        userData.setPlatformIntakeId((int) userDataValue.get(0)[2]);
+        userData.setId((int) userDataValue.get(0)[5]);
         userData.setName((String) userDataValue.get(0)[6]);
         userData.setImagePath((String) userDataValue.get(0)[21]);
         userData.setTrackName((String) userDataValue.get(0)[4]);
@@ -187,19 +208,45 @@ public class ProfileDAO {
 
         for (Object[] cObject : companyList) {
 
-            if(cObject[0]!=null)  companyProfile.setCompanyID((int) cObject[0]);
-            if(cObject[1]!=null)  companyProfile.setCompanyName((String) cObject[1]);
-            if(cObject[2]!=null)   companyProfile.setCompanyNoOfEmp(Integer.parseInt((String) cObject[2]));
-            if(cObject[3]!=null)  companyProfile.setCompanyAreaKnowledge((String) cObject[3]);
-            if(cObject[4]!=null)  companyProfile.setCompanyWebSite((String) cObject[4]);
-            if(cObject[5]!=null)  companyProfile.setCompanyAddress((String) cObject[5]);
-            if(cObject[6]!=null)  companyProfile.setCompanyPhone((String) cObject[6]);
-            if(cObject[7]!=null)  companyProfile.setCompanyMobile((String) cObject[7]);
-            if(cObject[8]!=null)  companyProfile.setCompanyEmail((String) cObject[8]);
-            if(cObject[9]!=null)   companyProfile.setCompanyLogoPath((String) cObject[9]);
-            if(cObject[10]!=null)   companyProfile.setCompanyProfilePath((String) cObject[10]);
-            if(cObject[13]!=null)   companyProfile.setCompanyUserName((String) cObject[13]);
-            if(cObject[14]!=null)  companyProfile.setCompanyPassWord((String) cObject[14]);
+            if (cObject[0] != null) {
+                companyProfile.setCompanyID((int) cObject[0]);
+            }
+            if (cObject[1] != null) {
+                companyProfile.setCompanyName((String) cObject[1]);
+            }
+            if (cObject[2] != null) {
+                companyProfile.setCompanyNoOfEmp(Integer.parseInt((String) cObject[2]));
+            }
+            if (cObject[3] != null) {
+                companyProfile.setCompanyAreaKnowledge((String) cObject[3]);
+            }
+            if (cObject[4] != null) {
+                companyProfile.setCompanyWebSite((String) cObject[4]);
+            }
+            if (cObject[5] != null) {
+                companyProfile.setCompanyAddress((String) cObject[5]);
+            }
+            if (cObject[6] != null) {
+                companyProfile.setCompanyPhone((String) cObject[6]);
+            }
+            if (cObject[7] != null) {
+                companyProfile.setCompanyMobile((String) cObject[7]);
+            }
+            if (cObject[8] != null) {
+                companyProfile.setCompanyEmail((String) cObject[8]);
+            }
+            if (cObject[9] != null) {
+                companyProfile.setCompanyLogoPath((String) cObject[9]);
+            }
+            if (cObject[10] != null) {
+                companyProfile.setCompanyProfilePath((String) cObject[10]);
+            }
+            if (cObject[13] != null) {
+                companyProfile.setCompanyUserName((String) cObject[13]);
+            }
+            if (cObject[14] != null) {
+                companyProfile.setCompanyPassWord((String) cObject[14]);
+            }
         }
 
         return companyProfile;
@@ -217,7 +264,36 @@ public class ProfileDAO {
         if (branchData.size() > 0) {
             userData.setEmployeeBranchName((String) branchData.get(0)[1]);
         }
-        
+
+        return userData;
+    }
+
+    private UserData prepareGraduateData(Session sn, List<Object[]> userDataValue, int userIdValue) {
+        UserData userData = new UserData();
+
+        userData.setIntakeId((int) userDataValue.get(0)[1]);
+        userData.setId((int) userDataValue.get(0)[5]);
+        userData.setName((String) userDataValue.get(0)[6]);
+        userData.setImagePath((String) userDataValue.get(0)[21]);
+        userData.setTrackName((String) userDataValue.get(0)[4]);
+        userData.setStudentEmail((String) userDataValue.get(0)[15]);
+        userData.setStudentMobile((String) userDataValue.get(0)[14]);
+        Query queryBranch = sn.createSQLQuery("{CALL GetBranchByID (:BranchID)}")
+                .setParameter("BranchID", userDataValue.get(0)[3]);
+        List<Object[]> branchData = queryBranch.list();
+        if (branchData.size() > 0) {
+            userData.setBranchName((String) branchData.get(0)[1]);
+        }
+        //add professional data
+
+        Query queryProfessional = sn.createSQLQuery("{CALL GetGraduatesProfessionalByID (:graduateID)}")
+                .setParameter("graduateID", userIdValue);
+        List<Object[]> professionalData = queryProfessional.list();
+        if (professionalData.size() > 0) {
+            userData.setGitUrl((String) professionalData.get(0)[0]);
+            userData.setBehanceUrl((String) professionalData.get(0)[1]);
+            userData.setLinkedInUrl((String) professionalData.get(0)[2]);
+        }
         return userData;
     }
 }
