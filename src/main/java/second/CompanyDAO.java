@@ -122,6 +122,38 @@ public class CompanyDAO {
             }
         });
 }
+
+    public ArrayList<JobVacancy> getAllCompanies() {
+        return template.execute(new HibernateCallback<ArrayList>() {
+            @Override
+            public ArrayList doInHibernate(Session sn) throws HibernateException, SQLException {
+                Query query = sn.createSQLQuery(
+                        " { CALL getAllCompanies }");
+                     
+                List<Object[]> companiesList = query.list();
+                ArrayList<CompanyProfile> companies = new ArrayList<>();
+                for(Object[] row:companiesList){
+                    CompanyProfile company = new CompanyProfile();
+                    company.setCompanyID((int) row[0]);
+                    company.setCompanyName((String) row[1]);
+                    company.setCompanyNoOfEmp(Integer.parseInt((String) row[2]));
+                    company.setCompanyAreaKnowledge((String) row[3]);
+                    company.setCompanyWebSite((String) row[4]);
+                    company.setCompanyAddress((String) row[5]);
+                    company.setCompanyPhone((String) row[6]);
+                    company.setCompanyMobile((String) row[7]);
+                    company.setCompanyEmail((String) row[8]);
+                    company.setCompanyLogoPath((String) row[9]);
+                    company.setCompanyProfilePath((String) row[10]);
+                    company.setCompanyUserName((String) row[13]);
+                    company.setCompanyPassWord((String) row[14]); 
+                
+                    companies.add(company); 
+                }
+                return companies;
+            }
+        });
+}
 }
 
 

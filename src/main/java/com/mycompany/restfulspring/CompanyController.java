@@ -43,4 +43,11 @@ public class CompanyController {
         return response.createResponse(jobVacancys);
     }
     
+    @RequestMapping(value = "/getAllCompanies", method = RequestMethod.GET, headers = "Accept=application/json")
+    public Response getAllCompanies() {
+        Response response = new Response();
+        CompanyDAO companyDAO = DaoInstance.getInstance().getCompanyDAO();
+        ArrayList<JobVacancy> jobVacancys = companyDAO.getAllCompanies();
+        return response.createResponse(jobVacancys);
+    }
 }

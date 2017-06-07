@@ -62,6 +62,7 @@ public class LoginDAO {
             boolean isCorrect = false;
             Response response = new Response();
             int userId = 0;
+
             /*check from db the username and password from the table much the userType
             //if username found then isCorrectUserName = true
             //if password found then isCorrectPassword = true
@@ -72,18 +73,20 @@ public class LoginDAO {
                         .setParameter("username", userNameValue)
                         .setParameter("password", passwordValue);
                 List<Object[]> idValue = query.list();
-                if(idValue.size()>0){
+                if (idValue.size() > 0) {
                     isCorrect = true;
-                   
+
                     userId = (int) idValue.get(0)[0];
                 }
-                
+
                 if (isCorrect) {
 //                    UserData userData = new UserData();
 //                    userData.setId(userId);
                     response.setResponseData(userId);
                     response.setStatus(STATUSSUCCESS);
                     response.setError(NOERROR);
+                    System.out.println("correct \n\n" + (int)response.getResponseData());
+
                 } else {
                     response.setResponseData(userId);
                     response.setStatus(STATUSFAIL);
@@ -94,7 +97,6 @@ public class LoginDAO {
             }
 
         });
-
 
     }
 }
