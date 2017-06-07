@@ -37,8 +37,6 @@ import second.LoginDAO;
  */
 @RestController
 public class TokenGeneratorController {
-
-    private ServletContext servletContext;
     
     @RequestMapping(value = "/getToken",
             method = RequestMethod.POST,
@@ -59,8 +57,6 @@ public class TokenGeneratorController {
             System.out.println("id " + id);
             //create access token
             try {
-String accessKey = (String)servletContext.getAttribute("accessKey");
-String refreshKey = (String)servletContext.getAttribute("refreshKey");
                 // Generate 256-bit AES key for HMAC as well as encryption
                 long accessExpiryDateInMillis = System.currentTimeMillis() + (60000); //valid for one week
                 long refreshExpiryDateInMillis = System.currentTimeMillis() + (60000); //valid for one week
