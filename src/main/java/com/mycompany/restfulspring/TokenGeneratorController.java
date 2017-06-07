@@ -141,6 +141,13 @@ public class TokenGeneratorController {
         return response;
 
     }
+    
+    public Response renewRefreshToken(@RequestParam(value = "refreshToken", required = true) String refreshToken) {
+        
+        return null;
+
+    }
+    
     private String getAccessToken(SecretKey secretKey, long expiryDateInMillis, String id, String type)
             throws KeyLengthException, JOSEException {
 
