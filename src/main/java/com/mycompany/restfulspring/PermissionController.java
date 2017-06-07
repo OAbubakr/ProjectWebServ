@@ -7,6 +7,7 @@ package com.mycompany.restfulspring;
 
 import bean.Permission;
 import dto.LoginRequest;
+import dto.Response;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,12 +21,13 @@ import second.PermissionDAO;
  */
 @RestController
 public class PermissionController {
-    
-    @RequestMapping(value= "/addPermission", method = RequestMethod.POST, headers = "Accept=application/json")
-    public String addPermission(@RequestBody Permission permission){
-        
+
+    @RequestMapping(value = "/addPermission", method = RequestMethod.POST, headers = "Accept=application/json")
+    public Response addPermission(@RequestBody Permission permission) {
+
         PermissionDAO dao = DaoInstance.getInstance().getPermissionDAO();
-        System.out.println("--------------"+ permission.getComment());
-        return dao.addPermission(permission);
+        System.out.println("--------------" + permission.getComment());
+        dao.addPermission(permission);
+        return new Response().createResponse(permission);
     }
 }

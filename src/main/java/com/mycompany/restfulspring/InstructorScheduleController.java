@@ -6,7 +6,7 @@
 package com.mycompany.restfulspring;
 
 import bean.InstructorSession;
-import bean.StudentSession;
+import dto.Response;
 import java.util.ArrayList;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import second.DaoInstance;
 import second.InstructorScheduleDao;
-import second.StudentScheduleDao;
 
 /**
  *
@@ -23,9 +22,11 @@ import second.StudentScheduleDao;
 @RestController
 public class InstructorScheduleController {
     @RequestMapping(value= "/getInstructorSchedule", method = RequestMethod.GET, headers = "Accept=application/json")
-    public ArrayList<InstructorSession> getStudentSchedule(@RequestParam("instructorId") int instructorId){
+    public Response getStudentSchedule(@RequestParam("instructorId") int instructorId){
+        Response response = new Response();
         InstructorScheduleDao instructorScheduleDao = DaoInstance.getInstance().getInstructorScheduleDao();
-        return instructorScheduleDao.getInstructorSchedule(instructorId);
+        ArrayList<InstructorSession> instructorSessions = instructorScheduleDao.getInstructorSchedule(instructorId);
+        return response.createResponse(instructorSessions);
         
     }
     

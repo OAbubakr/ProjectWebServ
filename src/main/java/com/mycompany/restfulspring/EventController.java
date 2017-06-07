@@ -6,8 +6,8 @@
 package com.mycompany.restfulspring;
 
 import bean.EventId;
+import dto.Response;
 import java.util.ArrayList;
-import javax.ws.rs.QueryParam;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,8 +23,10 @@ import second.EventDAO;
 public class EventController {
    
     @RequestMapping(value= "/getEvents", method = RequestMethod.GET, headers = "Accept=application/json")
-    public ArrayList<EventId> getEvents(){
+    public Response getEvents(){
+        Response response = new Response();
         EventDAO dao = DaoInstance.getInstance().getEventDAO();
-        return dao.getEvents();
+        ArrayList<EventId> eventIds = dao.getEvents();
+        return response.createResponse(eventIds);
     }
 }

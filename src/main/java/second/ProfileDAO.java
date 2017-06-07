@@ -22,14 +22,14 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
  */
 public class ProfileDAO {
 
-    private static final String STATUSSUCCESS = "success";
+    private static final String STATUSSUCCESS = "SUCCESS";
     private static final String NOERROR = "";
     private static final String STATUSFAIL = "fail";
     private static final String ERROR = "server down";
     private String userTypeProcedure;
     private String userIdProcedure;
     private HibernateTemplate template;
-
+    
     public ProfileDAO() {
     }
 
@@ -82,7 +82,7 @@ public class ProfileDAO {
                             userData = prepareStudentData(sn, userDataValue, userIdValue);
                             break;
                         case 2://login as a staff
-                            userData = prepareStaffData(sn, userDataValue);
+                            userData = prepareStaffData(sn, userDataValue, userIdValue);
                             break;
                         case 3://login as a company
                             userData = prepareCompanyData(sn, userDataValue);
@@ -177,6 +177,7 @@ public class ProfileDAO {
         UserData userData = new UserData();
 
         userData.setIntakeId((int) userDataValue.get(0)[1]);
+        userData.setPlatformIntakeId((int) userDataValue.get(0)[2]);
         userData.setId((int) userDataValue.get(0)[5]);
         userData.setName((String) userDataValue.get(0)[6]);
         userData.setImagePath((String) userDataValue.get(0)[21]);
@@ -251,7 +252,7 @@ public class ProfileDAO {
         return companyProfile;
     }
 
-    private UserData prepareStaffData(Session sn, List<Object[]> userDataValue) {
+    private UserData prepareStaffData(Session sn, List<Object[]> userDataValue, int userIdValue) {
         UserData userData = new UserData();
         userData.setId((int) userDataValue.get(0)[0]);
         userData.setEmployeeName((String) userDataValue.get(0)[1]);
@@ -264,6 +265,21 @@ public class ProfileDAO {
             userData.setEmployeeBranchName((String) branchData.get(0)[1]);
         }
 
+        Query querySupervisor = sn.createSQLQuery("{CALL IsSupervisor(:ProgramID,:IntakeID,:EmployeeID)}")
+                .setParameter("ProgramID", 4)
+                .setParameter("IntakeID", 37)
+                .setParameter("EmployeeID", userIdValue);
+        List<Object[]> queryData = querySupervisor.list();
+        if (queryData.size() > 0) {
+            userData.setEmployeePlatformIntake((int) queryData.get(0)[2]);
+            userData.setEmployeeSubTrackId((int) queryData.get(0)[1]);
+        }
+        Query querySubTrack = sn.createSQLQuery("{CALL GetSubtrackData(:PlatformIntakeID)}")
+                .setParameter("PlatformIntakeID", userData.getEmployeePlatformIntake());
+        List<Object[]> subTrackData = querySubTrack.list();
+        if (queryData.size() > 0) {
+            userData.setEmployeeSubTrackName((String) subTrackData.get(0)[0]);
+        }
         return userData;
     }
 
