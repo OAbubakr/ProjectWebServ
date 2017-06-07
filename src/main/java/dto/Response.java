@@ -11,7 +11,7 @@ import java.io.Serializable;
  *
  * @author Mahmoud
  */
-public class Response {
+public class Response implements Serializable {
 
     public static final String sucess = "SUCCESS";
     public static final String failure = "FAILURE";
@@ -23,18 +23,11 @@ public class Response {
     public static final String EXPIRED_REFRESH_TOKEN = "EXPIRED_REFRESH_TOKEN";
 
 //    @Serializable
-    private Object reponseData;
-    private String status;
+    private Object responseData;
+     private String status;
     private String error;
 
-    public Object getResponseData() {
-        return reponseData;
-    }
-
-    public void setResponseData(Object reponseData) {
-        this.reponseData = reponseData;
-    }
-
+    
     public String getStatus() {
         return status;
     }
@@ -51,6 +44,14 @@ public class Response {
         this.error = error;
     }
 
+     public Object getResponseData() {
+        return responseData;
+    }
+
+    public void setResponseData(Object reponseData) {
+        this.responseData = reponseData;
+    }
+   
     public Response createResponse(Object data) {
         Response response = new Response();
         if (data != null) {
@@ -61,4 +62,5 @@ public class Response {
         }
         return response;
     }
+
 }

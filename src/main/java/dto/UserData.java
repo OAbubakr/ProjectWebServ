@@ -14,6 +14,7 @@ import java.util.List;
  */
 public class UserData implements Serializable {
 //
+
     private int id;
     private int platformIntakeId;
 
@@ -58,14 +59,41 @@ public class UserData implements Serializable {
     private String companyProfilePath;
     private String companyUserName;
     private String companyPassWord;
-    
+
     //staff
     private int employeeBranchId;
     private String employeeName;
     private String employeeBranchName;
     private String employeePosition;
-    
-        public String getStudentEmail() {
+    private int employeePlatformIntake;
+    private int employeeSubTrackId;
+    private String employeeSubTrackName;
+
+    public int getEmployeePlatformIntake() {
+        return employeePlatformIntake;
+    }
+
+    public void setEmployeePlatformIntake(int employeePlatformIntake) {
+        this.employeePlatformIntake = employeePlatformIntake;
+    }
+
+    public int getEmployeeSubTrackId() {
+        return employeeSubTrackId;
+    }
+
+    public void setEmployeeSubTrackId(int employeeSubTrackId) {
+        this.employeeSubTrackId = employeeSubTrackId;
+    }
+
+    public String getEmployeeSubTrackName() {
+        return employeeSubTrackName;
+    }
+
+    public void setEmployeeSubTrackName(String employeeSubTrackName) {
+        this.employeeSubTrackName = employeeSubTrackName;
+    }
+
+    public String getStudentEmail() {
         return studentEmail;
     }
 
@@ -112,7 +140,7 @@ public class UserData implements Serializable {
     public void setEmployeePosition(String employeePosition) {
         this.employeePosition = employeePosition;
     }
-        
+
     public int getCompanyID() {
         return companyID;
     }
@@ -216,8 +244,7 @@ public class UserData implements Serializable {
     public void setCompanyPassWord(String companyPassWord) {
         this.companyPassWord = companyPassWord;
     }
-    
-    
+
     public String getGitUrl() {
         return gitUrl;
     }
