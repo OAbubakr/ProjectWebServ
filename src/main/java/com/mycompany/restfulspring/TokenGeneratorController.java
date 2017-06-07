@@ -39,7 +39,7 @@ import second.LoginDAO;
  */
 @RestController
 public class TokenGeneratorController {
-
+    
     @RequestMapping(value = "/getToken",
             method = RequestMethod.POST,
             headers = "Accept=application/json")
@@ -146,9 +146,8 @@ public class TokenGeneratorController {
     @RequestMapping(value = "/renewRefreshToken",
             method = RequestMethod.POST,
             headers = "Accept=application/json")
-    public Response renewRefreshToken(@RequestParam(value = "refreshToken", required = true) String refreshToken
-    ) {
-
+    public Response renewRefreshToken(@RequestParam(value = "refreshToken", required = true) String refreshToken) {
+        
         return null;
 
     }
