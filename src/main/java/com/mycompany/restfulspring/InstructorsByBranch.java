@@ -24,7 +24,7 @@ import second.StudentGradeDAO;
 public class InstructorsByBranch {
  
     @RequestMapping(value = "/getInstructorByBranch",  method = RequestMethod.GET, headers = "Accept=application/json")
-    public Response getInstructorByBranch(@RequestParam("id") int branchId, 
+    public Response getInstructorByBranchAuthorized(@RequestParam("token") String userId, @RequestParam("id") int branchId, 
             @RequestParam("excludeId") int excludeId){
         
         InstructorsByBranchDAO instructorsByBranchDAO = DaoInstance.getInstance().getInstructorsByBranchDAO();
