@@ -59,7 +59,7 @@ public class InstructorsByBranchDAO {
                 
                 Response response = new Response();
                 response.setError(null);
-                response.setStatus("success");
+                response.setStatus(Response.sucess);
                 response.setResponseData(instructors);
 
                 return response;
