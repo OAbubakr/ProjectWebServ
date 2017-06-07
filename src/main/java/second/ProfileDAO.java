@@ -272,24 +272,18 @@ public class ProfileDAO {
                 .setParameter("EmployeeID", userIdValue);
         List<Object[]> queryData = querySupervisor.list();
         if (queryData.size() > 0) {
-            userData.setEmployeePlatformIntake((int) queryData.get(0)[2]);
-            userData.setEmployeeSubTrackId((int) queryData.get(0)[1]);
-        } else {
-            querySupervisor = sn.createSQLQuery("{CALL IsSupervisor(:ProgramID,:IntakeID,:EmployeeID)}")
-                    .setParameter("ProgramID", 5)//nano
-                    .setParameter("IntakeID", intakeId)
-                    .setParameter("EmployeeID", userIdValue);
-            queryData = querySupervisor.list();
-            if (queryData.size() > 0) {
+            if(queryData.get(0)[2] != null)
                 userData.setEmployeePlatformIntake((int) queryData.get(0)[2]);
+            if(queryData.get(0)[1] != null)
                 userData.setEmployeeSubTrackId((int) queryData.get(0)[1]);
-            }
         }
         Query querySubTrack = sn.createSQLQuery("{CALL GetSubtrackData(:PlatformIntakeID)}")
                 .setParameter("PlatformIntakeID", userData.getEmployeePlatformIntake());
         List<Object[]> subTrackData = querySubTrack.list();
         if (queryData.size() > 0) {
-            userData.setEmployeeSubTrackName((String) subTrackData.get(0)[0]);
+            if(subTrackData.size() > 0)
+                if(subTrackData.get(0)[0] != null)
+                    userData.setEmployeeSubTrackName((String) subTrackData.get(0)[0]);
         }
         return userData;
     }

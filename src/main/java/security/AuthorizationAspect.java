@@ -1,57 +1,54 @@
-package security_aspect;
+package security;
 
-import security_aspect.*;
 import com.nimbusds.jose.JOSEException;
-import com.nimbusds.jose.JWEObject;
-import com.nimbusds.jose.JWSVerifier;
-import com.nimbusds.jose.crypto.DirectDecrypter;
-import com.nimbusds.jose.crypto.MACVerifier;
-import com.nimbusds.jwt.SignedJWT;
 import dto.Response;
 import java.text.ParseException;
-import java.util.Date;
+import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import javax.servlet.http.HttpServletRequest;
 import net.minidev.json.JSONObject;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 @Aspect
 @Component
 public class AuthorizationAspect {
-
+   
     @Pointcut("within(@org.springframework.web.bind.annotation.RestController *)")
     public void controller() {
     }
 
+ //   @Around("controller() && execution(public * com.mycompany.restfulspring.*.*Authorized(..))")
     
-    @Around("controller() && execution(public * com.mycompany.restfulspring.*.*Authorized(..))")
     public Response authorize(ProceedingJoinPoint joinPoint) {
 
         Response response = new Response();
-        response.setError("1");
+        response.setError(Response.INVALID_ACCESS_TOKEN);
         response.setResponseData(null);
-        response.setStatus("failed");
+        response.setStatus(Response.failure);
 
         System.out.println("Authorize at " + System.currentTimeMillis());
         Object[] args = joinPoint.getArgs();
-        
-       // for(Object arg : args)
+
+        // for(Object arg : args)
         //    System.out.println((String)arg);
-        
         if (args != null) {
             if (args[0] != null) {
 
                 try {
                     String accessToken = (String) args[0];
-                                        System.out.println("token " + accessToken);
+                    System.out.println("token " + accessToken);
 
-                    JSONObject jSONObject = verifyToken(accessToken);
-                    
+                    SecretKey secretKey = SecurityManager.getAccessKey();
+                    JSONObject jSONObject = SecurityManager.validateToken(accessToken, secretKey);
+
                     //replace the first parameter(token) with user id
-                    args[0] = (String)jSONObject.get("id");
+                    args[0] = (String) jSONObject.get("id");
                     System.out.println("responce to be called");
                     return (Response) joinPoint.proceed(args);
 
@@ -64,9 +61,10 @@ public class AuthorizationAspect {
 
                     if (ex.getMessage().equals("expiredToken")) {
                         System.out.println("jose time exception");
-                        response.setError("2");
-
+                        response.setError(Response.EXPIRED_ACCESS_TOKEN);
+                        
                     }
+                    
                     ex.printStackTrace();
                 } catch (Throwable ex) {
 
@@ -82,26 +80,7 @@ public class AuthorizationAspect {
         return response;
     }
 
-    public JSONObject verifyToken(String accessToken) throws JOSEException, ParseException {
-        SecretKey secretKey = SecurityKeyInstance.getEncryptionKey();
-        SignedJWT signedJWT = SignedJWT.parse(accessToken);
-
-        JWSVerifier verifier = new MACVerifier(secretKey);
-        
-        if(!signedJWT.verify(verifier)){
-            throw new ParseException("invalidToken", 0);
-        }
-     
-        if (signedJWT.getJWTClaimsSet().getExpirationTime().
-                compareTo(new Date(System.currentTimeMillis())) <= 0) { //expired token
-
-            throw new JOSEException("expiredToken");
-        }
-
-        return signedJWT.getPayload().toJSONObject();
-
-    }
-
+    
     /*
     @Around("controller() && execution(* *.*Authorized(..))")
     public Response authorize(ProceedingJoinPoint joinPoint) {
