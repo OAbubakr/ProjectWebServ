@@ -20,7 +20,9 @@ import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import dto.LoginRequest;
+import dto.LoginResponse;
 import dto.Response;
+import dto.UserLogin;
 import java.util.Date;
 import javax.crypto.SecretKey;
 import net.minidev.json.JSONObject;
@@ -46,9 +48,10 @@ public class TokenGeneratorController {
 //            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
             headers = "Accept=application/json")
 
-    public Response getToken(@RequestBody LoginRequest request) {
+    public LoginResponse getToken(@RequestBody LoginRequest request) {
 
         Response response = null;
+        LoginResponse loginResponse = new LoginResponse();
         int id;
 
         System.out.println("request " + request.getUserName() + " "+ request.getUserType() + " "+ request.getPassword());
@@ -56,7 +59,10 @@ public class TokenGeneratorController {
         //login logic
         LoginDAO loginDao = DaoInstance.getInstance().getLoginDao();
         response = loginDao.getUserId(request.getUserType(), request.getUserName(), request.getPassword());
-        if (response.getStatus().equals("success")) {
+        loginResponse.setStatusLogin(response.getStatus());
+        if(response.getError()!=null)
+            loginResponse.setErrorLogin(response.getError());
+        if (response.getStatus().equals("SUCCESS")) {
             id = (int) response.getResponseData();
             System.out.println("id " + id);
             //create access token
@@ -68,7 +74,7 @@ public class TokenGeneratorController {
                 JWSSigner signer = new MACSigner(secretKey.getEncoded());
 
                 // Prepare JWT with claims set 7 * 24 * 60 * 60 * 1000
-                long expiryDateInMillis = System.currentTimeMillis() + (60000); //valid for one week
+                long expiryDateInMillis = System.currentTimeMillis() + (7*24*60*60000); //valid for one week
 
                 JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
                         .expirationTime(new Date(expiryDateInMillis))
@@ -86,11 +92,17 @@ public class TokenGeneratorController {
                 response = new Response();
                 response.setStatus("success");
                 response.setError(null);
-                JSONObject responseData = new JSONObject();
-                responseData.put("access_token", accessToken);
-                responseData.put("token_type", "bearer");
-                responseData.put("expiry_date", expiryDateInMillis);
-                response.setResponseData(responseData);
+//                JSONObject responseData = new JSONObject();
+                UserLogin login = new UserLogin();
+                login.setToken(accessToken);
+                login.setExpiryDate(new Long(expiryDateInMillis).toString());
+                login.setTokenType("bearer");
+//                responseData.put("access_token", accessToken);
+//                responseData.put("token_type", "bearer");
+//                responseData.put("expiry_date", expiryDateInMillis);
+                response.setResponseData(login);
+                loginResponse.setData(login);
+                
 
             } catch (KeyLengthException ex) {
                 ex.printStackTrace();
@@ -100,7 +112,7 @@ public class TokenGeneratorController {
 
         }
 
-        return response;
+        return loginResponse;
     }
 
     @RequestMapping(value = "/getTokenEncrypted", method = RequestMethod.GET, headers = "Accept=application/json")

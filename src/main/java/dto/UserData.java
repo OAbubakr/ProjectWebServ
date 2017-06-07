@@ -46,7 +46,6 @@ public class UserData implements Serializable {
     private String studentMobile;
 
     //company
-    private int companyID;
     private String companyName;
     private int companyNoOfEmp;
     private String companyAreaKnowledge;
@@ -141,13 +140,7 @@ public class UserData implements Serializable {
         this.employeePosition = employeePosition;
     }
 
-    public int getCompanyID() {
-        return companyID;
-    }
-
-    public void setCompanyID(int companyID) {
-        this.companyID = companyID;
-    }
+    
 
     public String getCompanyName() {
         return companyName;

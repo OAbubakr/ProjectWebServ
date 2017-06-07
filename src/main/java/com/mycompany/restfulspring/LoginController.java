@@ -35,7 +35,7 @@ public class LoginController {
     }
     
     
-     @RequestMapping(value = "/onLoginAuth", method = RequestMethod.POST, headers = "Accept=application/json0")
+     @RequestMapping(value = "/onLoginAuth", method = RequestMethod.POST, headers = "Accept=application/json")
     public Response onLoginAuth(@RequestBody LoginRequest request){
         System.out.println(request.getUserType()+"   "+request.getUserName()+"    "+request.getPassword());
         LoginDAO loginDao = DaoInstance.getInstance().getLoginDao();
