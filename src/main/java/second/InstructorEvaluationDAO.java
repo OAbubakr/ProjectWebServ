@@ -49,8 +49,9 @@ public class InstructorEvaluationDAO {
 
                 for (Object[] row : list) {
                     InstructorEvaluation iv = new InstructorEvaluation();
-                    iv.setEval((String) row[2]);
-                    iv.setCourseId((int) row[4]);
+                    iv.setEval((String) row[0]);
+                    iv.setCourseId((int) row[1]);
+                    iv.setCourseName((String) row[2]);
                     instructorEvaluation.add(iv);
                 }
                 //---------------------------------------------------------------------
@@ -81,12 +82,12 @@ public class InstructorEvaluationDAO {
                     instructorEvaluation = temp;
                 }
 
-                for (int j = 0; j < all.size(); j++) {
-                    for (int k = 0; k < all.get(j).size(); k++) {
-                        System.out.println(all.get(j).get(k).getCourseId());
-                    }
-                    System.out.println("------------------------------------------------------------------");
-                }
+//                for (int j = 0; j < all.size(); j++) {
+//                    for (int k = 0; k < all.get(j).size(); k++) {
+//                        System.out.println(all.get(j).get(k).getCourseId());
+//                    }
+//                    System.out.println("------------------------------------------------------------------");
+//                }
                 //----------------------------------------------------------------
                 
                 ArrayList<InstructorEvaluation> averageEval = new ArrayList<>();
@@ -94,6 +95,7 @@ public class InstructorEvaluationDAO {
                     
                     int avgEval = 0;
                     int courseId = all.get(j).get(0).getCourseId();
+                    String courseName = all.get(j).get(0).getCourseName();
                     int size = all.get(j).size();
                     
                     for (int k=0; k< all.get(j).size(); k++){
@@ -101,6 +103,7 @@ public class InstructorEvaluationDAO {
                     }
                     InstructorEvaluation obj = new InstructorEvaluation();
                     obj.setCourseId(courseId);
+                    obj.setCourseName(courseName);
                     obj.setEval(String.valueOf(avgEval/size));
                     averageEval.add(obj);
                 }
