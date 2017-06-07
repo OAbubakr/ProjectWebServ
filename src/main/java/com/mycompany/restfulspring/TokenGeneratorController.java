@@ -96,8 +96,7 @@ public class TokenGeneratorController {
     @RequestMapping(value = "/renewAccessToken",
             method = RequestMethod.POST,
             headers = "Accept=application/json")
-    public Response renewAccessToken(@RequestParam(value = "refreshToken", required = true) String refreshToken
-    ) {
+    public Response renewAccessToken(@RequestParam(value = "refreshToken", required = true) String refreshToken) {
 
         Response response = new Response();
         response.setError(Response.INVALID_REFRESH_TOKEN);
@@ -142,16 +141,6 @@ public class TokenGeneratorController {
         return response;
 
     }
-
-    @RequestMapping(value = "/renewRefreshToken",
-            method = RequestMethod.POST,
-            headers = "Accept=application/json")
-    public Response renewRefreshToken(@RequestParam(value = "refreshToken", required = true) String refreshToken) {
-        
-        return null;
-
-    }
-
     private String getAccessToken(SecretKey secretKey, long expiryDateInMillis, String id, String type)
             throws KeyLengthException, JOSEException {
 
