@@ -88,77 +88,70 @@ public class TokenGeneratorController {
             } catch (JOSEException ex) {
                 ex.printStackTrace();
             }
-
-            return loginResponse;
         }
+        return loginResponse;
 
-        @RequestMapping(value = "/renewAccessToken",
-                method = RequestMethod.POST,
-                headers = "Accept=application/json")
-        public Response renewAccessToken
-        (@RequestParam(value = "refreshToken", required = true)
-        String refreshToken
-        
-            ) {
+    }
+
+    @RequestMapping(value = "/renewAccessToken",
+            method = RequestMethod.POST,
+            headers = "Accept=application/json")
+    public Response renewAccessToken(@RequestParam(value = "refreshToken", required = true) String refreshToken
+    ) {
 
         Response response = new Response();
-            response.setError(Response.INVALID_REFRESH_TOKEN);
-            response.setStatus(Response.failure);
-            response.setResponseData(null);
+        response.setError(Response.INVALID_REFRESH_TOKEN);
+        response.setStatus(Response.failure);
+        response.setResponseData(null);
 
-            try {
-                //validate refresh token
-                SecretKey secretKey = security.SecurityManager.getRefreshKey();
-                JSONObject refreshTokenPayload = security.SecurityManager.validateToken(refreshToken, secretKey);
+        try {
+            //validate refresh token
+            SecretKey secretKey = security.SecurityManager.getRefreshKey();
+            JSONObject refreshTokenPayload = security.SecurityManager.validateToken(refreshToken, secretKey);
 
-                String id = (String) refreshTokenPayload.get("id");
-                String type = (String) refreshTokenPayload.get("type");
-                long accessExpiryDateInMillis = System.currentTimeMillis() + (60000); //valid for one week
-                String accessToken = getAccessToken(security.SecurityManager.getAccessKey(),
-                        accessExpiryDateInMillis, id, type);
+            String id = (String) refreshTokenPayload.get("id");
+            String type = (String) refreshTokenPayload.get("type");
+            long accessExpiryDateInMillis = System.currentTimeMillis() + (60000); //valid for one week
+            String accessToken = getAccessToken(security.SecurityManager.getAccessKey(),
+                    accessExpiryDateInMillis, id, type);
 
-                response.setStatus(Response.sucess);
-                response.setError(null);
-                JSONObject responseData = new JSONObject();
-                responseData.put("access_token", accessToken);
-                responseData.put("token_type", "bearer");
-                responseData.put("expiry_date", accessExpiryDateInMillis);
-                response.setResponseData(responseData);
+            response.setStatus(Response.sucess);
+            response.setError(null);
+            JSONObject responseData = new JSONObject();
+            responseData.put("access_token", accessToken);
+            responseData.put("token_type", "bearer");
+            responseData.put("expiry_date", accessExpiryDateInMillis);
+            response.setResponseData(responseData);
 
-            } catch (KeyLengthException ex) {
-                ex.printStackTrace();
+        } catch (KeyLengthException ex) {
+            ex.printStackTrace();
 
-            } catch (JOSEException ex) {
-                ex.getMessage();
-                if (ex.getMessage().equals("expiredToken")) {
-                    System.out.println("jose time exception");
-                    response.setError(Response.EXPIRED_REFRESH_TOKEN);
-                }
-
-                ex.printStackTrace();
-            } catch (ParseException ex) {
-                ex.printStackTrace();
-
+        } catch (JOSEException ex) {
+            ex.getMessage();
+            if (ex.getMessage().equals("expiredToken")) {
+                System.out.println("jose time exception");
+                response.setError(Response.EXPIRED_REFRESH_TOKEN);
             }
 
-            return response;
+            ex.printStackTrace();
+        } catch (ParseException ex) {
+            ex.printStackTrace();
 
         }
 
-        @RequestMapping(value = "/renewRefreshToken",
-                method = RequestMethod.POST,
-                headers = "Accept=application/json")
-        public Response renewRefreshToken
-        (@RequestParam(value = "refreshToken", required = true)
-        String refreshToken
-        
-            ) {
-        
+        return response;
+
+    }
+
+    @RequestMapping(value = "/renewRefreshToken",
+            method = RequestMethod.POST,
+            headers = "Accept=application/json")
+    public Response renewRefreshToken(@RequestParam(value = "refreshToken", required = true) String refreshToken
+    ) {
+
         return null;
 
-        }
-
-    
+    }
 
     private String getAccessToken(SecretKey secretKey, long expiryDateInMillis, String id, String type)
             throws KeyLengthException, JOSEException {
