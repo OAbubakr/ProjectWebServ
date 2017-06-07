@@ -5,21 +5,26 @@ import dto.Response;
 import java.text.ParseException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import javax.servlet.http.HttpServletRequest;
 import net.minidev.json.JSONObject;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 @Aspect
 @Component
 public class AuthorizationAspect {
-
+   
     @Pointcut("within(@org.springframework.web.bind.annotation.RestController *)")
     public void controller() {
     }
 
-//    @Around("controller() && execution(public * com.mycompany.restfulspring.*.*Authorized(..))")
+ //   @Around("controller() && execution(public * com.mycompany.restfulspring.*.*Authorized(..))")
+    
     public Response authorize(ProceedingJoinPoint joinPoint) {
 
         Response response = new Response();
