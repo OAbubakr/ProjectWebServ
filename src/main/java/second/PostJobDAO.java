@@ -7,6 +7,9 @@ package second;
 
 import bean.JobOpportunity;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import notifications.FCMNotification;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -67,7 +70,7 @@ public class PostJobDAO {
         final String sql = "{ CALL PostJop(:companyId, :jobCode, :jobTitle, :jobDesc, :experience,"
                 + ":closingDate, :sendTo, :jobNoNeed, :subTrackId, :jobDate) }";
         
-        return (String) template.execute(new HibernateCallback<Object>(){
+        template.execute(new HibernateCallback<Object>(){
             @Override
             public Object doInHibernate(Session sn) throws HibernateException, SQLException {
                 Query query = sn.createSQLQuery(sql)
@@ -83,9 +86,15 @@ public class PostJobDAO {
                         .setParameter("jobDate", jobOpportunity.getJobDate());
                 
                 query.executeUpdate();
-                return "Insertion Done";
+                return null;
             }  
         });
         
+          try {
+            FCMNotification.sendNotification(FCMNotification.JOB_POST, jobOpportunity.getCompanyName()+"-"+jobOpportunity.getJobTitle(), jobOpportunity.getJobDesc(), "jobPosts");
+        } catch (Exception ex) {
+            Logger.getLogger(PermissionDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         return "Insertion Done";
     }
 }

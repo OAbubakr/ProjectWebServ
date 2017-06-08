@@ -38,7 +38,7 @@ public class Controller {
 //    }
     
     @RequestMapping(value= "/getStudentSchedule", method = RequestMethod.GET, headers = "Accept=application/json")
-    public Response getStudentSchedule(@RequestParam("studentId") int studentId){
+    public Response getStudentScheduleAuthorized(@RequestParam("studentId") int studentId){
         Response response = new Response();
         StudentScheduleDao studentScheduleDao = DaoInstance.getInstance().getStudentScheduleDao();
         ArrayList<StudentSession> studentSessions =studentScheduleDao.getStudentSchedule(studentId);
@@ -48,7 +48,7 @@ public class Controller {
     
     
     @RequestMapping(value= "/getTrackSchedule", method = RequestMethod.GET, headers = "Accept=application/json")
-    public Response getTrackSchedule(@RequestParam("trackId") int trackId){
+    public Response getTrackScheduleAuthorized( Integer myId, @RequestParam("trackId") int trackId){
         
         Response response = new Response();
        TrackScheduleDao trackScheduleDao=DaoInstance.getInstance().getTrackScheduleDao();

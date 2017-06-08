@@ -23,7 +23,7 @@ import second.PermissionDAO;
 public class PermissionController {
 
     @RequestMapping(value = "/addPermission", method = RequestMethod.POST, headers = "Accept=application/json")
-    public Response addPermission(@RequestBody Permission permission) {
+    public Response addPermissionAuthorized(Integer myId, @RequestBody Permission permission) {
 
         PermissionDAO dao = DaoInstance.getInstance().getPermissionDAO();
         System.out.println("--------------" + permission.getComment());

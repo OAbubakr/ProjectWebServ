@@ -28,7 +28,7 @@ public class CompanyController {
     
     
     @RequestMapping(value = "/getCompanyProfile", method = RequestMethod.GET, headers = "Accept=application/json")
-    public Response getCompanyProfile(@RequestParam("companyID") int id) {
+    public Response getCompanyProfile( Integer myId, @RequestParam("companyID") int id) {
         Response response = new Response();
         CompanyDAO companyDAO = DaoInstance.getInstance().getCompanyDAO();
         CompanyProfile companyProfile = companyDAO.getCompanyProfile(id);
@@ -37,7 +37,7 @@ public class CompanyController {
     
     
     @RequestMapping(value = "/getAllVacancies", method = RequestMethod.GET, headers = "Accept=application/json")
-    public Response getAllVacancies() {
+    public Response getAllVacanciesAuthorized() {
     Response response = new Response();
         CompanyDAO companyDAO = DaoInstance.getInstance().getCompanyDAO();
         ArrayList<JobVacancy> jobVacancys = companyDAO.getAllJobs();
@@ -45,7 +45,7 @@ public class CompanyController {
     }
     
     @RequestMapping(value = "/getAllCompanies", method = RequestMethod.GET, headers = "Accept=application/json")
-    public Response getAllCompanies() {
+    public Response getAllCompaniesAuthorized() {
         Response response = new Response();
         CompanyDAO companyDAO = DaoInstance.getInstance().getCompanyDAO();
         ArrayList<CompanyProfile> companies = companyDAO.getAllCompanies();
