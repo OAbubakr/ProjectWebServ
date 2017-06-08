@@ -6,6 +6,7 @@
 package com.mycompany.restfulspring;
 
 
+import bean.CompaniesProfiles;
 import bean.CompanyProfile;
 import bean.JobVacancy;
 import dto.Response;
@@ -47,7 +48,7 @@ public class CompanyController {
     public Response getAllCompanies() {
         Response response = new Response();
         CompanyDAO companyDAO = DaoInstance.getInstance().getCompanyDAO();
-        ArrayList<JobVacancy> jobVacancys = companyDAO.getAllCompanies();
-        return response.createResponse(jobVacancys);
+        ArrayList<CompanyProfile> companies = companyDAO.getAllCompanies();
+        return response.createResponse(new CompaniesProfiles(companies));
     }
 }
