@@ -42,8 +42,8 @@ public class TokenGeneratorController {
     @Autowired
     ServletContext context;
 
-    private static final long accessTokenExpiresInMillis = 6000;
-    private static final long refreshTokenExpiresInMillis = 6000;
+    private static final long accessTokenExpiresInMillis = 60000;
+    private static final long refreshTokenExpiresInMillis = 60000;
     
     
     @RequestMapping(value = "/getToken",
