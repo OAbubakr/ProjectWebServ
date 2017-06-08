@@ -14,21 +14,16 @@ import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import dto.LoginRequest;
+import dto.LoginResponse;
 import dto.Response;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.security.SecureRandom;
 import java.text.ParseException;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.crypto.SecretKey;
 import javax.servlet.ServletContext;
 import net.minidev.json.JSONObject;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -54,20 +49,24 @@ public class TokenGeneratorController {
     @RequestMapping(value = "/getToken",
             method = RequestMethod.POST,
             headers = "Accept=application/json")
-    public Response getToken(@RequestBody LoginRequest request) {
+
+    public LoginResponse getToken(@RequestBody LoginRequest request) {
 
         Response response = null;
+        LoginResponse loginResponse = new LoginResponse();
         int id;
 
        
         LoginDAO loginDao = DaoInstance.getInstance().getLoginDao();
         response = loginDao.getUserId(request.getUserType(), request.getUserName(), request.getPassword());
-        String accessKey = context.getInitParameter("accessKey");
-        String refreshKey = context.getInitParameter("refreshKey");
-
-        if (response.getStatus().equals(Response.sucess)) {
+        loginResponse.setStatusLogin(response.getStatus());
+        if (response.getError() != null) {
+            loginResponse.setErrorLogin(response.getError());
+        }
+        if (response.getStatus().equals("SUCCESS")) {
             id = (int) response.getResponseData();
 
+            String accessKey = context.getInitParameter("accessKey"); String refreshKey = context.getInitParameter("refreshKey");
             //create access token
             try {
                 // Generate 256-bit AES key for HMAC as well as encryption
@@ -82,27 +81,24 @@ public class TokenGeneratorController {
                         refreshExpiryDateInMillis,
                         String.valueOf(id),
                         String.valueOf(request.getUserType()));
-
-                //create the refresh token
                 response = new Response();
                 response.setStatus(Response.sucess);
                 response.setError(null);
-                JSONObject responseData = new JSONObject();
-                responseData.put("access_token", accessToken);
-                responseData.put("refresh_token", refreshToken);
-                responseData.put("token_type", "bearer");
-                responseData.put("expiry_date", accessExpiryDateInMillis);
-                response.setResponseData(responseData);
+                UserLogin login = new UserLogin();
+                login.setToken(accessToken);
+                login.setExpiryDate(new Long(accessExpiryDateInMillis).toString());
+                login.setTokenType("bearer");
+                response.setResponseData(login);
+                loginResponse.setData(login);
 
             } catch (KeyLengthException ex) {
                 ex.printStackTrace();
             } catch (JOSEException ex) {
                 ex.printStackTrace();
             }
-
         }
+        return loginResponse;
 
-        return response;
     }
 
     @RequestMapping(value = "/renewAccessToken",

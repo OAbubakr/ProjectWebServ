@@ -29,7 +29,7 @@ public class ProfileDAO {
     private String userTypeProcedure;
     private String userIdProcedure;
     private HibernateTemplate template;
-    
+
     public ProfileDAO() {
     }
 
@@ -41,7 +41,7 @@ public class ProfileDAO {
         this.template = template;
     }
 
-    public Response getData(int userType, int userId) {
+    public Response getData(String userId, int userType) {
         switch (userType) {
             case 1://login as a student
                 userTypeProcedure = "GetStudentDetails";
@@ -61,7 +61,8 @@ public class ProfileDAO {
                 break;
         }
         final int userTypeValue = userType;
-        final int userIdValue = userId;
+        
+        final int userIdValue = new Integer(userId);
         return template.execute(new HibernateCallback<Response>() {
             boolean isCorrect = false;
             Response response = new Response();
@@ -209,7 +210,7 @@ public class ProfileDAO {
         for (Object[] cObject : companyList) {
 
             if (cObject[0] != null) {
-                companyProfile.setCompanyID((int) cObject[0]);
+                companyProfile.setId((int) cObject[0]);
             }
             if (cObject[1] != null) {
                 companyProfile.setCompanyName((String) cObject[1]);
@@ -264,10 +265,10 @@ public class ProfileDAO {
         if (branchData.size() > 0) {
             userData.setEmployeeBranchName((String) branchData.get(0)[1]);
         }
-
+        int intakeId = 37;
         Query querySupervisor = sn.createSQLQuery("{CALL IsSupervisor(:ProgramID,:IntakeID,:EmployeeID)}")
-                .setParameter("ProgramID", 4)
-                .setParameter("IntakeID", 37)
+                .setParameter("ProgramID", 4)//9month
+                .setParameter("IntakeID", intakeId)
                 .setParameter("EmployeeID", userIdValue);
         List<Object[]> queryData = querySupervisor.list();
         if (queryData.size() > 0) {
