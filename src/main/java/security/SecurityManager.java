@@ -13,13 +13,11 @@ import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWSVerifier;
 import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.SignedJWT;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.util.Date;
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
 import net.minidev.json.JSONObject;
+import org.apache.commons.codec.binary.Base64;
 
 /**
  *
@@ -27,75 +25,17 @@ import net.minidev.json.JSONObject;
  */
 public class SecurityManager {
 
- //   private static byte[] secret = null;
-    private static SecretKey secretKey = null;
-    private static SecretKey refreshKey = null;
-
     private SecurityManager() {
 
     }
-/*
-    public static byte[] getKey() {
 
-        if (secret == null) {
-            System.out.println("null secret");
-            synchronized (SecurityKeyInstance.class) {
-                if (secret == null) {
-                    SecureRandom secureRandom = new SecureRandom();
-                    secret = new byte[32];
-                    secureRandom.nextBytes(secret);
-                }
-            }
-        }
+   
+    public static JSONObject validateToken(String token, String stringKey) throws JOSEException, ParseException {
 
-        return secret;
-    }
-*/
-    public static SecretKey getAccessKey() {
-
-        if (secretKey == null) {
-            synchronized (SecurityManager.class) {
-                if (secretKey == null) {
-                    try {
-                        KeyGenerator keyGen = KeyGenerator.getInstance("AES");
-                        keyGen.init(256);
-                        secretKey = keyGen.generateKey();
-                    } catch (NoSuchAlgorithmException ex) {
-                        ex.printStackTrace();
-                    }
-
-                }
-            }
-        }
-
-        return secretKey;
-    }
-
-    public static SecretKey getRefreshKey() {
-
-        if (refreshKey == null) {
-            synchronized (SecurityManager.class) {
-                if (refreshKey == null) {
-
-                    try {
-                        KeyGenerator keyGen = KeyGenerator.getInstance("AES");
-                        keyGen.init(256);
-                        refreshKey = keyGen.generateKey();
-                    } catch (NoSuchAlgorithmException ex) {
-                        ex.printStackTrace();
-                    }
-
-                }
-            }
-        }
-        return refreshKey;
-    }
-
-    public static JSONObject validateToken(String token, SecretKey secretKey) throws JOSEException, ParseException {
-        
+       byte[] key = Base64.decodeBase64(stringKey);        
         SignedJWT signedJWT = SignedJWT.parse(token);
 
-        JWSVerifier verifier = new MACVerifier(secretKey);
+        JWSVerifier verifier = new MACVerifier(key);
 
         if (!signedJWT.verify(verifier)) {
             throw new ParseException("invalidToken", 0);
@@ -111,5 +51,15 @@ public class SecurityManager {
 
     }
 
-    
 }
+
+
+/*
+
+                secureRandom = new SecureRandom();
+                    keys = new byte[32];
+                    secureRandom.nextBytes(keys);
+                    s = Base64.encode(keys);
+                    System.out.println("tok1 " + s);
+
+*/

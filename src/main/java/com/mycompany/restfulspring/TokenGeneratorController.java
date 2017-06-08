@@ -16,15 +16,14 @@ import com.nimbusds.jwt.SignedJWT;
 import dto.LoginRequest;
 import dto.LoginResponse;
 import dto.Response;
-import dto.UserLogin;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.crypto.SecretKey;
 import javax.servlet.ServletContext;
 import net.minidev.json.JSONObject;
-import org.springframework.context.ApplicationContext;
+import org.apache.commons.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,13 +31,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import second.DaoInstance;
 import second.LoginDAO;
-
+import dto.UserLogin;
 /**
  *
  * @author home
  */
 @RestController
 public class TokenGeneratorController {
+
+    @Autowired
+    ServletContext context;
+
+    private static final long accessTokenExpiresInMillis = 60*60*1000; //hour
+    private static final long refreshTokenExpiresInMillis = 60*60*1000*24*14; //2weeks
+    
     
     @RequestMapping(value = "/getToken",
             method = RequestMethod.POST,
@@ -50,9 +56,7 @@ public class TokenGeneratorController {
         LoginResponse loginResponse = new LoginResponse();
         int id;
 
-        System.out.println("request " + request.getUserName() + " " + request.getUserType() + " " + request.getPassword());
-
-        //login logic
+       
         LoginDAO loginDao = DaoInstance.getInstance().getLoginDao();
         response = loginDao.getUserId(request.getUserType(), request.getUserName(), request.getPassword());
         loginResponse.setStatusLogin(response.getStatus());
@@ -61,15 +65,19 @@ public class TokenGeneratorController {
         }
         if (response.getStatus().equals("SUCCESS")) {
             id = (int) response.getResponseData();
-            System.out.println("id " + id);
+
+            String accessKey = context.getInitParameter("accessKey"); String refreshKey = context.getInitParameter("refreshKey");
+            //create access token
             try {
-                long accessExpiryDateInMillis = System.currentTimeMillis() + (60 * 60000);
-                long refreshExpiryDateInMillis = System.currentTimeMillis() + (60000);
-                String accessToken = getAccessToken(security.SecurityManager.getAccessKey(),
+                // Generate 256-bit AES key for HMAC as well as encryption
+                long accessExpiryDateInMillis = System.currentTimeMillis() + accessTokenExpiresInMillis; //valid for one week
+                long refreshExpiryDateInMillis = System.currentTimeMillis() + refreshTokenExpiresInMillis; //valid for one week
+
+                String accessToken = getAccessToken(accessKey,
                         accessExpiryDateInMillis,
                         String.valueOf(id),
                         String.valueOf(request.getUserType()));
-                String refreshToken = getRefreshToken(security.SecurityManager.getRefreshKey(),
+                String refreshToken = getRefreshToken(refreshKey,
                         refreshExpiryDateInMillis,
                         String.valueOf(id),
                         String.valueOf(request.getUserType()));
@@ -78,6 +86,8 @@ public class TokenGeneratorController {
                 response.setError(null);
                 UserLogin login = new UserLogin();
                 login.setToken(accessToken);
+                login.setRefreshToken(refreshToken);
+                login.setRefreshTokenExpiryDate(new Long(refreshExpiryDateInMillis).toString());
                 login.setExpiryDate(new Long(accessExpiryDateInMillis).toString());
                 login.setTokenType("bearer");
                 response.setResponseData(login);
@@ -98,6 +108,8 @@ public class TokenGeneratorController {
             headers = "Accept=application/json")
     public Response renewAccessToken(@RequestParam(value = "refreshToken", required = true) String refreshToken) {
 
+        String refreshKey = context.getInitParameter("refreshKey");
+        String accessKey = context.getInitParameter("accessKey");
         Response response = new Response();
         response.setError(Response.INVALID_REFRESH_TOKEN);
         response.setStatus(Response.failure);
@@ -105,13 +117,13 @@ public class TokenGeneratorController {
 
         try {
             //validate refresh token
-            SecretKey secretKey = security.SecurityManager.getRefreshKey();
-            JSONObject refreshTokenPayload = security.SecurityManager.validateToken(refreshToken, secretKey);
+            JSONObject refreshTokenPayload = security.SecurityManager.
+                    validateToken(refreshToken, refreshKey);
 
             String id = (String) refreshTokenPayload.get("id");
             String type = (String) refreshTokenPayload.get("type");
-            long accessExpiryDateInMillis = System.currentTimeMillis() + (60000); //valid for one week
-            String accessToken = getAccessToken(security.SecurityManager.getAccessKey(),
+            long accessExpiryDateInMillis = System.currentTimeMillis() + accessTokenExpiresInMillis; //valid for one week
+            String accessToken = getAccessToken(accessKey,
                     accessExpiryDateInMillis, id, type);
 
             response.setStatus(Response.sucess);
@@ -134,24 +146,27 @@ public class TokenGeneratorController {
 
             ex.printStackTrace();
         } catch (ParseException ex) {
-            ex.printStackTrace();
-
+            Logger.getLogger(TokenGeneratorController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return response;
 
     }
-    
+/*
+    @RequestMapping(value = "/renewRefreshToken",
+            method = RequestMethod.POST,
+            headers = "Accept=application/json")
     public Response renewRefreshToken(@RequestParam(value = "refreshToken", required = true) String refreshToken) {
-        
+
         return null;
 
     }
-    
-    private String getAccessToken(SecretKey secretKey, long expiryDateInMillis, String id, String type)
+*/
+    private String getAccessToken(String accessKey, long expiryDateInMillis, String id, String type)
             throws KeyLengthException, JOSEException {
 
-        JWSSigner signer = new MACSigner(secretKey.getEncoded());
+        byte[] key = Base64.decodeBase64(accessKey);
+        JWSSigner signer = new MACSigner(key);
 
         JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
                 .expirationTime(new Date(expiryDateInMillis))
@@ -168,10 +183,11 @@ public class TokenGeneratorController {
 
     }
 
-    private String getRefreshToken(SecretKey refreshKey, long expiryDateInMillis, String id, String type)
+    private String getRefreshToken(String refreshKey, long expiryDateInMillis, String id, String type)
             throws KeyLengthException, JOSEException {
 
-        JWSSigner signer = new MACSigner(refreshKey.getEncoded());
+        byte[] key = Base64.decodeBase64(refreshKey);
+        JWSSigner signer = new MACSigner(key);
 
         JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
                 .expirationTime(new Date(expiryDateInMillis))
@@ -307,3 +323,22 @@ public class TokenGeneratorController {
     }
      */
 }
+
+
+/*
+
+SecureRandom secureRandom = new SecureRandom();
+                    byte[] keys = new byte[32];
+                    secureRandom.nextBytes(keys);
+                    String ss = Base64.encodeBase64String(keys);
+                    System.out.println("tok1 " + ss);
+
+        
+                    secureRandom = new SecureRandom();
+                    keys = new byte[32];
+                    secureRandom.nextBytes(keys);
+                    ss = Base64.encodeBase64String(keys);
+                    System.out.println("tok2 " + ss);
+
+        
+*/
