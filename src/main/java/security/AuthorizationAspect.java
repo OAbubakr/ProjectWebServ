@@ -23,7 +23,7 @@ public class AuthorizationAspect {
     public void controller() {
     }
 
- //   @Around("controller() && execution(public * com.mycompany.restfulspring.*.*Authorized(..))")
+    @Around("controller() && execution(public * com.mycompany.restfulspring.*.*Authorized(..))")
     
     public Response authorize(ProceedingJoinPoint joinPoint) {
 

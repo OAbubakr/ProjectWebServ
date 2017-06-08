@@ -63,7 +63,7 @@ public class TokenGeneratorController {
             id = (int) response.getResponseData();
             System.out.println("id " + id);
             try {
-                long accessExpiryDateInMillis = System.currentTimeMillis() + (24 * 60 * 60000);
+                long accessExpiryDateInMillis = System.currentTimeMillis() + (60 * 60000);
                 long refreshExpiryDateInMillis = System.currentTimeMillis() + (60000);
                 String accessToken = getAccessToken(security.SecurityManager.getAccessKey(),
                         accessExpiryDateInMillis,

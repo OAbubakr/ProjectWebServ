@@ -24,7 +24,7 @@ public class ProfileDAO {
 
     private static final String STATUSSUCCESS = "SUCCESS";
     private static final String NOERROR = "";
-    private static final String STATUSFAIL = "fail";
+    private static final String STATUSFAIL = "FAILURE";
     private static final String ERROR = "server down";
     private String userTypeProcedure;
     private String userIdProcedure;
