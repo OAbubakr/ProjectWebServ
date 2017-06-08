@@ -22,7 +22,7 @@ import second.InstructorScheduleDao;
 @RestController
 public class InstructorScheduleController {
     @RequestMapping(value= "/getInstructorSchedule", method = RequestMethod.GET, headers = "Accept=application/json")
-    public Response getStudentSchedule(@RequestParam("instructorId") int instructorId){
+    public Response getStudentScheduleAuthorized(@RequestParam("instructorId") int instructorId){
         Response response = new Response();
         InstructorScheduleDao instructorScheduleDao = DaoInstance.getInstance().getInstructorScheduleDao();
         ArrayList<InstructorSession> instructorSessions = instructorScheduleDao.getInstructorSchedule(instructorId);

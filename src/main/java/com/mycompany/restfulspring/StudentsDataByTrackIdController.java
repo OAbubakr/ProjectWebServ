@@ -23,7 +23,7 @@ import second.DaoInstance;
 public class StudentsDataByTrackIdController {
     
 @RequestMapping(value="/getStudentsByTrackId", method = RequestMethod.GET ,headers ="Accept=application/json") 
-public Response getStudents(@QueryParam("id")int id){
+public Response getStudentsAuthorized(Integer myId,@QueryParam("id")int id){
     AllStudentByTrackDao dao = DaoInstance.getInstance().getAllStudentByTrackDao();
     ArrayList<StudentDataByTrackID> data = dao.getAllStudentsDataByTrackId(id);
     return  new Response().createResponse(data);

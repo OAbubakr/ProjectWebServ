@@ -23,7 +23,7 @@ public class DownloadImageController {
 
     
     @RequestMapping("/download/{fileName:.+}")
-    public void downloadPDFResource(HttpServletRequest request,
+    public void downloadPDFResourceAuthorized(Integer myId,HttpServletRequest request,
             HttpServletResponse response,
             @PathVariable("fileName") String fileName) {
         //If user is not authorized - he should be thrown out from here itself
@@ -33,7 +33,7 @@ public class DownloadImageController {
         java.nio.file.Path file = Paths.get(dataDirectory, fileName);
         if (Files.exists(file)) {
             response.setContentType("application/jpg");
-            response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
+            response.addHeader("Content-Disposition", "attachment; filename=" + myId+fileName);
             try {
                 Files.copy(file, response.getOutputStream());
                 response.getOutputStream().flush();
