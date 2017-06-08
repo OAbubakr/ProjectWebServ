@@ -122,7 +122,7 @@ public class CompanyDAO {
         });
 }
 
-    public ArrayList<JobVacancy> getAllCompanies() {
+    public ArrayList<CompanyProfile> getAllCompanies() {
         return template.execute(new HibernateCallback<ArrayList>() {
             @Override
             public ArrayList doInHibernate(Session sn) throws HibernateException, SQLException {
