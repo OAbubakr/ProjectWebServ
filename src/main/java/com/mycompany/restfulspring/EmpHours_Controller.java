@@ -24,7 +24,7 @@ import second.EmpHoursDAO;
 public class EmpHours_Controller {
 
     @RequestMapping(value = "/getEmpHours", method = RequestMethod.GET, headers = "Accept=application/json")
-    public Response getAnswers(@RequestParam("id") int id, @RequestParam("start") String start, 
+    public Response getAnswersAuthorized(@RequestParam("id") int id, @RequestParam("start") String start, 
             @RequestParam("end") String end) {
         Response response = new Response();
         EmpHoursDAO empHoursDAO = DaoInstance.getInstance().getEmpHours();

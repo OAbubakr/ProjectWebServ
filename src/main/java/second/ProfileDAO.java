@@ -24,7 +24,7 @@ public class ProfileDAO {
 
     private static final String STATUSSUCCESS = "SUCCESS";
     private static final String NOERROR = "";
-    private static final String STATUSFAIL = "fail";
+    private static final String STATUSFAIL = "FAILURE";
     private static final String ERROR = "server down";
     private String userTypeProcedure;
     private String userIdProcedure;
@@ -41,7 +41,7 @@ public class ProfileDAO {
         this.template = template;
     }
 
-    public Response getData(String userId, int userType) {
+    public Response getData(int userId, int userType) {
         switch (userType) {
             case 1://login as a student
                 userTypeProcedure = "GetStudentDetails";

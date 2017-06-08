@@ -21,6 +21,15 @@ public class JobOpportunity {
     private int jobNoNeed;
     private int subTrackId;
     private String jobDate;
+    private String companyName;
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
 
     public int getCompanyId() {
         return companyId;

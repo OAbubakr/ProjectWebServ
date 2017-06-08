@@ -43,41 +43,39 @@ public class AuthorizationAspect {
         System.out.println("Authorize at " + System.currentTimeMillis());
         Object[] args = joinPoint.getArgs();
 
-        if (args != null) {
-            if (args[0] != null) {
+        try {
+            String accessToken = request.getHeader("Authorization");
+            System.out.println("token " + accessToken);
 
-                try {
-                    String accessToken = request.getHeader("Authorization");
-                    System.out.println("token " + accessToken);
+            JSONObject jSONObject = SecurityManager.validateToken(accessToken, accessKey);
+            if (args.length > 0) {
+                //replace the first parameter(token) with user id
+                args[0] = Integer.parseInt((String) jSONObject.get("id"));
 
-                    JSONObject jSONObject = SecurityManager.validateToken(accessToken, accessKey);
+                System.out.println("responce to be called");
+            
+            }
 
-                    //replace the first parameter(token) with user id
-                    args[0] = (String) jSONObject.get("id");
-                    System.out.println("responce to be called");
-                    return (Response) joinPoint.proceed(args);
+            return (Response) joinPoint.proceed(args);
 
-                } catch (ParseException ex) {
+        } catch (ParseException ex) {
 
-                    System.out.println("parse exception");
-                    ex.printStackTrace();
-                } catch (JOSEException ex) {
-                    System.out.println("jose exception");
+            System.out.println("parse exception");
+            ex.printStackTrace();
+        } catch (JOSEException ex) {
+            System.out.println("jose exception");
 
-                    if (ex.getMessage().equals("expiredToken")) {
-                        System.out.println("jose time exception");
-                        response.setError(Response.EXPIRED_ACCESS_TOKEN);
-
-                    }
-
-                    ex.printStackTrace();
-                } catch (Throwable ex) {
-
-                    System.out.println("throwable exception");
-                    ex.printStackTrace();
-                }
+            if (ex.getMessage().equals("expiredToken")) {
+                System.out.println("jose time exception");
+                response.setError(Response.EXPIRED_ACCESS_TOKEN);
 
             }
+
+            ex.printStackTrace();
+        } catch (Throwable ex) {
+
+            System.out.println("throwable exception");
+            ex.printStackTrace();
         }
 
         System.out.println("returning " + response.toString());
