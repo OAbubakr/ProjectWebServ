@@ -5,6 +5,7 @@ import dto.Response;
 import java.text.ParseException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import net.minidev.json.JSONObject;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -18,14 +19,22 @@ import org.springframework.web.bind.annotation.RequestHeader;
 @Aspect
 @Component
 public class AuthorizationAspect {
-   
+
+    @Autowired
+    private ServletContext context;
+
+    @Autowired
+    private HttpServletRequest request;
+
     @Pointcut("within(@org.springframework.web.bind.annotation.RestController *)")
     public void controller() {
     }
 
- //   @Around("controller() && execution(public * com.mycompany.restfulspring.*.*Authorized(..))")
-    
+    @Around("controller() && execution(public * com.mycompany.restfulspring.*.*Authorized(..))")
     public Response authorize(ProceedingJoinPoint joinPoint) {
+
+        String accessKey = context.getInitParameter("accessKey");
+        String refreshKey = context.getInitParameter("refreshKey");
 
         Response response = new Response();
         response.setError(Response.INVALID_ACCESS_TOKEN);
@@ -35,17 +44,14 @@ public class AuthorizationAspect {
         System.out.println("Authorize at " + System.currentTimeMillis());
         Object[] args = joinPoint.getArgs();
 
-        // for(Object arg : args)
-        //    System.out.println((String)arg);
         if (args != null) {
             if (args[0] != null) {
 
                 try {
-                    String accessToken = (String) args[0];
+                    String accessToken = request.getHeader("Authorization");
                     System.out.println("token " + accessToken);
 
-                    SecretKey secretKey = SecurityManager.getAccessKey();
-                    JSONObject jSONObject = SecurityManager.validateToken(accessToken, secretKey);
+                    JSONObject jSONObject = SecurityManager.validateToken(accessToken, accessKey);
 
                     //replace the first parameter(token) with user id
                     args[0] = (String) jSONObject.get("id");
@@ -62,9 +68,9 @@ public class AuthorizationAspect {
                     if (ex.getMessage().equals("expiredToken")) {
                         System.out.println("jose time exception");
                         response.setError(Response.EXPIRED_ACCESS_TOKEN);
-                        
+
                     }
-                    
+
                     ex.printStackTrace();
                 } catch (Throwable ex) {
 
@@ -80,7 +86,6 @@ public class AuthorizationAspect {
         return response;
     }
 
-    
     /*
     @Around("controller() && execution(* *.*Authorized(..))")
     public Response authorize(ProceedingJoinPoint joinPoint) {
