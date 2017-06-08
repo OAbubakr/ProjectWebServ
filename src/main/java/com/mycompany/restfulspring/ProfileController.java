@@ -24,9 +24,9 @@ import second.ProfileDAO;
 public class ProfileController {
 
     @RequestMapping(value = "/onGetUserData", method = RequestMethod.GET, headers = "Accept=application/json")
-    public Response getUserData(@RequestParam("userType") int userType,@RequestParam("userId") int userId) {
+    public Response getUserDataAuthorized(@RequestParam("token") String token,@RequestParam("userType") int userType) {
         ProfileDAO profileDao = DaoInstance.getInstance().getProfileDao();
-        return profileDao.getData(userType,userId);
+        return profileDao.getData(token,userType);
     }
 
     @RequestMapping(value = "/onSetUserData", method = RequestMethod.POST, headers = "Accept=application/json")

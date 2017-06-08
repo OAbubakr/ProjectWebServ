@@ -41,7 +41,7 @@ public class ProfileDAO {
         this.template = template;
     }
 
-    public Response getData(int userType, int userId) {
+    public Response getData(String userId, int userType) {
         switch (userType) {
             case 1://login as a student
                 userTypeProcedure = "GetStudentDetails";
@@ -61,7 +61,8 @@ public class ProfileDAO {
                 break;
         }
         final int userTypeValue = userType;
-        final int userIdValue = userId;
+        
+        final int userIdValue = new Integer(userId);
         return template.execute(new HibernateCallback<Response>() {
             boolean isCorrect = false;
             Response response = new Response();
@@ -82,7 +83,7 @@ public class ProfileDAO {
                             userData = prepareStudentData(sn, userDataValue, userIdValue);
                             break;
                         case 2://login as a staff
-                            userData = prepareStaffData(sn, userDataValue);
+                            userData = prepareStaffData(sn, userDataValue, userIdValue);
                             break;
                         case 3://login as a company
                             userData = prepareCompanyData(sn, userDataValue);
@@ -209,7 +210,7 @@ public class ProfileDAO {
         for (Object[] cObject : companyList) {
 
             if (cObject[0] != null) {
-                companyProfile.setCompanyID((int) cObject[0]);
+                companyProfile.setId((int) cObject[0]);
             }
             if (cObject[1] != null) {
                 companyProfile.setCompanyName((String) cObject[1]);
@@ -252,7 +253,7 @@ public class ProfileDAO {
         return companyProfile;
     }
 
-    private UserData prepareStaffData(Session sn, List<Object[]> userDataValue) {
+    private UserData prepareStaffData(Session sn, List<Object[]> userDataValue, int userIdValue) {
         UserData userData = new UserData();
         userData.setId((int) userDataValue.get(0)[0]);
         userData.setEmployeeName((String) userDataValue.get(0)[1]);
@@ -264,7 +265,26 @@ public class ProfileDAO {
         if (branchData.size() > 0) {
             userData.setEmployeeBranchName((String) branchData.get(0)[1]);
         }
-
+        int intakeId = 37;
+        Query querySupervisor = sn.createSQLQuery("{CALL IsSupervisor(:ProgramID,:IntakeID,:EmployeeID)}")
+                .setParameter("ProgramID", 4)//9month
+                .setParameter("IntakeID", intakeId)
+                .setParameter("EmployeeID", userIdValue);
+        List<Object[]> queryData = querySupervisor.list();
+        if (queryData.size() > 0) {
+            if(queryData.get(0)[2] != null)
+                userData.setEmployeePlatformIntake((int) queryData.get(0)[2]);
+            if(queryData.get(0)[1] != null)
+                userData.setEmployeeSubTrackId((int) queryData.get(0)[1]);
+        }
+        Query querySubTrack = sn.createSQLQuery("{CALL GetSubtrackData(:PlatformIntakeID)}")
+                .setParameter("PlatformIntakeID", userData.getEmployeePlatformIntake());
+        List<Object[]> subTrackData = querySubTrack.list();
+        if (queryData.size() > 0) {
+            if(subTrackData.size() > 0)
+                if(subTrackData.get(0)[0] != null)
+                    userData.setEmployeeSubTrackName((String) subTrackData.get(0)[0]);
+        }
         return userData;
     }
 

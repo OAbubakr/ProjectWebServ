@@ -10,33 +10,37 @@ package dto;
  * @author Mahmoud
  */
 public class LoginResponse {
-    private int data;
-    private String status;
-    private String error;
+  private UserLogin data;
+    private String statusLogin;
+    private String errorLogin;
 
-    public int getData() {
+    public UserLogin getData() {
         return data;
     }
 
-    public void setData(int data) {
+    public void setData(UserLogin data) {
         this.data = data;
     }
 
-    public String getStatus() {
-        return status;
+
+    public String getStatusLogin() {
+        return statusLogin;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+
+    public void setStatusLogin(String statusLogin) {
+        this.statusLogin = statusLogin;
     }
 
-    public String getError() {
-        return error;
+
+    public String getErrorLogin() {
+        return errorLogin;
     }
 
-    public void setError(String error) {
-        this.error = error;
+
+    public void setErrorLogin(String errorLogin) {
+        this.errorLogin = errorLogin;
     }
-    
+
     
 }
