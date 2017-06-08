@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import second.DaoInstance;
 import second.LoginDAO;
-
+import dto.UserLogin;
 /**
  *
  * @author home
@@ -86,6 +86,8 @@ public class TokenGeneratorController {
                 response.setError(null);
                 UserLogin login = new UserLogin();
                 login.setToken(accessToken);
+                login.setRefreshToken(refreshToken);
+                login.setRefreshTokenExpiryDate(new Long(refreshExpiryDateInMillis).toString());
                 login.setExpiryDate(new Long(accessExpiryDateInMillis).toString());
                 login.setTokenType("bearer");
                 response.setResponseData(login);

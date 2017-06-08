@@ -34,7 +34,6 @@ public class AuthorizationAspect {
     public Response authorize(ProceedingJoinPoint joinPoint) {
 
         String accessKey = context.getInitParameter("accessKey");
-        String refreshKey = context.getInitParameter("refreshKey");
 
         Response response = new Response();
         response.setError(Response.INVALID_ACCESS_TOKEN);
