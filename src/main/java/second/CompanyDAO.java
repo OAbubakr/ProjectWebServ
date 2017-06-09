@@ -56,18 +56,17 @@ public class CompanyDAO {
                                
                 companyProfile = new CompanyProfile();
                 companyProfile.setCompanyID(id);
-                companyProfile.setCompanyName((String) cObject[1]);
-                companyProfile.setCompanyNoOfEmp(Integer.parseInt((String) cObject[2]));
-                companyProfile.setCompanyAreaKnowledge((String) cObject[3]);
-                companyProfile.setCompanyWebSite((String) cObject[4]);
-                companyProfile.setCompanyAddress((String) cObject[5]);
-                companyProfile.setCompanyPhone((String) cObject[6]);
-                companyProfile.setCompanyMobile((String) cObject[7]);
-                companyProfile.setCompanyEmail((String) cObject[8]);
-                companyProfile.setCompanyLogoPath((String) cObject[9]);
-                companyProfile.setCompanyProfilePath((String) cObject[10]);
-                companyProfile.setCompanyUserName((String) cObject[13]);
-                companyProfile.setCompanyPassWord((String) cObject[14]); 
+                if(cObject[1]!=null) companyProfile.setCompanyName((String) cObject[1]);
+                if(cObject[2]!=null) companyProfile.setCompanyNoOfEmp(Integer.parseInt((String) cObject[2]));
+                if(cObject[3]!=null) companyProfile.setCompanyAreaKnowledge((String) cObject[3]);
+                if(cObject[4]!=null) companyProfile.setCompanyWebSite((String) cObject[4]);
+                if(cObject[5]!=null) companyProfile.setCompanyAddress((String) cObject[5]);
+                if(cObject[6]!=null)companyProfile.setCompanyPhone((String) cObject[6]);
+                if(cObject[7]!=null)companyProfile.setCompanyMobile((String) cObject[7]);
+                if(cObject[8]!=null)companyProfile.setCompanyEmail((String) cObject[8]);
+                if(cObject[9]!=null)companyProfile.setCompanyLogoPath((String) cObject[9]);
+                if(cObject[10]!=null) companyProfile.setCompanyProfilePath((String) cObject[10]);
+
                 }
                 
                 return companyProfile;
@@ -119,6 +118,35 @@ public class CompanyDAO {
                     jobs.add(job);
             }
                 return jobs;
+            }
+        });
+}
+
+    public ArrayList<CompanyProfile> getAllCompanies() {
+        return template.execute(new HibernateCallback<ArrayList>() {
+            @Override
+            public ArrayList doInHibernate(Session sn) throws HibernateException, SQLException {
+                Query query = sn.createSQLQuery(
+                        " { CALL getAllCompanies }");
+                     
+                List<Object[]> companiesList = query.list();
+                ArrayList<CompanyProfile> companies = new ArrayList<>();
+                for(Object[] row:companiesList){
+                    CompanyProfile company = new CompanyProfile();
+                   if(row[0]!=null) company.setCompanyID((int) row[0]);
+                   if(row[1]!=null)company.setCompanyName((String) row[1]);
+                   if(row[2]!=null)company.setCompanyNoOfEmp(Integer.parseInt((String) row[2]));
+                   if(row[3]!=null)company.setCompanyAreaKnowledge((String) row[3]);
+                   if(row[4]!=null)company.setCompanyWebSite((String) row[4]);
+                   if(row[5]!=null)company.setCompanyAddress((String) row[5]);
+                   if(row[6]!=null) company.setCompanyPhone((String) row[6]);
+                   if(row[7]!=null)company.setCompanyMobile((String) row[7]);
+                   if(row[8]!=null)company.setCompanyEmail((String) row[8]);
+                   if(row[9]!=null)company.setCompanyLogoPath((String) row[9]);
+                   if(row[10]!=null)company.setCompanyProfilePath((String) row[10]);                
+                    companies.add(company); 
+                }
+                return companies;
             }
         });
 }

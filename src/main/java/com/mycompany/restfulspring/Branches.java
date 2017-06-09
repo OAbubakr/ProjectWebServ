@@ -52,7 +52,7 @@ public class Branches {
     }
 
     @RequestMapping(value = "/getInstructorCourses", method = RequestMethod.GET, headers = "Accept=application/json")
-    public Response getInstructorCourses(@RequestParam("instructorId") int id) {
+    public Response getInstructorCoursesAuthorized(@RequestParam("instructorId") int id) {
         Response response = new Response();
         ProgramDAO d = DaoInstance.getInstance().getProgramDAO();
         ArrayList<Course> courses = d.GetAllInstructorsCourseByEmpId(id);

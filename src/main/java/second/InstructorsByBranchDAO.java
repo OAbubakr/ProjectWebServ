@@ -8,6 +8,7 @@ package second;
 import bean.EmployeeHours;
 import bean.Instructor;
 import bean.StudentSession;
+import dto.Response;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,28 +39,29 @@ public class InstructorsByBranchDAO {
 
     public List<Instructor> getInstructorsByBranch(final int branchIdArg, final int excludeId) {
 
-        return template.execute(new HibernateCallback<ArrayList<Instructor>>() {
+        return (List<Instructor>) template.execute(new HibernateCallback<List<Instructor>>() {
             @Override
-            public ArrayList<Instructor> doInHibernate(Session sn) throws HibernateException, SQLException {
+            public List<Instructor> doInHibernate(Session sn) throws HibernateException, SQLException {
                 Query query = sn.createSQLQuery(" { CALL GetAllInstructorsWithBranchName() }");
                 List<Object[]> data = query.list();
                 ArrayList<Instructor> instructors = new ArrayList<>();
 
-                int id;
                 int instructorId;
                 for (Object[] row : data) {
                     //get all instructors
-                    instructorId = (int)row[0];
-                    if(excludeId != instructorId){                        
+                    instructorId = (int) row[0];
+                    if (excludeId != instructorId) {
                         instructors.add(fillInstructor(row));
                     }
-                    
 
                 }
 
+//                Response response = new Response();
+//                response.setError(null);
+//                response.setStatus(Response.sucess);
+//                response.setResponseData(instructors);
                 return instructors;
             }
-
         });
     }
 
@@ -72,7 +74,7 @@ public class InstructorsByBranchDAO {
         instructor.setImagePath((String) row[13]);
         instructor.setBranchName((String) row[56]);
         instructor.setArabicBranchName((String) row[57]);
-        
+
         return instructor;
     }
 

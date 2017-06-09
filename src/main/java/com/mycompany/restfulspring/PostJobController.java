@@ -37,7 +37,7 @@ public class PostJobController {
 //    }
     
     @RequestMapping(value= "/postJob", method = RequestMethod.POST, headers = "Accept=application/json")
-    public Response postJob(@RequestBody JobOpportunity jobOpportunity){
+    public Response postJobAuthorized(Integer myId, @RequestBody JobOpportunity jobOpportunity){
         
         PostJobDAO dao = DaoInstance.getInstance().getPostJobDAO();
         return new Response().createResponse(dao.postJob(jobOpportunity)) ;

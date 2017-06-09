@@ -31,7 +31,7 @@ public class SaveImageController {
      * @return
      */
     @RequestMapping(value = "{id}/fileupload", headers = ("content-type=multipart/*"), method = RequestMethod.POST)
-    public String upload(HttpServletRequest request,
+    public String uploadAuthorized(Integer myid, HttpServletRequest request,
             HttpServletResponse response,@RequestParam("file") MultipartFile inputFile, @PathVariable int id) { //,@RequestParam("id") int id
         System.out.println("id is "+ id);
         Gson gson = new Gson();
@@ -41,16 +41,16 @@ public class SaveImageController {
         if (!inputFile.isEmpty()) {
             try {
                 String originalFilename = inputFile.getOriginalFilename();
-                File destinationFile = new File(request.getServletContext().getRealPath("/WEB-INF/uploaded")+"\\"
+                File destinationFile = new File(request.getServletContext().getRealPath("/WEB-INF/uploaded")
                         + File.separator + originalFilename);
                 inputFile.transferTo(destinationFile);
                 fileInfo.setFileName(destinationFile.getPath());
                 System.out.println(destinationFile.getPath());
 
                 fileInfo.setFileSize(inputFile.getSize());
-                headers.add("File Uploaded Successfully - ", originalFilename);
+                headers.add("File Uploaded Successfully - ", id+originalFilename);
                 SaveImageDao saveImageDao = DaoInstance.getInstance().getSaveImageDao();
-                String s = saveImageDao.insertImage(id,originalFilename);
+                String s = saveImageDao.insertImage(5700, destinationFile.getPath());
 
                 returnMessage.setMessage(s);
                 return gson.toJson(returnMessage);
