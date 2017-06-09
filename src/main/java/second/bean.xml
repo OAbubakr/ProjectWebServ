@@ -8,6 +8,9 @@
     <bean id ="StudentDAO" class="second.StudentDAO">
         <property name="template" ref="template"/>
     </bean>
+    <bean id ="IntakesDao" class="second.IntakesDao">
+        <property name="template" ref="template"/>
+    </bean>
     
     <bean id ="InstructorScheduleDao" class="second.InstructorScheduleDao">
         <property name="template" ref="template"/>
@@ -97,6 +100,9 @@
     
     <!-- mohamedAli-->
     <bean id="allStudentByTrackDao" class="second.AllStudentByTrackDao">
+        <property name="template" ref="template"/>
+    </bean>
+    <bean id="AllGraduateByTrackDao" class="second.AllGraduateByTrackDao">
         <property name="template" ref="template"/>
     </bean>
     <bean id ="supervisorDao" class="second.SupervisorDao">

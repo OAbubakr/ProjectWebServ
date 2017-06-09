@@ -41,7 +41,7 @@ public class SaveImageController {
         if (!inputFile.isEmpty()) {
             try {
                 String originalFilename = inputFile.getOriginalFilename();
-                File destinationFile = new File(request.getServletContext().getRealPath("/WEB-INF/uploaded")
+                File destinationFile = new File(request.getServletContext().getRealPath("/WEB-INF/uploaded")+"\\"
                         + File.separator + originalFilename);
                 inputFile.transferTo(destinationFile);
                 fileInfo.setFileName(destinationFile.getPath());
@@ -50,7 +50,7 @@ public class SaveImageController {
                 fileInfo.setFileSize(inputFile.getSize());
                 headers.add("File Uploaded Successfully - ", originalFilename);
                 SaveImageDao saveImageDao = DaoInstance.getInstance().getSaveImageDao();
-                String s = saveImageDao.insertImage(5700, destinationFile.getPath());
+                String s = saveImageDao.insertImage(id,originalFilename);
 
                 returnMessage.setMessage(s);
                 return gson.toJson(returnMessage);
