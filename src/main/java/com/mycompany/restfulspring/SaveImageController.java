@@ -46,7 +46,7 @@ public class SaveImageController {
                 inputFile.transferTo(destinationFile);
                 fileInfo.setFileName(destinationFile.getPath());
                 System.out.println(destinationFile.getPath());
-
+                
                 fileInfo.setFileSize(inputFile.getSize());
                 headers.add("File Uploaded Successfully - ", id+originalFilename);
                 SaveImageDao saveImageDao = DaoInstance.getInstance().getSaveImageDao();
