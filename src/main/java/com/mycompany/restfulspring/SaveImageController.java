@@ -3,6 +3,7 @@ package com.mycompany.restfulspring;
 import bean.FileInfo;
 import bean.ReturnMessage;
 import com.google.gson.Gson;
+import dto.Response;
 import java.io.File;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -31,9 +32,9 @@ public class SaveImageController {
      * @return
      */
     @RequestMapping(value = "{id}/fileupload", headers = ("content-type=multipart/*"), method = RequestMethod.POST)
-    public String uploadAuthorized(Integer myid, HttpServletRequest request,
-            HttpServletResponse response,@RequestParam("file") MultipartFile inputFile, @PathVariable int id) { //,@RequestParam("id") int id
-        System.out.println("id is "+ id);
+    public Response uploadAuthorized(Integer myid, HttpServletRequest request,
+            HttpServletResponse response, @RequestParam("file") MultipartFile inputFile, @PathVariable int id) { //,@RequestParam("id") int id
+        System.out.println("id is " + id);
         Gson gson = new Gson();
         ReturnMessage returnMessage = new ReturnMessage();
         FileInfo fileInfo = new FileInfo();
@@ -46,18 +47,22 @@ public class SaveImageController {
                 inputFile.transferTo(destinationFile);
                 fileInfo.setFileName(destinationFile.getPath());
                 System.out.println(destinationFile.getPath());
-                
+
                 fileInfo.setFileSize(inputFile.getSize());
-                headers.add("File Uploaded Successfully - ", id+originalFilename);
+                headers.add("File Uploaded Successfully - ", id + originalFilename);
                 SaveImageDao saveImageDao = DaoInstance.getInstance().getSaveImageDao();
-                String s = saveImageDao.insertImage(id, destinationFile.getPath());
+                System.out.println("path is "+destinationFile.getPath());
+                String path = destinationFile.getPath();
+                String imageName = path.substring(path.lastIndexOf("\\") + 1);
+                System.out.println("image name is ********** " + imageName);
+                String s = saveImageDao.insertImage(id, imageName);
 
                 returnMessage.setMessage(s);
-                return gson.toJson(returnMessage);
+                return new Response().createResponse(s);
             } catch (Exception e) {
-                return "" + e.getMessage();
+                return new Response().createResponse(null);
             }
         }
-        return gson.toJson(returnMessage);
+        return new Response().createResponse(null);
     }
 }
