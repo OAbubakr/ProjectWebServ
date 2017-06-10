@@ -29,10 +29,13 @@ public class SecurityManager {
 
     }
 
-   
     public static JSONObject validateToken(String token, String stringKey) throws JOSEException, ParseException {
 
-       byte[] key = Base64.decodeBase64(stringKey);        
+        if (token == null) {
+            throw new ParseException("invalidToken", 0);
+        }
+
+        byte[] key = Base64.decodeBase64(stringKey);
         SignedJWT signedJWT = SignedJWT.parse(token);
 
         JWSVerifier verifier = new MACVerifier(key);
@@ -62,4 +65,4 @@ public class SecurityManager {
                     s = Base64.encode(keys);
                     System.out.println("tok1 " + s);
 
-*/
+ */
