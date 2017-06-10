@@ -265,7 +265,7 @@ public class ProfileDAO {
         if (branchData.size() > 0) {
             userData.setEmployeeBranchName((String) branchData.get(0)[1]);
         }
-        int intakeId = 37;
+        int intakeId = 36;
         Query querySupervisor = sn.createSQLQuery("{CALL IsSupervisor(:ProgramID,:IntakeID,:EmployeeID)}")
                 .setParameter("ProgramID", 4)//9month
                 .setParameter("IntakeID", intakeId)
