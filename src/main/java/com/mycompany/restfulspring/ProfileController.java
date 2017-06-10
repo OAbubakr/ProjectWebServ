@@ -34,7 +34,13 @@ public class ProfileController {
         ProfileDAO profileDao = DaoInstance.getInstance().getProfileDao();
         profileDao.setData(userType,userId, userData);
      
-        return new Response().createResponse(userData); // dummy
-        
+        return new Response().createResponse(userData); // dummy 
     }
+    
+      @RequestMapping(value = "/onGetUserDataOther", method = RequestMethod.GET, headers = "Accept=application/json")
+    public Response getUserDataOtherAuthorized(Integer id ,@RequestParam("userId") int userId,@RequestParam("userType") int userType) {
+        ProfileDAO profileDao = DaoInstance.getInstance().getProfileDao();
+        return profileDao.getData(userId,userType);
+    }
+    
 }
