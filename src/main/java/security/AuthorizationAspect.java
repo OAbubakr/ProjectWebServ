@@ -5,6 +5,7 @@ import dto.Response;
 import java.text.ParseException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import net.minidev.json.JSONObject;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -18,14 +19,21 @@ import org.springframework.web.bind.annotation.RequestHeader;
 @Aspect
 @Component
 public class AuthorizationAspect {
-   
+
+    @Autowired
+    private ServletContext context;
+
+    @Autowired
+    private HttpServletRequest request;
+
     @Pointcut("within(@org.springframework.web.bind.annotation.RestController *)")
     public void controller() {
     }
 
- //   @Around("controller() && execution(public * com.mycompany.restfulspring.*.*Authorized(..))")
-    
+    @Around("controller() && execution(public * com.mycompany.restfulspring.*.*Authorized(..))")
     public Response authorize(ProceedingJoinPoint joinPoint) {
+
+        String accessKey = context.getInitParameter("accessKey");
 
         Response response = new Response();
         response.setError(Response.INVALID_ACCESS_TOKEN);
@@ -35,44 +43,39 @@ public class AuthorizationAspect {
         System.out.println("Authorize at " + System.currentTimeMillis());
         Object[] args = joinPoint.getArgs();
 
-        // for(Object arg : args)
-        //    System.out.println((String)arg);
-        if (args != null) {
-            if (args[0] != null) {
+        try {
+            String accessToken = request.getHeader("Authorization");
+            System.out.println("token " + accessToken);
 
-                try {
-                    String accessToken = (String) args[0];
-                    System.out.println("token " + accessToken);
+            JSONObject jSONObject = SecurityManager.validateToken(accessToken, accessKey);
+            if (args.length > 0) {
+                //replace the first parameter(token) with user id
+                args[0] = Integer.parseInt((String) jSONObject.get("id"));
 
-                    SecretKey secretKey = SecurityManager.getAccessKey();
-                    JSONObject jSONObject = SecurityManager.validateToken(accessToken, secretKey);
+                System.out.println("responce to be called");
+            
+            }
 
-                    //replace the first parameter(token) with user id
-                    args[0] = (String) jSONObject.get("id");
-                    System.out.println("responce to be called");
-                    return (Response) joinPoint.proceed(args);
+            return (Response) joinPoint.proceed(args);
 
-                } catch (ParseException ex) {
+        } catch (ParseException ex) {
 
-                    System.out.println("parse exception");
-                    ex.printStackTrace();
-                } catch (JOSEException ex) {
-                    System.out.println("jose exception");
+            System.out.println("parse exception");
+            ex.printStackTrace();
+        } catch (JOSEException ex) {
+            System.out.println("jose exception");
 
-                    if (ex.getMessage().equals("expiredToken")) {
-                        System.out.println("jose time exception");
-                        response.setError(Response.EXPIRED_ACCESS_TOKEN);
-                        
-                    }
-                    
-                    ex.printStackTrace();
-                } catch (Throwable ex) {
-
-                    System.out.println("throwable exception");
-                    ex.printStackTrace();
-                }
+            if (ex.getMessage().equals("expiredToken")) {
+                System.out.println("jose time exception");
+                response.setError(Response.EXPIRED_ACCESS_TOKEN);
 
             }
+
+            ex.printStackTrace();
+        } catch (Throwable ex) {
+
+            System.out.println("throwable exception");
+            ex.printStackTrace();
         }
 
         System.out.println("returning " + response.toString());
@@ -80,7 +83,6 @@ public class AuthorizationAspect {
         return response;
     }
 
-    
     /*
     @Around("controller() && execution(* *.*Authorized(..))")
     public Response authorize(ProceedingJoinPoint joinPoint) {

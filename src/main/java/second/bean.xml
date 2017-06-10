@@ -8,6 +8,9 @@
     <bean id ="StudentDAO" class="second.StudentDAO">
         <property name="template" ref="template"/>
     </bean>
+    <bean id ="IntakesDao" class="second.IntakesDao">
+        <property name="template" ref="template"/>
+    </bean>
     
     <bean id ="InstructorScheduleDao" class="second.InstructorScheduleDao">
         <property name="template" ref="template"/>
@@ -68,7 +71,7 @@
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
-        <property name="url" value="jdbc:sqlserver://localhost:49293;databaseName=NewData" />
+        <property name="url" value="jdbc:sqlserver://localhost;databaseName=NewData" />
         <property name="username" value="sa" />
         <property name="password" value="123" />
         <!--<property name="show_sql" value="true"/>-->
@@ -97,6 +100,9 @@
     
     <!-- mohamedAli-->
     <bean id="allStudentByTrackDao" class="second.AllStudentByTrackDao">
+        <property name="template" ref="template"/>
+    </bean>
+    <bean id="AllGraduateByTrackDao" class="second.AllGraduateByTrackDao">
         <property name="template" ref="template"/>
     </bean>
     <bean id ="supervisorDao" class="second.SupervisorDao">

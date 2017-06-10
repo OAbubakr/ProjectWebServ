@@ -3,6 +3,7 @@ package com.mycompany.restfulspring;
 import bean.FileInfo;
 import bean.ReturnMessage;
 import com.google.gson.Gson;
+import dto.Response;
 import java.io.File;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -31,8 +32,8 @@ public class SaveImageController {
      * @return
      */
     @RequestMapping(value = "{id}/fileupload", headers = ("content-type=multipart/*"), method = RequestMethod.POST)
-    public String upload(HttpServletRequest request,
-            HttpServletResponse response,@RequestParam("file") MultipartFile inputFile, @PathVariable int id) { //,@RequestParam("id") int id
+    public Response uploadAuthorized(Integer myid, HttpServletRequest request,
+            HttpServletResponse response,@RequestParam("file") MultipartFile inputFile, @PathVariable("id") int id) { //,@RequestParam("id") int id
         System.out.println("id is "+ id);
         Gson gson = new Gson();
         ReturnMessage returnMessage = new ReturnMessage();
@@ -48,16 +49,16 @@ public class SaveImageController {
                 System.out.println(destinationFile.getPath());
 
                 fileInfo.setFileSize(inputFile.getSize());
-                headers.add("File Uploaded Successfully - ", originalFilename);
+                headers.add("File Uploaded Successfully - ", id+originalFilename);
                 SaveImageDao saveImageDao = DaoInstance.getInstance().getSaveImageDao();
-                String s = saveImageDao.insertImage(5700, destinationFile.getPath());
+                String s = saveImageDao.insertImage(myid, destinationFile.getPath());
 
                 returnMessage.setMessage(s);
-                return gson.toJson(returnMessage);
+                return new Response().createResponse(returnMessage);
             } catch (Exception e) {
-                return "" + e.getMessage();
+                return new Response().createResponse(null);
             }
         }
-        return gson.toJson(returnMessage);
+        return new Response().createResponse(null);
     }
 }

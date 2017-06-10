@@ -24,12 +24,12 @@ public class ProfileDAO {
 
     private static final String STATUSSUCCESS = "SUCCESS";
     private static final String NOERROR = "";
-    private static final String STATUSFAIL = "fail";
+    private static final String STATUSFAIL = "FAILURE";
     private static final String ERROR = "server down";
     private String userTypeProcedure;
     private String userIdProcedure;
     private HibernateTemplate template;
-    
+
     public ProfileDAO() {
     }
 
@@ -41,7 +41,7 @@ public class ProfileDAO {
         this.template = template;
     }
 
-    public Response getData(int userType, int userId) {
+    public Response getData(int userId, int userType) {
         switch (userType) {
             case 1://login as a student
                 userTypeProcedure = "GetStudentDetails";
@@ -61,7 +61,8 @@ public class ProfileDAO {
                 break;
         }
         final int userTypeValue = userType;
-        final int userIdValue = userId;
+        
+        final int userIdValue = new Integer(userId);
         return template.execute(new HibernateCallback<Response>() {
             boolean isCorrect = false;
             Response response = new Response();
@@ -209,7 +210,7 @@ public class ProfileDAO {
         for (Object[] cObject : companyList) {
 
             if (cObject[0] != null) {
-                companyProfile.setCompanyID((int) cObject[0]);
+                companyProfile.setId((int) cObject[0]);
             }
             if (cObject[1] != null) {
                 companyProfile.setCompanyName((String) cObject[1]);
@@ -264,21 +265,37 @@ public class ProfileDAO {
         if (branchData.size() > 0) {
             userData.setEmployeeBranchName((String) branchData.get(0)[1]);
         }
-
+        int intakeId = 36;
         Query querySupervisor = sn.createSQLQuery("{CALL IsSupervisor(:ProgramID,:IntakeID,:EmployeeID)}")
-                .setParameter("ProgramID", 4)
-                .setParameter("IntakeID", 37)
+                .setParameter("ProgramID", 4)//9month
+                .setParameter("IntakeID", intakeId)
                 .setParameter("EmployeeID", userIdValue);
         List<Object[]> queryData = querySupervisor.list();
         if (queryData.size() > 0) {
-            userData.setEmployeePlatformIntake((int) queryData.get(0)[2]);
-            userData.setEmployeeSubTrackId((int) queryData.get(0)[1]);
+            if(queryData.get(0)[2] != null)
+                userData.setEmployeePlatformIntake((int) queryData.get(0)[2]);
+            if(queryData.get(0)[1] != null)
+                userData.setEmployeeSubTrackId((int) queryData.get(0)[1]);
+        }else{
+        querySupervisor = sn.createSQLQuery("{CALL IsSupervisor(:ProgramID,:IntakeID,:EmployeeID)}")
+                .setParameter("ProgramID", 5)//nano
+                .setParameter("IntakeID", intakeId)
+                .setParameter("EmployeeID", userIdValue);
+        queryData = querySupervisor.list();
+        if (queryData.size() > 0) {
+            if(queryData.get(0)[2] != null)
+                userData.setEmployeePlatformIntake((int) queryData.get(0)[2]);
+            if(queryData.get(0)[1] != null)
+                userData.setEmployeeSubTrackId((int) queryData.get(0)[1]);
+            }
         }
         Query querySubTrack = sn.createSQLQuery("{CALL GetSubtrackData(:PlatformIntakeID)}")
                 .setParameter("PlatformIntakeID", userData.getEmployeePlatformIntake());
         List<Object[]> subTrackData = querySubTrack.list();
         if (queryData.size() > 0) {
-            userData.setEmployeeSubTrackName((String) subTrackData.get(0)[0]);
+            if(subTrackData.size() > 0)
+                if(subTrackData.get(0)[0] != null)
+                    userData.setEmployeeSubTrackName((String) subTrackData.get(0)[0]);
         }
         return userData;
     }

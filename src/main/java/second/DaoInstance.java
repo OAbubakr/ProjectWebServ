@@ -20,7 +20,7 @@ public class DaoInstance {
      ApplicationContext factory = null;
 
     private DaoInstance() {
-        factory = new FileSystemXmlApplicationContext("D:\\ITI_GRADUATION\\ProjectWerServ\\src\\main\\java\\second\\bean.xml");
+        factory = new FileSystemXmlApplicationContext("C:\\Users\\omari\\Desktop\\project\\ProjectWerServ\\src\\main\\java\\second\\bean.xml");
     }
 
     
@@ -62,6 +62,12 @@ public class DaoInstance {
 
     public AllStudentByTrackDao getAllStudentByTrackDao() {
         return  factory.getBean("allStudentByTrackDao",AllStudentByTrackDao.class);
+    }
+    public AllGraduateByTrackDao getAllGraduatesByTrackDao() {
+        return  factory.getBean("AllGraduateByTrackDao",AllGraduateByTrackDao.class);
+    }
+    public IntakesDao getIntakes() {
+        return  factory.getBean("IntakesDao",IntakesDao.class);
     }
 
     public EventDAO getEventDAO() {
