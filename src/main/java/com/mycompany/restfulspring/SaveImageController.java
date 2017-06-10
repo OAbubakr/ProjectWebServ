@@ -50,7 +50,7 @@ public class SaveImageController {
                 fileInfo.setFileSize(inputFile.getSize());
                 headers.add("File Uploaded Successfully - ", id+originalFilename);
                 SaveImageDao saveImageDao = DaoInstance.getInstance().getSaveImageDao();
-                String s = saveImageDao.insertImage(5700, destinationFile.getPath());
+                String s = saveImageDao.insertImage(id, destinationFile.getPath());
 
                 returnMessage.setMessage(s);
                 return gson.toJson(returnMessage);
