@@ -9,84 +9,61 @@ import java.util.Date;
 
 /**
  *
- * @author admin
+ * @author engra
  */
-public class StudentDataByTrackID {
+public class GraduateBasicData {
+    private int graduateId;
+     private String englishname;
+     private String arabicname;
+     private String applicationNo;   
+     private Integer fkFacultyId;   
+     private Integer fkSpecializationId;
+     private String subTrackName;
+     private Integer subTrackId;
+     private Integer branchId;
+     private Integer programIntakeId;
+     private Integer fkUniversityFacultySpecializationId;
+     private Integer fkGraduationGradeId;
+     private String graduationYear;
+     private String phone;
+     private String mobile;
+     private String email;
+     private String barcode;
+     private Integer accFlag;
+     private String username;
+     private String userpwd;
+     private String imagepath;
+     private String rejectReason;
+     private Date dateOb;
+     private String gender;
+     private String address;
+     private String idno;
+     private String graduationGrade;
+     private Integer marital;
+     private Integer military;
+     private Integer language;
+     private String socialAccount;
+     private String school;
+     private String gradProjIdea;
+     private String projGrade;
+     private String certAqui;
+     private String postGradStud;
+     private String acadimicInst;
+     private String cvpath;
+     private String schoolName;
+     private String gitUrl;
+     private String behanceUrl;
+     private String linkedInUrl;
 
-    private int studentId;
-    private String englishname;
-    private String arabicname;
-    private String applicationNo;
-    private Integer fkFacultyId;
-    private Integer fkSpecializationId;
-    private String subTrackName;
-    private Integer subTrackId;
-    private Integer branchId;
-    private Integer programIntakeId;
-    private Integer fkUniversityFacultySpecializationId;
-    private Integer fkGraduationGradeId;
-    private String graduationYear;
-    private String phone;
-    private String mobile;
-    private String email;
-    private String barcode;
-    private Integer accFlag;
-    private String username;
-    private String userpwd;
-    private String imagepath;
-    private String rejectReason;
-    private Date dateOb;
-    private String gender;
-    private String address;
-    private String idno;
-    private String graduationGrade;
-    private Integer marital;
-    private Integer military;
-    private Integer language;
-    private String socialAccount;
-    private String school;
-    private String gradProjIdea;
-    private String projGrade;
-    private String certAqui;
-    private String postGradStud;
-    private String acadimicInst;
-    private String cvpath;
-    private String schoolName;
-    private String gitUrl;
-    private String behanceUrl;
-    private String linkedInUrl;
-
-    public String getGitUrl() {
-        return gitUrl;
+    public int getGraduateId() {
+        return graduateId;
     }
 
-    public void setGitUrl(String gitUrl) {
-        this.gitUrl = gitUrl;
+    public void setGraduateId(int graduateId) {
+        this.graduateId = graduateId;
     }
 
-    public String getBehanceUrl() {
-        return behanceUrl;
-    }
 
-    public void setBehanceUrl(String behanceUrl) {
-        this.behanceUrl = behanceUrl;
-    }
-
-    public String getLinkedInUrl() {
-        return linkedInUrl;
-    }
-
-    public void setLinkedInUrl(String linkedInUrl) {
-        this.linkedInUrl = linkedInUrl;
-    }
-
-    public int getStudentId() {
-        return studentId;
-    }
-
-    public void setStudentId(int studentId) {
-        this.studentId = studentId;
-    }
 
     public String getEnglishname() {
         return englishname;
@@ -392,4 +369,29 @@ public class StudentDataByTrackID {
         this.schoolName = schoolName;
     }
 
+    public String getGitUrl() {
+        return gitUrl;
+    }
+
+    public void setGitUrl(String gitUrl) {
+        this.gitUrl = gitUrl;
+    }
+
+    public String getBehanceUrl() {
+        return behanceUrl;
+    }
+
+    public void setBehanceUrl(String behanceUrl) {
+        this.behanceUrl = behanceUrl;
+    }
+
+    public String getLinkedInUrl() {
+        return linkedInUrl;
+    }
+
+    public void setLinkedInUrl(String linkedInUrl) {
+        this.linkedInUrl = linkedInUrl;
+    }
+     
+     
 }
