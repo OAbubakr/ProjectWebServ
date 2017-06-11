@@ -23,7 +23,6 @@ public class DaoInstance {
         factory = new FileSystemXmlApplicationContext("C:\\Users\\omari\\Desktop\\project\\ProjectWerServ\\src\\main\\java\\second\\bean.xml");
     }
 
-    
     public static DaoInstance getInstance() {
         DaoInstance singleInstance = DaoInstance.singleInstance;
 
