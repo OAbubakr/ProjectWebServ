@@ -12,8 +12,8 @@ package dto;
 public class UserLogin {
     private String token;
     private String refreshToken;
-    private String expiryDate;
-    private String refreshTokenExpiryDate;
+    private long expiryDate;
+    private long refreshTokenExpiryDate;
     private String tokenType;
 
     public String getToken() {
@@ -24,11 +24,11 @@ public class UserLogin {
         this.token = token;
     }
 
-    public String getExpiryDate() {
+    public long getExpiryDate() {
         return expiryDate;
     }
 
-    public void setExpiryDate(String expiryDate) {
+    public void setExpiryDate(long expiryDate) {
         this.expiryDate = expiryDate;
     }
 
@@ -48,11 +48,11 @@ public class UserLogin {
         this.refreshToken = refreshToken;
     }
     
-    public String getRefreshTokenExpiryDate() {
+    public long getRefreshTokenExpiryDate() {
         return refreshTokenExpiryDate;
     }
 
-    public void setRefreshTokenExpiryDate(String refreshTokenExpiryDate) {
+    public void setRefreshTokenExpiryDate(long refreshTokenExpiryDate) {
         this.refreshTokenExpiryDate = refreshTokenExpiryDate;
     }
     
