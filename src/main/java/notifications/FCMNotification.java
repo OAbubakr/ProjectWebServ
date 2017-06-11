@@ -31,8 +31,9 @@ public class FCMNotification {
     public final static String AUTH_KEY_FCM = "AAAA4G8XWWA:APA91bHhXOHsj0a9XaKRlnn0dVIQCBdX2Z9DlkQzzOwb3SWZ2cBGMd1EI3NR66GgveM0UetWopKdnabubk34ZhNdE68T4iM_nnh1ROrvoXOOyImAU6hyWHwt47222CkkREzkeZmu13P9";
     public final static String API_URL_FCM = "https://fcm.googleapis.com/fcm/send";
 
-    public static void sendNotification(int type, String title, String msg, String topic) throws Exception {
+    public static boolean sendNotification(int type, String title, String msg, String topic) throws Exception {
 
+        boolean ret = false;
         String authKey = AUTH_KEY_FCM; // You FCM AUTH key
         String FMCurl = API_URL_FCM;
 
@@ -48,7 +49,7 @@ public class FCMNotification {
         conn.setRequestProperty("Content-Type", "application/json");
 
         JSONObject all = new JSONObject();
-        all.put("condition", "'"+topic+"' in topics");
+        all.put("condition", "'" + topic + "' in topics");
 
         JSONObject data = new JSONObject();
         data.put("notificationType", type);
@@ -63,8 +64,10 @@ public class FCMNotification {
         wr.close();
 
         int responseCode = conn.getResponseCode();
+        if(responseCode ==200) ret = true;
 
         System.out.print(responseCode);
+        return ret;
     }
 
 }
