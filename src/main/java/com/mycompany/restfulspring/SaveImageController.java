@@ -33,8 +33,8 @@ public class SaveImageController {
      */
     @RequestMapping(value = "{id}/fileupload", headers = ("content-type=multipart/*"), method = RequestMethod.POST)
     public Response uploadAuthorized(Integer myid, HttpServletRequest request,
-            HttpServletResponse response,@RequestParam("file") MultipartFile inputFile, @PathVariable("id") int id) { //,@RequestParam("id") int id
-        System.out.println("id is "+ id);
+            HttpServletResponse response, @RequestParam("file") MultipartFile inputFile, @PathVariable int id) { //,@RequestParam("id") int id
+        System.out.println("id is " + id);
         Gson gson = new Gson();
         ReturnMessage returnMessage = new ReturnMessage();
         FileInfo fileInfo = new FileInfo();
@@ -49,12 +49,16 @@ public class SaveImageController {
                 System.out.println(destinationFile.getPath());
 
                 fileInfo.setFileSize(inputFile.getSize());
-                headers.add("File Uploaded Successfully - ", id+originalFilename);
+                headers.add("File Uploaded Successfully - ", id + originalFilename);
                 SaveImageDao saveImageDao = DaoInstance.getInstance().getSaveImageDao();
-                String s = saveImageDao.insertImage(myid, destinationFile.getPath());
+                System.out.println("path is "+destinationFile.getPath());
+                String path = destinationFile.getPath();
+                String imageName = path.substring(path.lastIndexOf("\\") + 1);
+                System.out.println("image name is ********** " + imageName);
+                String s = saveImageDao.insertImage(id, imageName);
 
                 returnMessage.setMessage(s);
-                return new Response().createResponse(returnMessage);
+                return new Response().createResponse(s);
             } catch (Exception e) {
                 return new Response().createResponse(null);
             }
