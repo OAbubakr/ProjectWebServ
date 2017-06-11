@@ -91,10 +91,22 @@ public class PostJobDAO {
         });
         
           try {
-            FCMNotification.sendNotification(FCMNotification.JOB_POST, jobOpportunity.getCompanyName()+"-"+jobOpportunity.getJobTitle(), jobOpportunity.getJobDesc(), "jobPosts");
+            FCMNotification.sendNotification(FCMNotification.JOB_POST, jobOpportunity.getCompanyName()+" has posted a job.",createJobString(jobOpportunity), "jobPosts");
         } catch (Exception ex) {
             Logger.getLogger(PermissionDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
          return "Insertion Done";
+    }
+    
+    private String createJobString(JobOpportunity jobOpportunity){
+    
+    
+    return "Job Title: "+jobOpportunity.getJobTitle();
+//            + "\nJob Description: "+jobOpportunity.getJobDesc()
+//            + "\n Years of Experience: " +jobOpportunity.getExperience()
+//            + "\n Closing Date: " + jobOpportunity.getClosingDate()
+//            + "\n Number needed: " + jobOpportunity.getJobNoNeed()
+//            + "\n Send CV to: "+ jobOpportunity.getSendTo();
+    
     }
 }
