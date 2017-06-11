@@ -35,6 +35,7 @@ public class UserData implements Serializable {
     }
     //student
     private int intakeId;
+    private String intakeName;
     private String branchName;
     private String trackName;
     private String name;
@@ -68,6 +69,14 @@ public class UserData implements Serializable {
     private int employeeSubTrackId;
     private String employeeSubTrackName;
 
+    public String getIntakeName() {
+        return intakeName;
+    }
+
+    public void setIntakeName(String intakeName) {
+        this.intakeName = intakeName;
+    }
+    
     public int getEmployeePlatformIntake() {
         return employeePlatformIntake;
     }
