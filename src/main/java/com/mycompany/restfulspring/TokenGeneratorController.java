@@ -15,8 +15,6 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import dto.LoginRequest;
 import dto.LoginResponse;
-import dto.RenewAccessTokenObject;
-import dto.RenewTokenResponse;
 import dto.Response;
 import java.text.ParseException;
 import java.util.Date;
@@ -34,8 +32,6 @@ import org.springframework.web.bind.annotation.RestController;
 import second.DaoInstance;
 import second.LoginDAO;
 import dto.UserLogin;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
 
 /**
  *
@@ -47,7 +43,7 @@ public class TokenGeneratorController {
     @Autowired
     ServletContext context;
 
-    private static final long accessTokenExpiresInMillis = 60 * 60 * 1000 * 24 * 14; //hour
+    private static final long accessTokenExpiresInMillis = 1000 * 60 * 60; //hour
     private static final long refreshTokenExpiresInMillis = 60 * 60 * 1000 * 24 * 14; //2weeks
 
     @RequestMapping(value = "/getToken",
@@ -62,9 +58,9 @@ public class TokenGeneratorController {
 
         LoginDAO loginDao = DaoInstance.getInstance().getLoginDao();
         response = loginDao.getUserId(request.getUserType(), request.getUserName(), request.getPassword());
-        loginResponse.setStatusLogin(response.getStatus());
+        loginResponse.setStatus(response.getStatus());
         if (response.getError() != null) {
-            loginResponse.setErrorLogin(response.getError());
+            loginResponse.setError(response.getError());
         }
         if (response.getStatus().equals("SUCCESS")) {
             id = (int) response.getResponseData();
@@ -85,14 +81,15 @@ public class TokenGeneratorController {
                         refreshExpiryDateInMillis,
                         String.valueOf(id),
                         String.valueOf(request.getUserType()));
+                
                 response = new Response();
                 response.setStatus(Response.sucess);
                 response.setError(null);
                 UserLogin login = new UserLogin();
                 login.setToken(accessToken);
                 login.setRefreshToken(refreshToken);
-                login.setRefreshTokenExpiryDate(new Long(refreshExpiryDateInMillis).toString());
-                login.setExpiryDate(new Long(accessExpiryDateInMillis).toString());
+                login.setRefreshTokenExpiryDate(refreshExpiryDateInMillis);
+                login.setExpiryDate(accessExpiryDateInMillis);
                 login.setTokenType("bearer");
                 response.setResponseData(login);
                 loginResponse.setData(login);
@@ -112,14 +109,14 @@ public class TokenGeneratorController {
     //@RequestParam(value = "refreshToken", required = true)
     @RequestMapping(value = "/renewAccessToken",
             method = RequestMethod.POST)
-    public RenewTokenResponse renewAccessToken(@RequestBody String refreshToken) {
+    public Response renewAccessToken(@RequestBody String refreshToken) {
         refreshToken = refreshToken.substring(1, refreshToken.length()-1);
         String refreshKey = context.getInitParameter("refreshKey");
         String accessKey = context.getInitParameter("accessKey");
-        RenewTokenResponse response = new RenewTokenResponse();
+        Response response = new Response();
         response.setError(Response.INVALID_REFRESH_TOKEN);
         response.setStatus(Response.failure);
-        response.setData(null);
+        response.setResponseData(null);
 
         try {
             //validate refresh token
@@ -134,11 +131,18 @@ public class TokenGeneratorController {
 
             response.setStatus(Response.sucess);
             response.setError(null);
-            RenewAccessTokenObject renewAccessTokenObject = new RenewAccessTokenObject();
-            renewAccessTokenObject.setAccessToken(accessToken);
-            renewAccessTokenObject.setToken_type("bearer");
-            renewAccessTokenObject.setExpiry_date(accessExpiryDateInMillis);
-            response.setData(renewAccessTokenObject);
+            
+            JSONObject responseData = new JSONObject();
+            responseData.put("access_token", accessToken);
+            responseData.put("token_type", "bearer");
+            responseData.put("expiry_date", accessExpiryDateInMillis);
+           
+//            RenewAccessTokenObject renewAccessTokenObject = new RenewAccessTokenObject();
+//            renewAccessTokenObject.setAccessToken(accessToken);
+//            renewAccessTokenObject.setToken_type("bearer");
+//            renewAccessTokenObject.setExpiry_date(accessExpiryDateInMillis);
+            
+            response.setResponseData(responseData);
 
         } catch (KeyLengthException ex) {
             ex.printStackTrace();
