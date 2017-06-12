@@ -5,6 +5,7 @@ import bean.ReturnMessage;
 import com.google.gson.Gson;
 import dto.Response;
 import java.io.File;
+import java.io.IOException;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -59,7 +60,7 @@ public class SaveImageController {
 
                 returnMessage.setMessage(s);
                 return new Response().createResponse(s);
-            } catch (Exception e) {
+            } catch (IOException | IllegalStateException e) {
                 return new Response().createResponse(null);
             }
         }
