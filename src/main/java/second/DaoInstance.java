@@ -20,7 +20,7 @@ public class DaoInstance {
      ApplicationContext factory = null;
 
     private DaoInstance() {
-        factory = new FileSystemXmlApplicationContext("C:\\Users\\omari\\Desktop\\project\\ProjectWerServ\\src\\main\\java\\second\\bean.xml");
+        factory = new FileSystemXmlApplicationContext("D:\\ITI_GRADUATION\\ProjectWerServ\\src\\main\\java\\second\\bean.xml");
     }
 
     
