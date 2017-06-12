@@ -32,8 +32,6 @@ import org.springframework.web.bind.annotation.RestController;
 import second.DaoInstance;
 import second.LoginDAO;
 import dto.UserLogin;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
 
 /**
  *
