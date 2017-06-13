@@ -25,7 +25,7 @@ import second.DaoInstance;
 public class GraduateDataController {
 
     @RequestMapping(value = "/gradByIntakeAndTrack", method = RequestMethod.GET, headers = "Accept=application/json")
-    public Response getGraduates(@QueryParam("id") int id,@QueryParam("platformId") int platformId) {
+    public Response getGraduatesAuthorized(Integer myid, @QueryParam("id") int id,@QueryParam("platformId") int platformId) {
         AllGraduateByTrackDao dao = DaoInstance.getInstance().getAllGraduatesByTrackDao();
         ArrayList<GraduateBasicData> data = dao.getAllGraduateDataByTrackId(id,platformId);
         return new Response().createResponse(data);

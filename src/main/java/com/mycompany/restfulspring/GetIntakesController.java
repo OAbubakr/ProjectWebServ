@@ -22,7 +22,7 @@ import second.IntakesDao;
 public class GetIntakesController {
     
   @RequestMapping(value = "/getIntakes", method = RequestMethod.GET, headers = "Accept=application/json")
-    public Response getAnswers() {
+    public Response getIntakesAuthorized() {
 
         Response response = new Response();
         IntakesDao d = DaoInstance.getInstance().getIntakes();
