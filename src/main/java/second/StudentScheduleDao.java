@@ -69,8 +69,8 @@ public class StudentScheduleDao {
                         " { CALL GetScheduleByStudentID(:studentId, :fromDate, :toDate) }")
 //                        .setParameter("studentId", "5699")
                         .setParameter("studentId", String.valueOf(studentId))
-                        .setParameter("fromDate", "2014-10-20")
-                        .setParameter("toDate", "2014-11-3");
+                        .setParameter("fromDate", "2015-11-21")
+                        .setParameter("toDate", "2015-12-04");
                 List<Object[]> list = query.list();
                 ArrayList<StudentSession> sessions = new ArrayList<>();
 
