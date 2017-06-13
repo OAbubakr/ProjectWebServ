@@ -112,19 +112,19 @@ public class ProfileDAO {
         });
     }
 
-    public void setData(int userType, int userId, UserData userData) {
+    public Response setData(int userType, int userId, UserData userData) {
 
         final int userTypeValue = userType;
         final int userIdValue = userId;
         final UserData userDataInfo = userData;
 
-        template.execute(new HibernateCallback<Object>() {
+        return template.execute(new HibernateCallback<Response>() {
 
             /*check from db the userID from the table much the userType
             //if userID found then isCorrect = true
              */
             @Override
-            public Object doInHibernate(Session sn) throws HibernateException, SQLException {
+            public Response doInHibernate(Session sn) throws HibernateException, SQLException {
                 switch (userTypeValue) {
                     case 1://login as a student
                         addStudentData(sn, userIdValue, userDataInfo);
@@ -139,7 +139,9 @@ public class ProfileDAO {
                         addGraduateData(sn, userIdValue, userDataInfo);
                         break;
                 }
-                return null;
+                Response response = new Response();
+                response = response.createResponse("EditData");
+                return response;
             }
 
         });
@@ -335,8 +337,8 @@ public class ProfileDAO {
             userData.setBranchName((String) branchData.get(0)[1]);
         }
         Query queryIntakeId = sn.createSQLQuery("{CALL GetIntakeData (:ProgramID,:ProgramIntakeID)}")
-                .setParameter("ProgramID", (int) userDataValue.get(0)[1])
-                .setParameter("ProgramIntakeID", (int) userDataValue.get(0)[2]);
+                .setParameter("ProgramID", (int) userDataValue.get(0)[28])
+                .setParameter("ProgramIntakeID", (int) userDataValue.get(0)[1]);
         List<Object[]> intakeIdData = queryIntakeId.list();
         if (intakeIdData.size() > 0) {
             userData.setIntakeId((int) intakeIdData.get(0)[0]);
