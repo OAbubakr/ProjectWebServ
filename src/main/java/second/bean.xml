@@ -5,58 +5,58 @@
        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
     
     
-    <bean id ="StudentDAO" class="second.StudentDAO">
+    <bean id ="StudentDAO" class="second.StudentDAO"  scope="prototype">
         <property name="template" ref="template"/>
     </bean>
     <bean id ="IntakesDao" class="second.IntakesDao">
         <property name="template" ref="template"/>
     </bean>
     
-    <bean id ="InstructorScheduleDao" class="second.InstructorScheduleDao">
+    <bean id ="InstructorScheduleDao" class="second.InstructorScheduleDao" scope="prototype">
         <property name="template" ref="template"/>
     </bean>
-    <bean id ="SaveImageDao" class="second.SaveImageDao">
-        <property name="template" ref="template"/>
-    </bean>
-    
-    <bean id ="ProgramDAO" class="second.ProgramDAO">
+    <bean id ="SaveImageDao" class="second.SaveImageDao" scope="prototype">
         <property name="template" ref="template"/>
     </bean>
     
-    <bean id ="CourseDAO" class="second.CourseDAO">
+    <bean id ="ProgramDAO" class="second.ProgramDAO" scope="prototype">
         <property name="template" ref="template"/>
     </bean>
     
-    <bean id ="EmpHours" class="second.EmpHoursDAO">
+    <bean id ="CourseDAO" class="second.CourseDAO" scope="prototype">
         <property name="template" ref="template"/>
     </bean>
     
-    <bean id ="StudentGradeDAO" class="second.StudentGradeDAO">
+    <bean id ="EmpHours" class="second.EmpHoursDAO" scope="prototype">
         <property name="template" ref="template"/>
     </bean>
     
-    <bean id ="template" class="org.springframework.orm.hibernate3.HibernateTemplate">
+    <bean id ="StudentGradeDAO" class="second.StudentGradeDAO" scope="prototype">
+        <property name="template" ref="template"/>
+    </bean>
+    
+    <bean id ="template" class="org.springframework.orm.hibernate3.HibernateTemplate" >
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
     
-    <bean id ="StudentScheduleDao" class="second.StudentScheduleDao">
+    <bean id ="StudentScheduleDao" class="second.StudentScheduleDao" scope="prototype">
         <property name="template" ref="template"/>
     </bean>
     
-    <bean id ="TrackScheduleDao" class="second.TrackScheduleDao">
+    <bean id ="TrackScheduleDao" class="second.TrackScheduleDao" scope="prototype">
         <property name="template" ref="template"/>
     </bean>
     
-    <bean id ="PostJobDAO" class="second.PostJobDAO">
+    <bean id ="PostJobDAO" class="second.PostJobDAO" scope="prototype">
         <property name="template" ref="template"/>
     </bean>
     
-    <bean id ="InstructorsByBranchDAO" class="second.InstructorsByBranchDAO">
+    <bean id ="InstructorsByBranchDAO" class="second.InstructorsByBranchDAO" scope="prototype">
         <property name="template" ref="template"/>
     </bean>
 
     
-    <bean id ="CompanyDAO" class="second.CompanyDAO">
+    <bean id ="CompanyDAO" class="second.CompanyDAO" scope="prototype">
         <property name="template" ref="template"/>
     </bean>
     <!--    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -90,36 +90,36 @@
             </props>
         </property>
     </bean>
-    <bean id="eventDAO" class="second.EventDAO">
+    <bean id="eventDAO" class="second.EventDAO" scope="prototype">
         <property name="template" ref="template"/>  
     </bean>
     
-    <bean id ="PermissionDAO" class="second.PermissionDAO">
+    <bean id ="PermissionDAO" class="second.PermissionDAO" scope="prototype">
         <property name="template" ref="template"/>
     </bean>
     
     <!-- mohamedAli-->
-    <bean id="allStudentByTrackDao" class="second.AllStudentByTrackDao">
+    <bean id="allStudentByTrackDao" class="second.AllStudentByTrackDao" scope="prototype">
         <property name="template" ref="template"/>
     </bean>
-    <bean id="AllGraduateByTrackDao" class="second.AllGraduateByTrackDao">
+    <bean id="AllGraduateByTrackDao" class="second.AllGraduateByTrackDao" scope="prototype">
         <property name="template" ref="template"/>
     </bean>
-    <bean id ="supervisorDao" class="second.SupervisorDao">
+    <bean id ="supervisorDao" class="second.SupervisorDao" scope="prototype">
         <property name="template" ref="template"/>
     </bean>
     
     <!--//-->
 <!--mahmoud-->
-    <bean id ="LoginDAO" class="second.LoginDAO">
+    <bean id ="LoginDAO" class="second.LoginDAO" scope="prototype">
         <property name="template" ref="template"/>
     </bean>
-     <bean id ="ProfileDAO" class="second.ProfileDAO">
+     <bean id ="ProfileDAO" class="second.ProfileDAO" scope="prototype">
         <property name="template" ref="template"/>
     </bean>
 
 <!--//-->
-    <bean id ="InstructorEvaluationDAO" class="second.InstructorEvaluationDAO">
+    <bean id ="InstructorEvaluationDAO" class="second.InstructorEvaluationDAO" scope="prototype">
         <property name="template" ref="template"/>
     </bean>
 </beans>
