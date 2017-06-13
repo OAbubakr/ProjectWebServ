@@ -140,7 +140,7 @@ public class ProfileDAO {
                         break;
                 }
                 Response response = new Response();
-                response.createResponse("EditData");
+                response = response.createResponse("EditData");
                 return response;
             }
 
