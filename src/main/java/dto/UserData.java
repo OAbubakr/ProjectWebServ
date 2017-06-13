@@ -45,6 +45,8 @@ public class UserData implements Serializable {
     private String linkedInUrl;
     private String studentEmail;
     private String studentMobile;
+    private String behanceImageUrl;
+    private String gitImageUrl;
 
     //company
     private String companyName;
@@ -71,6 +73,22 @@ public class UserData implements Serializable {
 
     public String getIntakeName() {
         return intakeName;
+    }
+
+    public String getBehanceImageUrl() {
+        return behanceImageUrl;
+    }
+
+    public void setBehanceImageUrl(String behanceImageUrl) {
+        this.behanceImageUrl = behanceImageUrl;
+    }
+
+    public String getGitImageUrl() {
+        return gitImageUrl;
+    }
+
+    public void setGitImageUrl(String gitImageUrl) {
+        this.gitImageUrl = gitImageUrl;
     }
 
     public void setIntakeName(String intakeName) {
