@@ -337,8 +337,8 @@ public class ProfileDAO {
             userData.setBranchName((String) branchData.get(0)[1]);
         }
         Query queryIntakeId = sn.createSQLQuery("{CALL GetIntakeData (:ProgramID,:ProgramIntakeID)}")
-                .setParameter("ProgramID", (int) userDataValue.get(0)[1])
-                .setParameter("ProgramIntakeID", (int) userDataValue.get(0)[2]);
+                .setParameter("ProgramID", (int) userDataValue.get(0)[28])
+                .setParameter("ProgramIntakeID", (int) userDataValue.get(0)[1]);
         List<Object[]> intakeIdData = queryIntakeId.list();
         if (intakeIdData.size() > 0) {
             userData.setIntakeId((int) intakeIdData.get(0)[0]);
