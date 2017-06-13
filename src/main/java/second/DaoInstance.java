@@ -114,6 +114,9 @@ public class DaoInstance {
     public SaveImageDao getSaveImageDao(){
         return factory.getBean("SaveImageDao",SaveImageDao.class);
     }
+    public SaveGraduateImageDao getSaveGraduateImageDao(){
+        return factory.getBean("SaveGraduateImageDao",SaveGraduateImageDao.class);
+    }
     
     public SupervisorDao getSupervisorDao(){
         return factory.getBean("supervisorDao",SupervisorDao.class);
