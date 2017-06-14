@@ -23,7 +23,7 @@ public class GetIntakesController {
     
   @RequestMapping(value = "/getIntakes", method = RequestMethod.GET, headers = "Accept=application/json")
     public Response getAnswers() {
-
+        
         Response response = new Response();
         IntakesDao d = DaoInstance.getInstance().getIntakes();
         ArrayList<ProgramIntake> programIntakes = d.getAllProgramIntake();

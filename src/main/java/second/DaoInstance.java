@@ -23,7 +23,6 @@ public class DaoInstance {
         factory = new FileSystemXmlApplicationContext("E:\\ITI\\Graduation Project\\ProjectWebServices\\ProjectWerServ\\src\\main\\java\\second\\bean.xml");
     }
 
-    
     public static DaoInstance getInstance() {
         DaoInstance singleInstance = DaoInstance.singleInstance;
 
@@ -114,6 +113,9 @@ public class DaoInstance {
     }
     public SaveImageDao getSaveImageDao(){
         return factory.getBean("SaveImageDao",SaveImageDao.class);
+    }
+    public SaveGraduateImageDao getSaveGraduateImageDao(){
+        return factory.getBean("SaveGraduateImageDao",SaveGraduateImageDao.class);
     }
     
     public SupervisorDao getSupervisorDao(){

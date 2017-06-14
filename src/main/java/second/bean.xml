@@ -18,6 +18,9 @@
     <bean id ="SaveImageDao" class="second.SaveImageDao">
         <property name="template" ref="template"/>
     </bean>
+    <bean id ="SaveGraduateImageDao" class="second.SaveGraduateImageDao">
+        <property name="template" ref="template"/>
+    </bean>
     
     <bean id ="ProgramDAO" class="second.ProgramDAO">
         <property name="template" ref="template"/>
