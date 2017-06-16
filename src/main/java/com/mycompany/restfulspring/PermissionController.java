@@ -27,7 +27,13 @@ public class PermissionController {
 
         PermissionDAO dao = DaoInstance.getInstance().getPermissionDAO();
         System.out.println("--------------" + permission.getComment());
-        dao.addPermission(permission);
-        return new Response().createResponse(permission);
+        boolean ret = dao.addPermission(permission);
+        Response response = new Response();
+        if (ret) {
+        response.setStatus(Response.sucess);
+        response.setResponseData(null);
+        return response; 
+        }
+        else return response.createResponse(null);
     }
 }

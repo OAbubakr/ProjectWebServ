@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 import second.DaoInstance;
 import second.LoginDAO;
 import dto.UserLogin;
+
 /**
  *
  * @author home
@@ -42,10 +43,9 @@ public class TokenGeneratorController {
     @Autowired
     ServletContext context;
 
-    private static final long accessTokenExpiresInMillis = 60*60*1000; //hour
-    private static final long refreshTokenExpiresInMillis = 60*60*1000*24*14; //2weeks
-    
-    
+    private static final long accessTokenExpiresInMillis = 1000 * 60 * 60; //hour
+    private static final long refreshTokenExpiresInMillis = 60 * 60 * 1000 * 24 * 14; //2weeks
+
     @RequestMapping(value = "/getToken",
             method = RequestMethod.POST,
             headers = "Accept=application/json")
@@ -56,17 +56,17 @@ public class TokenGeneratorController {
         LoginResponse loginResponse = new LoginResponse();
         int id;
 
-       
         LoginDAO loginDao = DaoInstance.getInstance().getLoginDao();
         response = loginDao.getUserId(request.getUserType(), request.getUserName(), request.getPassword());
-        loginResponse.setStatusLogin(response.getStatus());
+        loginResponse.setStatus(response.getStatus());
         if (response.getError() != null) {
-            loginResponse.setErrorLogin(response.getError());
+            loginResponse.setError(response.getError());
         }
         if (response.getStatus().equals("SUCCESS")) {
             id = (int) response.getResponseData();
 
-            String accessKey = context.getInitParameter("accessKey"); String refreshKey = context.getInitParameter("refreshKey");
+            String accessKey = context.getInitParameter("accessKey");
+            String refreshKey = context.getInitParameter("refreshKey");
             //create access token
             try {
                 // Generate 256-bit AES key for HMAC as well as encryption
@@ -81,14 +81,15 @@ public class TokenGeneratorController {
                         refreshExpiryDateInMillis,
                         String.valueOf(id),
                         String.valueOf(request.getUserType()));
+                
                 response = new Response();
                 response.setStatus(Response.sucess);
                 response.setError(null);
                 UserLogin login = new UserLogin();
                 login.setToken(accessToken);
                 login.setRefreshToken(refreshToken);
-                login.setRefreshTokenExpiryDate(new Long(refreshExpiryDateInMillis).toString());
-                login.setExpiryDate(new Long(accessExpiryDateInMillis).toString());
+                login.setRefreshTokenExpiryDate(refreshExpiryDateInMillis);
+                login.setExpiryDate(accessExpiryDateInMillis);
                 login.setTokenType("bearer");
                 response.setResponseData(login);
                 loginResponse.setData(login);
@@ -103,11 +104,13 @@ public class TokenGeneratorController {
 
     }
 
+    
+    //        headers = "Accept=application/json"
+    //@RequestParam(value = "refreshToken", required = true)
     @RequestMapping(value = "/renewAccessToken",
-            method = RequestMethod.POST,
-            headers = "Accept=application/json")
-    public Response renewAccessToken(@RequestParam(value = "refreshToken", required = true) String refreshToken) {
-
+            method = RequestMethod.POST)
+    public Response renewAccessToken(@RequestBody String refreshToken) {
+        refreshToken = refreshToken.substring(1, refreshToken.length()-1);
         String refreshKey = context.getInitParameter("refreshKey");
         String accessKey = context.getInitParameter("accessKey");
         Response response = new Response();
@@ -128,10 +131,17 @@ public class TokenGeneratorController {
 
             response.setStatus(Response.sucess);
             response.setError(null);
+            
             JSONObject responseData = new JSONObject();
             responseData.put("access_token", accessToken);
             responseData.put("token_type", "bearer");
             responseData.put("expiry_date", accessExpiryDateInMillis);
+           
+//            RenewAccessTokenObject renewAccessTokenObject = new RenewAccessTokenObject();
+//            renewAccessTokenObject.setAccessToken(accessToken);
+//            renewAccessTokenObject.setToken_type("bearer");
+//            renewAccessTokenObject.setExpiry_date(accessExpiryDateInMillis);
+            
             response.setResponseData(responseData);
 
         } catch (KeyLengthException ex) {
@@ -152,7 +162,8 @@ public class TokenGeneratorController {
         return response;
 
     }
-/*
+
+    /*
     @RequestMapping(value = "/renewRefreshToken",
             method = RequestMethod.POST,
             headers = "Accept=application/json")
@@ -161,7 +172,7 @@ public class TokenGeneratorController {
         return null;
 
     }
-*/
+     */
     private String getAccessToken(String accessKey, long expiryDateInMillis, String id, String type)
             throws KeyLengthException, JOSEException {
 
@@ -341,4 +352,4 @@ SecureRandom secureRandom = new SecureRandom();
                     System.out.println("tok2 " + ss);
 
         
-*/
+ */

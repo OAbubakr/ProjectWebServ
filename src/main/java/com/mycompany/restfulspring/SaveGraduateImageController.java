@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import second.DaoInstance;
-import second.SaveImageDao;
+import second.SaveGraduateImageDao;
 
 @RestController
-public class SaveImageController {
+public class SaveGraduateImageController {
 
     @Autowired
     ServletContext context;
@@ -32,7 +32,7 @@ public class SaveImageController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "{id}/fileupload", headers = ("content-type=multipart/*"), method = RequestMethod.POST)
+    @RequestMapping(value = "{id}/fileuploadgrad", headers = ("content-type=multipart/*"), method = RequestMethod.POST)
     public Response uploadAuthorized(Integer myid, HttpServletRequest request,
             HttpServletResponse response, @RequestParam("file") MultipartFile inputFile, @PathVariable int id) { //,@RequestParam("id") int id
         System.out.println("id is " + id);
@@ -51,12 +51,12 @@ public class SaveImageController {
 
                 fileInfo.setFileSize(inputFile.getSize());
                 headers.add("File Uploaded Successfully - ", id + originalFilename);
-                SaveImageDao saveImageDao = DaoInstance.getInstance().getSaveImageDao();
+                SaveGraduateImageDao saveGraduateImageDao = DaoInstance.getInstance().getSaveGraduateImageDao();
                 System.out.println("path is "+destinationFile.getPath());
                 String path = destinationFile.getPath();
                 String imageName = path.substring(path.lastIndexOf("\\") + 1);
                 System.out.println("image name is ********** " + imageName);
-                String s = saveImageDao.insertImage(id, imageName);
+                String s = saveGraduateImageDao.insertImage(id, imageName);
 
                 returnMessage.setMessage(s);
                 return new Response().createResponse(s);

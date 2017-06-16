@@ -35,6 +35,7 @@ public class UserData implements Serializable {
     }
     //student
     private int intakeId;
+    private String intakeName;
     private String branchName;
     private String trackName;
     private String name;
@@ -44,6 +45,8 @@ public class UserData implements Serializable {
     private String linkedInUrl;
     private String studentEmail;
     private String studentMobile;
+    private String behanceImageUrl;
+    private String gitImageUrl;
 
     //company
     private String companyName;
@@ -68,6 +71,30 @@ public class UserData implements Serializable {
     private int employeeSubTrackId;
     private String employeeSubTrackName;
 
+    public String getIntakeName() {
+        return intakeName;
+    }
+
+    public String getBehanceImageUrl() {
+        return behanceImageUrl;
+    }
+
+    public void setBehanceImageUrl(String behanceImageUrl) {
+        this.behanceImageUrl = behanceImageUrl;
+    }
+
+    public String getGitImageUrl() {
+        return gitImageUrl;
+    }
+
+    public void setGitImageUrl(String gitImageUrl) {
+        this.gitImageUrl = gitImageUrl;
+    }
+
+    public void setIntakeName(String intakeName) {
+        this.intakeName = intakeName;
+    }
+    
     public int getEmployeePlatformIntake() {
         return employeePlatformIntake;
     }

@@ -30,11 +30,18 @@ public class ProfileController {
     }
 
     @RequestMapping(value = "/onSetUserData", method = RequestMethod.POST, headers = "Accept=application/json")
-    public Response setUserDataAuthorized(@RequestParam("userId") int userId,@RequestParam("userType") int userType, @RequestBody UserData userData) {
+    public Response setUserDataAuthorized(@RequestParam("userId") int userId,@RequestParam("userType") int userType
+            , @RequestBody UserData userData) {
         ProfileDAO profileDao = DaoInstance.getInstance().getProfileDao();
-        profileDao.setData(userType,userId, userData);
+       
      
-        return new Response().createResponse(userData); // dummy
-        
+        return  profileDao.setData(userType,userId, userData); // dummy 
     }
+    
+      @RequestMapping(value = "/onGetUserDataOther", method = RequestMethod.GET, headers = "Accept=application/json")
+    public Response getUserDataOtherAuthorized(Integer id ,@RequestParam("userId") int userId,@RequestParam("userType") int userType) {
+        ProfileDAO profileDao = DaoInstance.getInstance().getProfileDao();
+        return profileDao.getData(userId,userType);
+    }
+    
 }

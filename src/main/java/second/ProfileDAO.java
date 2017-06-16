@@ -9,6 +9,7 @@ import bean.CompanyProfile;
 import dto.Response;
 import dto.UserData;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -111,19 +112,19 @@ public class ProfileDAO {
         });
     }
 
-    public void setData(int userType, int userId, UserData userData) {
+    public Response setData(int userType, int userId, UserData userData) {
 
         final int userTypeValue = userType;
         final int userIdValue = userId;
         final UserData userDataInfo = userData;
 
-        template.execute(new HibernateCallback<Object>() {
+        return template.execute(new HibernateCallback<Response>() {
 
             /*check from db the userID from the table much the userType
             //if userID found then isCorrect = true
              */
             @Override
-            public Object doInHibernate(Session sn) throws HibernateException, SQLException {
+            public Response doInHibernate(Session sn) throws HibernateException, SQLException {
                 switch (userTypeValue) {
                     case 1://login as a student
                         addStudentData(sn, userIdValue, userDataInfo);
@@ -138,7 +139,9 @@ public class ProfileDAO {
                         addGraduateData(sn, userIdValue, userDataInfo);
                         break;
                 }
-                return null;
+                Response response = new Response();
+                response = response.createResponse("EditData");
+                return response;
             }
 
         });
@@ -177,7 +180,7 @@ public class ProfileDAO {
     private UserData prepareStudentData(Session sn, List<Object[]> userDataValue, int userIdValue) {
         UserData userData = new UserData();
 
-        userData.setIntakeId((int) userDataValue.get(0)[1]);
+        
         userData.setPlatformIntakeId((int) userDataValue.get(0)[2]);
         userData.setId((int) userDataValue.get(0)[5]);
         userData.setName((String) userDataValue.get(0)[6]);
@@ -190,6 +193,14 @@ public class ProfileDAO {
         List<Object[]> branchData = queryBranch.list();
         if (branchData.size() > 0) {
             userData.setBranchName((String) branchData.get(0)[1]);
+        }
+        Query queryIntakeId = sn.createSQLQuery("{CALL GetIntakeData (:ProgramID,:ProgramIntakeID)}")
+                .setParameter("ProgramID", (int) userDataValue.get(0)[28])
+                .setParameter("ProgramIntakeID", (int) userDataValue.get(0)[1]);
+        List<Object[]> intakeIdData = queryIntakeId.list();
+        if (intakeIdData.size() > 0) {
+            userData.setIntakeId((int) intakeIdData.get(0)[0]);
+            userData.setIntakeName((String) intakeIdData.get(0)[1]);
         }
         //add professional data
 
@@ -265,37 +276,46 @@ public class ProfileDAO {
         if (branchData.size() > 0) {
             userData.setEmployeeBranchName((String) branchData.get(0)[1]);
         }
-        int intakeId = 37;
-        Query querySupervisor = sn.createSQLQuery("{CALL IsSupervisor(:ProgramID,:IntakeID,:EmployeeID)}")
-                .setParameter("ProgramID", 4)//9month
-                .setParameter("IntakeID", intakeId)
-                .setParameter("EmployeeID", userIdValue);
-        List<Object[]> queryData = querySupervisor.list();
-        if (queryData.size() > 0) {
-            if(queryData.get(0)[2] != null)
-                userData.setEmployeePlatformIntake((int) queryData.get(0)[2]);
-            if(queryData.get(0)[1] != null)
-                userData.setEmployeeSubTrackId((int) queryData.get(0)[1]);
-        }else{
-        querySupervisor = sn.createSQLQuery("{CALL IsSupervisor(:ProgramID,:IntakeID,:EmployeeID)}")
-                .setParameter("ProgramID", 5)//nano
-                .setParameter("IntakeID", intakeId)
-                .setParameter("EmployeeID", userIdValue);
-        queryData = querySupervisor.list();
-        if (queryData.size() > 0) {
-            if(queryData.get(0)[2] != null)
-                userData.setEmployeePlatformIntake((int) queryData.get(0)[2]);
-            if(queryData.get(0)[1] != null)
-                userData.setEmployeeSubTrackId((int) queryData.get(0)[1]);
-            }
+        int intakeId = 0;
+        java.sql.Date sqlDate = new java.sql.Date(Calendar.getInstance().getTimeInMillis());
+        Query queryIntake = sn.createSQLQuery("{CALL getIntakeNoByDate (:currentDate)}")
+                .setParameter("currentDate", sqlDate);
+        List<Integer> intakeData = queryIntake.list();
+        if (intakeData.size() > 0) {
+            intakeId =   intakeData.get(0);
         }
-        Query querySubTrack = sn.createSQLQuery("{CALL GetSubtrackData(:PlatformIntakeID)}")
-                .setParameter("PlatformIntakeID", userData.getEmployeePlatformIntake());
-        List<Object[]> subTrackData = querySubTrack.list();
-        if (queryData.size() > 0) {
-            if(subTrackData.size() > 0)
-                if(subTrackData.get(0)[0] != null)
-                    userData.setEmployeeSubTrackName((String) subTrackData.get(0)[0]);
+        if(intakeId > 0){
+            Query querySupervisor = sn.createSQLQuery("{CALL IsSupervisor(:ProgramID,:IntakeID,:EmployeeID)}")
+                    .setParameter("ProgramID", 4)//9month
+                    .setParameter("IntakeID", intakeId)
+                    .setParameter("EmployeeID", userIdValue);
+            List<Object[]> queryData = querySupervisor.list();
+            if (queryData.size() > 0) {
+                if(queryData.get(0)[2] != null)
+                    userData.setEmployeePlatformIntake((int) queryData.get(0)[2]);
+                if(queryData.get(0)[1] != null)
+                    userData.setEmployeeSubTrackId((int) queryData.get(0)[1]);
+            }else{
+            querySupervisor = sn.createSQLQuery("{CALL IsSupervisor(:ProgramID,:IntakeID,:EmployeeID)}")
+                    .setParameter("ProgramID", 5)//nano
+                    .setParameter("IntakeID", intakeId)
+                    .setParameter("EmployeeID", userIdValue);
+            queryData = querySupervisor.list();
+            if (queryData.size() > 0) {
+                if(queryData.get(0)[2] != null)
+                    userData.setEmployeePlatformIntake((int) queryData.get(0)[2]);
+                if(queryData.get(0)[1] != null)
+                    userData.setEmployeeSubTrackId((int) queryData.get(0)[1]);
+                }
+            }
+            Query querySubTrack = sn.createSQLQuery("{CALL GetSubtrackData(:PlatformIntakeID)}")
+                    .setParameter("PlatformIntakeID", userData.getEmployeePlatformIntake());
+            List<Object[]> subTrackData = querySubTrack.list();
+            if (queryData.size() > 0) {
+                if(subTrackData.size() > 0)
+                    if(subTrackData.get(0)[0] != null)
+                        userData.setEmployeeSubTrackName((String) subTrackData.get(0)[0]);
+            }
         }
         return userData;
     }
@@ -303,7 +323,7 @@ public class ProfileDAO {
     private UserData prepareGraduateData(Session sn, List<Object[]> userDataValue, int userIdValue) {
         UserData userData = new UserData();
 
-        userData.setIntakeId((int) userDataValue.get(0)[1]);
+        userData.setPlatformIntakeId((int) userDataValue.get(0)[2]);
         userData.setId((int) userDataValue.get(0)[5]);
         userData.setName((String) userDataValue.get(0)[6]);
         userData.setImagePath((String) userDataValue.get(0)[21]);
@@ -315,6 +335,14 @@ public class ProfileDAO {
         List<Object[]> branchData = queryBranch.list();
         if (branchData.size() > 0) {
             userData.setBranchName((String) branchData.get(0)[1]);
+        }
+        Query queryIntakeId = sn.createSQLQuery("{CALL GetIntakeData (:ProgramID,:ProgramIntakeID)}")
+                .setParameter("ProgramID", (int) userDataValue.get(0)[28])
+                .setParameter("ProgramIntakeID", (int) userDataValue.get(0)[1]);
+        List<Object[]> intakeIdData = queryIntakeId.list();
+        if (intakeIdData.size() > 0) {
+            userData.setIntakeId((int) intakeIdData.get(0)[0]);
+            userData.setIntakeName((String) intakeIdData.get(0)[1]);
         }
         //add professional data
 
