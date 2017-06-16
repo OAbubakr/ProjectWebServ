@@ -24,7 +24,7 @@ public class ProfileDAO {
 
     private static final String STATUSSUCCESS = "SUCCESS";
     private static final String NOERROR = "";
-    private static final String STATUSFAIL = "fail";
+    private static final String STATUSFAIL = "FAILURE";
     private static final String ERROR = "server down";
     private String userTypeProcedure;
     private String userIdProcedure;
@@ -41,7 +41,7 @@ public class ProfileDAO {
         this.template = template;
     }
 
-    public Response getData(String userId, int userType) {
+    public Response getData(int userId, int userType) {
         switch (userType) {
             case 1://login as a student
                 userTypeProcedure = "GetStudentDetails";
@@ -276,6 +276,18 @@ public class ProfileDAO {
                 userData.setEmployeePlatformIntake((int) queryData.get(0)[2]);
             if(queryData.get(0)[1] != null)
                 userData.setEmployeeSubTrackId((int) queryData.get(0)[1]);
+        }else{
+        querySupervisor = sn.createSQLQuery("{CALL IsSupervisor(:ProgramID,:IntakeID,:EmployeeID)}")
+                .setParameter("ProgramID", 5)//nano
+                .setParameter("IntakeID", intakeId)
+                .setParameter("EmployeeID", userIdValue);
+        queryData = querySupervisor.list();
+        if (queryData.size() > 0) {
+            if(queryData.get(0)[2] != null)
+                userData.setEmployeePlatformIntake((int) queryData.get(0)[2]);
+            if(queryData.get(0)[1] != null)
+                userData.setEmployeeSubTrackId((int) queryData.get(0)[1]);
+            }
         }
         Query querySubTrack = sn.createSQLQuery("{CALL GetSubtrackData(:PlatformIntakeID)}")
                 .setParameter("PlatformIntakeID", userData.getEmployeePlatformIntake());

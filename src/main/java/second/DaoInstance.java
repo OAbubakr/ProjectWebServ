@@ -63,6 +63,12 @@ public class DaoInstance {
     public AllStudentByTrackDao getAllStudentByTrackDao() {
         return  factory.getBean("allStudentByTrackDao",AllStudentByTrackDao.class);
     }
+    public AllGraduateByTrackDao getAllGraduatesByTrackDao() {
+        return  factory.getBean("AllGraduateByTrackDao",AllGraduateByTrackDao.class);
+    }
+    public IntakesDao getIntakes() {
+        return  factory.getBean("IntakesDao",IntakesDao.class);
+    }
 
     public EventDAO getEventDAO() {
         return factory.getBean("eventDAO",EventDAO.class);
