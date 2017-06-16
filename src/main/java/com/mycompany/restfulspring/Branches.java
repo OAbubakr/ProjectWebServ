@@ -53,7 +53,7 @@ public class Branches {
     }
 
     @RequestMapping(value = "/getInstructorCourses", method = RequestMethod.GET, headers = "Accept=application/json")
-    public Response getInstructorCoursesAuthorized(@RequestParam("instructorId") int id) {
+    public Response getInstructorCourses(@RequestParam("instructorId") int id) {
         Response response = new Response();
         ProgramDAO d = DaoInstance.getInstance().getProgramDAO();
         ArrayList<Course> courses = d.GetAllInstructorsCourseByEmpId(id);
@@ -64,7 +64,7 @@ public class Branches {
     
     
     @RequestMapping(value = "/getCourseInstructors", method = RequestMethod.GET, headers = "Accept=application/json")
-    public Response getCourseInstructorsAuthorized(@RequestParam("CourseID") int id) {
+    public Response getCourseInstructors(@RequestParam("CourseID") int id) {
         Response response = new Response();
         ProgramDAO d = DaoInstance.getInstance().getProgramDAO();
         ArrayList<TrackInstructor> trackInstructors = d.GetAllInstructorsByCourseID(id);
