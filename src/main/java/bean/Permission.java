@@ -10,6 +10,15 @@ package bean;
  * @author Rana Gamal
  */
 public class Permission {
+    private int permissionId;
+
+    public int getPermissionId() {
+        return permissionId;
+    }
+
+    public void setPermissionId(int permissionId) {
+        this.permissionId = permissionId;
+    }
     
     private String permissionDate;
     private int fromH;
@@ -27,6 +36,15 @@ public class Permission {
     private int perMon;
     private int perYr;
     private String studentName;
+    private String permissionStatus;
+
+    public String getPermissionStatus() {
+        return permissionStatus;
+    }
+
+    public void setPermissionStatus(String status) {
+        this.permissionStatus = status;
+    }
 
     public String getStudentName() {
         return studentName;
