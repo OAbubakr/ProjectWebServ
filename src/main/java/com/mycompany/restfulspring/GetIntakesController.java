@@ -22,8 +22,8 @@ import second.IntakesDao;
 public class GetIntakesController {
     
   @RequestMapping(value = "/getIntakes", method = RequestMethod.GET, headers = "Accept=application/json")
-    public Response getIntakesAuthorized() {
-
+    public Response getAnswers() {
+        
         Response response = new Response();
         IntakesDao d = DaoInstance.getInstance().getIntakes();
         ArrayList<ProgramIntake> programIntakes = d.getAllProgramIntake();

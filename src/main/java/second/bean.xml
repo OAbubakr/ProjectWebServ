@@ -18,6 +18,9 @@
     <bean id ="SaveImageDao" class="second.SaveImageDao" scope="prototype">
         <property name="template" ref="template"/>
     </bean>
+    <bean id ="SaveGraduateImageDao" class="second.SaveGraduateImageDao">
+        <property name="template" ref="template"/>
+    </bean>
     
     <bean id ="ProgramDAO" class="second.ProgramDAO" scope="prototype">
         <property name="template" ref="template"/>
@@ -71,7 +74,7 @@
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
-        <property name="url" value="jdbc:sqlserver://localhost:1433;databaseName=NewData" />
+        <property name="url" value="jdbc:sqlserver://localhost;databaseName=NewData" />
         <property name="username" value="sa" />
         <property name="password" value="123" />
         <!--<property name="show_sql" value="true"/>-->

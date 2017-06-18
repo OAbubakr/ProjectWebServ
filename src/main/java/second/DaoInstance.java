@@ -16,19 +16,26 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
  */
 public class DaoInstance {
 
-//    private static DaoInstance singleInstance;
+    private static DaoInstance singleInstance;
      ApplicationContext factory = null;
 
-    private  DaoInstance() {
+    private DaoInstance() {
         factory = new FileSystemXmlApplicationContext("C:\\Users\\omari\\Desktop\\project\\ProjectWerServ\\src\\main\\java\\second\\bean.xml");
     }
 
-    private static class InstanceHolder {
-    private static final   DaoInstance singleInstance = new DaoInstance();
-}
-    
-    public static   DaoInstance getInstance() {
-        return InstanceHolder.singleInstance;
+    public static DaoInstance getInstance() {
+        DaoInstance singleInstance = DaoInstance.singleInstance;
+
+        if (singleInstance == null) {
+            synchronized (DaoInstance.class) {
+                if (singleInstance == null) {
+                    singleInstance = new DaoInstance();
+                }
+            }
+
+        }
+
+        return singleInstance;
     }
 
     public StudentDAO getStudentDAO() {
@@ -107,12 +114,13 @@ public class DaoInstance {
     public SaveImageDao getSaveImageDao(){
         return factory.getBean("SaveImageDao",SaveImageDao.class);
     }
+    public SaveGraduateImageDao getSaveGraduateImageDao(){
+        return factory.getBean("SaveGraduateImageDao",SaveGraduateImageDao.class);
+    }
     
     public SupervisorDao getSupervisorDao(){
         return factory.getBean("supervisorDao",SupervisorDao.class);
     }
-    
-     
     
 }
 

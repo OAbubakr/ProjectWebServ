@@ -7,6 +7,7 @@ package com.mycompany.restfulspring;
 
 import bean.Branch;
 import bean.Course;
+import bean.TrackInstructor;
 import dto.Response;
 import java.util.ArrayList;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,12 +53,23 @@ public class Branches {
     }
 
     @RequestMapping(value = "/getInstructorCourses", method = RequestMethod.GET, headers = "Accept=application/json")
-    public Response getInstructorCoursesAuthorized(@RequestParam("instructorId") int id) {
+    public Response getInstructorCourses(@RequestParam("instructorId") int id) {
         Response response = new Response();
         ProgramDAO d = DaoInstance.getInstance().getProgramDAO();
         ArrayList<Course> courses = d.GetAllInstructorsCourseByEmpId(id);
         
         return response.createResponse(courses);
+    }
+    
+    
+    
+    @RequestMapping(value = "/getCourseInstructors", method = RequestMethod.GET, headers = "Accept=application/json")
+    public Response getCourseInstructors(@RequestParam("CourseID") int id) {
+        Response response = new Response();
+        ProgramDAO d = DaoInstance.getInstance().getProgramDAO();
+        ArrayList<TrackInstructor> trackInstructors = d.GetAllInstructorsByCourseID(id);
+        
+        return response.createResponse(trackInstructors);
     }
 
 }

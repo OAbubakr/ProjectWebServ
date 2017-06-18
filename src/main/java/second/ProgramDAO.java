@@ -210,6 +210,55 @@ public class ProgramDAO {
         });
     }
 
+    public ArrayList<TrackInstructor> GetAllInstructorsByCourseID(final int id) {
+        return template.execute(new HibernateCallback<ArrayList>() {
+            @Override
+            public ArrayList doInHibernate(Session sn) throws HibernateException, SQLException {
+                Query query2 = sn.createSQLQuery(
+                            " { CALL GetInstructorIDByCourseID(:courseID) }")
+                            .setParameter("courseID", id);
+
+                    List<Object[]> IDList = query2.list();
+                    ArrayList<Integer> indtructorID = new ArrayList<>();
+                    ArrayList<TrackInstructor> trackInstructors = new ArrayList<>();
+                    for (Object[] id : IDList) {
+                        int i = (Integer) id[1];
+                        indtructorID.add(i);
+                        Query query3 = sn.createSQLQuery(
+                                    " { CALL GetEmpByID(:EmployeeID) }")
+                                    .setParameter("EmployeeID", i);
+
+                            List<Object[]> instructorsList = query3.list();
+
+                            for (Object[] objects : instructorsList) {
+                                 TrackInstructor trackInstructor = new TrackInstructor();
+                                 trackInstructor.setInstructorID((int) objects[0]);
+                                 trackInstructor.setInstructorName((String) objects[1]);
+                                 trackInstructor.setInstructorImage((String) objects[13]);
+                                 int positionID = (int) objects[16];
+                                 Query query4 = sn.createSQLQuery(
+                                    " { CALL GetPositionByID(:PositionID) }")
+                                    .setParameter("PositionID", positionID);
+
+                                List<Object[]> positions = query4.list();
+                                for (Object[] position : positions) {
+                                    trackInstructor.setInstructorPosition((String) position[1]);
+                                }
+                                 trackInstructors.add(trackInstructor);
+                            }
+                            
+                        
+
+                    }
+                    
+                
+                return trackInstructors;
+            }
+        });
+    }
+    
+    
+    
     public ArrayList<Course> GetAllInstructorsCourseByEmpId(final int id) {
         return template.execute(new HibernateCallback<ArrayList>() {
             @Override
